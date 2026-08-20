@@ -1,0 +1,83 @@
+# 编译产物
+/dcgm
+/dcgmi
+/dcgmi-*
+/hcu-dcgm
+/dcgm-dcu
+samples/*/test
+pkg/cmd/dcgmi
+pkg/service/dcgm
+pkg/cmd/logs/
+
+# 打包文件
+*.tar
+
+# 运行时数据
+pkg/data/
+
+# Cursor / AI 工具生成文件
+.cursor/
+.planning/
+.weekly/
+docs/project_notes/
+docs/knowledge/
+task_plan.md
+progress.md
+findings.md
+.plan-attestation
+
+# VSCode / IDE
+.vscode/
+
+# 临时文件
+*.log
+tmp_*
+pdf_output.txt
+*.py
+extract_pdf.js
+
+# 本地脚本（暂不纳入版本管理）
+scripts/
+
+# 本地资料目录
+/dcuinfo
+/dockerfile/
+/test/
+/tools/
+
+# Agent 配置（仅本地）
+AGENTS.md
+CLAUDE.md
+
+# 本地 Shell 脚本
+build_all_images.sh
+docker_build.sh
+generate_dockerfiles.sh
+start-dcgm.sh
+start-dcgm-test.sh
+test_get_apis.sh
+
+# 本地 Dockerfile 变体
+DockerfileRocky
+DockerfileRocky-test
+DockerfileRocky8.6
+DockerfileRocky8.6.nodtk
+
+# docs 目录（全部本地保留）
+docs/
+
+# samples 杂项
+samples/driver.png
+samples/*.puml
+samples/*.ps1
+
+# 其他文档类
+*.docx
+*.xlsx
+*.ps1
+.y
+
+#工具包
+dtk-25.04.1.tar.gz
+DTK-26.04-Rocky8.6-x86_64.tar.gz
+DTK-26.04.tar.gz
