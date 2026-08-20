@@ -214,3 +214,5 @@ docker build -t dcgm-dcu:latest .
 
 ```
 
+<!-- quality-gate smoke test -->
+
