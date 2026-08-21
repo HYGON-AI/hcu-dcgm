@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: hcu-dcgm
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: hcu-dcgm
+  template:
+    metadata:
+      labels:
+        app: hcu-dcgm
+    spec:
+      hostNetwork: true
+      containers:
+        - name: hcu-dcgm
+          image: hcu-dcgm:v1.0.0
+          imagePullPolicy: IfNotPresent  # 如果节点上已有镜像就不会再拉取
+          securityContext:
+            privileged: true # 必须开启特权模式以允许容器访问设备
+          ports:
+            - name: dcgm-port
+              containerPort: 16081
+              hostPort: 16081
+          volumeMounts:
+            - name: kfd
+              mountPath: /dev/kfd
+            - name: mkfd
+              mountPath: /dev/mkfd
+            - name: dri
+              mountPath: /dev/dri
+            - name: vdev
+              mountPath: /etc/vdev
+            - name: hostname
+              mountPath: /etc/hostname
+            - name: hyhal
+              mountPath: /opt/hyhal
+            - name: dtk
+              mountPath: /opt/dtk
+            - name: usr-hyhal
+              mountPath: /usr/local/hyhal
+            - name: home-config
+              mountPath: /home/dcgm/config
+          env:
+            - name: LD_LIBRARY_PATH
+              value: "/opt/hyhal/lib"
+      volumes:
+        - name: kfd
+          hostPath:
+            path: /dev/kfd
+        - name: mkfd
+          hostPath:
+            path: /dev/mkfd
+        - name: dri
+          hostPath:
+            path: /dev/dri
+        - name: vdev
+          hostPath:
+            path: /etc/vdev
+        - name: hostname
+          hostPath:
+            path: /etc/hostname
+        - name: hyhal
+          hostPath:
+            path: /opt/hyhal
+        - name: dtk
+          hostPath:
+            path: /opt/dtk
+        - name: usr-hyhal
+          hostPath:
+            path: /usr/local/hyhal
+        - name: home-config
+          hostPath:
+            path: /home/dcgm/config # 根据宿主机实际路径配置
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: hcu-dcgm
+  namespace: kube-system
+spec:
+  selector:
+    app: hcu-dcgm
+  ports:
+    - name: dcgm-port
+      port: 16081
+      targetPort: 16081
+      protocol: TCP
+  type: NodePort
