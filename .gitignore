@@ -3,7 +3,6 @@
 /dcgmi
 /dcgmi-*
 /hcu-dcgm
-/dcgm-dcu
 samples/*/test
 pkg/cmd/dcgmi
 pkg/service/dcgm
