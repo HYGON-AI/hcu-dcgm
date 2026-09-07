@@ -41,35 +41,4 @@ func main() {
 		fmt.Printf("  CU Occupancy    : %d\n", process.CuOccupancy)
 		fmt.Printf("  HCU Device IDs  : %v\n", process.MinorNumbers)
 	}
-
-	for _, pid := range []uint32{61756, 61527} {
-		printProcessInfoByPID(pid)
-	}
-}
-
-func printProcessInfoByPID(pid uint32) {
-	info, err := dcgm.ProcessInfoByPid(pid)
-	if err != nil {
-		fmt.Printf("\n[ProcessInfoByPid: PID %d]\n  Query Error     : %v\n", pid, err)
-		return
-	}
-
-	fmt.Printf("\n[ProcessInfoByPid: PID %d]\n", pid)
-	fmt.Printf("  Process ID      : %d\n", info.ProcessID)
-	fmt.Printf("  VRAM Usage      : %d MiB\n", info.VRAMUsageSize)
-	fmt.Printf("  VRAM Usage Rate : %.2f%%\n", info.VRAMUsageRate)
-	fmt.Printf("  HCU Device Count: %d\n", info.GPUCount)
-	if info.GPUCount == 0 {
-		fmt.Println("  HCU Devices     : none")
-		return
-	}
-
-	fmt.Println("  HCU Devices:")
-	for index, deviceID := range info.GPUIndex {
-		usageRate := float32(0)
-		if index < len(info.GPUUsageRate) {
-			usageRate = info.GPUUsageRate[index]
-		}
-		fmt.Printf("    - Device ID %d, Usage Rate %.2f%%\n", deviceID, usageRate)
-	}
 }

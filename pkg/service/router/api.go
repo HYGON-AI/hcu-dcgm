@@ -4377,12 +4377,16 @@ func startTargetStress(c *gin.Context) {
 				if r.Failed || r.Mean <= 0 {
 					status = DiagResultWarn
 				}
+				errCode := 0
+				if r.Error != "" {
+					errCode = -1
+				}
 				dr := dcgm.DiagResult{
 					Status:       status,
 					TestName:     fmt.Sprintf("TargetStress GEMM %s", r.GemmName),
 					TestOutput:   fmt.Sprintf("GEMM=%s, Mean=%.3f", r.GemmName, r.Mean),
-					ErrorCode:    0,
-					ErrorMessage: "",
+					ErrorCode:    errCode,
+					ErrorMessage: r.Error,
 				}
 				perMap[r.HCUId] = append(perMap[r.HCUId], dr)
 			}

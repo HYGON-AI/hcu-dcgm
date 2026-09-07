@@ -512,11 +512,16 @@ func runStressTests(level int) (DiagResults, error) {
 				if r.Failed || r.Mean <= 0 {
 					status = DiagResultWarn
 				}
+				errCode := 0
+				if r.Error != "" {
+					errCode = -1
+				}
 				dr := DiagResult{
-					Status:     status,
-					TestName:   fmt.Sprintf("TargetStress GEMM %s", r.GemmName),
-					TestOutput: fmt.Sprintf("GEMM=%s, Mean=%.3f", r.GemmName, r.Mean),
-					ErrorCode:  0,
+					Status:       status,
+					TestName:     fmt.Sprintf("TargetStress GEMM %s", r.GemmName),
+					TestOutput:   fmt.Sprintf("GEMM=%s, Mean=%.3f", r.GemmName, r.Mean),
+					ErrorCode:    errCode,
+					ErrorMessage: r.Error,
 				}
 				merged := false
 				for i := range aggregated.PerHCU {

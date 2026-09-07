@@ -15,8 +15,11 @@ spec:
       hostNetwork: true
       containers:
         - name: hcu-dcgm
-          image: hcu-dcgm:v1.0.0
+          image: image.sourcefind.cn:5000/dcu/admin/base/dcu-dcgm:v2.1.0
           imagePullPolicy: IfNotPresent  # 如果节点上已有镜像就不会再拉取
+          command: ["/bin/bash", "-c"]
+          args:
+            - /usr/local/bin/start-dcgm.sh
           securityContext:
             privileged: true # 必须开启特权模式以允许容器访问设备
           ports:
@@ -32,16 +35,8 @@ spec:
               mountPath: /dev/dri
             - name: vdev
               mountPath: /etc/vdev
-            - name: hostname
-              mountPath: /etc/hostname
             - name: hyhal
               mountPath: /opt/hyhal
-            - name: dtk
-              mountPath: /opt/dtk
-            - name: usr-hyhal
-              mountPath: /usr/local/hyhal
-            - name: home-config
-              mountPath: /home/dcgm/config
           env:
             - name: LD_LIBRARY_PATH
               value: "/opt/hyhal/lib"
@@ -58,21 +53,9 @@ spec:
         - name: vdev
           hostPath:
             path: /etc/vdev
-        - name: hostname
-          hostPath:
-            path: /etc/hostname
         - name: hyhal
           hostPath:
             path: /opt/hyhal
-        - name: dtk
-          hostPath:
-            path: /opt/dtk
-        - name: usr-hyhal
-          hostPath:
-            path: /usr/local/hyhal
-        - name: home-config
-          hostPath:
-            path: /home/dcgm/config # 根据宿主机实际路径配置
 
 ---
 

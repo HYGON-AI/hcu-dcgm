@@ -2783,10 +2783,6 @@ func ShowPcieReplayCount(dvIdList []int) (pcieReplayCountInfos []PcieReplayCount
 	return
 }
 
-// 获取指定进程的进程信息
-func ProcessInfo(pid int) (proc ProcessInfos, err error) {
-	return rsmiComputeProcessInfoByPidGet(pid)
-}
 
 // 获取指定设备上的进程信息
 func ProcessInfoByDevice(pid int, dvInd int) (proc ProcessInfos, err error) {
@@ -4925,9 +4921,16 @@ func ComputeProcessInfoGet() (processInfo []ProcessInfos, numItems int, err erro
 	return rsmiComputeProcessInfoGet()
 }
 
+// ProcessInfoByPid 根据PID获取进程信息
 func ProcessInfoByPid(pid uint32) (RsmiProcessInfoV2, error) {
 	return getProcessInfoByPID(pid)
 }
+
+// 获取指定进程的进程信息
+func ProcessInfo(pid int) (proc ProcessInfos, err error) {
+	return rsmiComputeProcessInfoByPidGet(pid)
+}
+
 
 func DeviceGetCount() (deviceCount int, err error) {
 	return nvmlDeviceGetCount()
