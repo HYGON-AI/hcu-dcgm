@@ -59,12 +59,11 @@ const (
 	edppStressLoopCount = "1900000000"
 	edppStressDuration  = 10 * time.Second
 
-	// BW1000 空闲功耗约 86-105W，满载约 1000W+；设 300W 为最低门槛，
-	// 压测启动后功耗应迅速超过该值，空闲状态绝对无法触及。
-	edppBMZMinAvgPowerW = 300
-	// BW1100/NMZ 实测空闲约 170W，EDPp 压力约 800W且不超过 1000W；
-	// 以约 400W 作为进入计算状态的保守门槛，避免依赖 loader 不输出的 TFLOPS 文本。
-	edppNMZMinAvgPowerW = 400
+	// BMZ 系列统一使用 200W 作为最低门槛；BW100 实测压测平均功耗约 231W，
+	// 该阈值可避免将已通过 GEMM CPU CHECK 的有效计算误判为空载。
+	edppBMZMinAvgPowerW = 200
+	// NMZ 系列统一使用 300W 作为进入计算状态的最低门槛。
+	edppNMZMinAvgPowerW = 300
 )
 
 type edppBackendSpec struct {

@@ -71,6 +71,14 @@ func TestEdppBackendSpecsUseStressMode(t *testing.T) {
 	if bmz.coName != "fp16_bmz_edpp.co" || bmz.minAvgPowerW != edppBMZMinAvgPowerW {
 		t.Fatalf("bmz spec = %+v, want fp16 co and bmz threshold", bmz)
 	}
+
+	nmz, err = edppBackendSpecFor(edppBackendNMZGFX938)
+	if err != nil {
+		t.Fatalf("NMZ spec error: %v", err)
+	}
+	if nmz.minAvgPowerW != edppNMZMinAvgPowerW {
+		t.Fatalf("NMZ threshold = %d, want %d", nmz.minAvgPowerW, edppNMZMinAvgPowerW)
+	}
 }
 
 func TestFinalizeStressEdppResult(t *testing.T) {
@@ -97,8 +105,8 @@ func TestFinalizeStressEdppResult(t *testing.T) {
 	}
 
 	result = GemmPowerEdppResult{HCU: 2, Backend: spec.name}
-	err = finalizeStressEdppResult(&result, spec, edppStressSamples{totalPower: 740, peakPower: 370, powerSamples: 2})
-	if err == nil || !strings.Contains(result.Error, "avg power 370W < threshold 400W") {
+	err = finalizeStressEdppResult(&result, spec, edppStressSamples{totalPower: 580, peakPower: 290, powerSamples: 2})
+	if err == nil || !strings.Contains(result.Error, "avg power 290W < threshold 300W") {
 		t.Fatalf("low power err = %v, result = %+v", err, result)
 	}
 }

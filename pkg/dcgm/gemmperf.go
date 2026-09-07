@@ -84,7 +84,7 @@ func checkDependencies(binaryPath string) error {
 }
 
 // ---------------- 启动单个 GEMM 压测（增强版） ----------------
-func runGemmTest(gemmPerfPath string, devInd int, gemmIdx int, iterations int, logfile string, mValue int) error {
+func runGemmTest(gemmPerfPath string, gemmIdx int, iterations int, logfile string, mValue int) error {
 	args := []string{
 		"-m", strconv.Itoa(mValue),
 		"-n", "4096",
@@ -126,6 +126,7 @@ func parseGemmLog(logfile string, devInd int) (mean float64, fail bool, err erro
 	defer f.Close()
 
 	re := regexp.MustCompile(`HCU` + strconv.Itoa(devInd) + `:.*mean:\s*([0-9]*\.?[0-9]+)`)
+	found := false
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -134,6 +135,7 @@ func parseGemmLog(logfile string, devInd int) (mean float64, fail bool, err erro
 			if err != nil {
 				return 0, false, fmt.Errorf("解析 mean 失败: %w", err)
 			}
+			found = true
 		}
 		if strings.Contains(line, "FAIL") {
 			fail = true
@@ -141,6 +143,9 @@ func parseGemmLog(logfile string, devInd int) (mean float64, fail bool, err erro
 	}
 	if err := scanner.Err(); err != nil {
 		return 0, false, fmt.Errorf("扫描日志失败: %w", err)
+	}
+	if !found {
+		return 0, fail, fmt.Errorf("日志中未找到 HCU%d 的 mean 值，日志: %s", devInd, logfile)
 	}
 	return mean, fail, nil
 }
@@ -178,22 +183,23 @@ func targetStressTest() {
 		return
 	}
 
-	for devInd := 0; devInd < totalHCU; devInd++ {
-		for _, gemm := range gemmList {
-			logfile := filepath.Join(GEMMLogDir, fmt.Sprintf("%s_hcu%d.log", gemm.Name, devInd))
-			mValue := 5632
+	// gemmPerf 每次调用都在所有设备上运行，因此按 gemm 类型循环一次即可，
+	// 再从同一份日志里解析各设备的结果。
+	for _, gemm := range gemmList {
+		logfile := filepath.Join(GEMMLogDir, fmt.Sprintf("%s.log", gemm.Name))
+		mValue := 5632
 
-			if err := runGemmTest(gemmPerfPath, devInd, gemm.Idx, iterations, logfile, mValue); err != nil {
-				fmt.Printf("[gemmperf] device %d, gemm %s failed: %v\n", devInd, gemm.Name, err)
+		runErr := runGemmTest(gemmPerfPath, gemm.Idx, iterations, logfile, mValue)
+		if runErr != nil {
+			fmt.Printf("[gemmperf] gemm %s failed: %v\n", gemm.Name, runErr)
+		}
+
+		for devInd := 0; devInd < totalHCU; devInd++ {
+			mean, _, parseErr := parseGemmLog(logfile, devInd)
+			if parseErr != nil {
+				fmt.Printf("[gemmperf parse] device %d, gemm %s failed: %v\n", devInd, gemm.Name, parseErr)
 				continue
 			}
-
-			mean, _, err := parseGemmLog(logfile, devInd)
-			if err != nil {
-				fmt.Printf("[gemmperf parse] device %d, gemm %s failed: %v\n", devInd, gemm.Name, err)
-				continue
-			}
-
 			fmt.Printf("TargetStress: HCU%d, %s mean %.2f\n", devInd, gemm.Name, mean)
 		}
 	}
@@ -208,6 +214,7 @@ type GemmTestResult struct {
 	GemmName string  // GEMM 测试名称（如 "hgemm", "sgemm"）
 	Mean     float64 // 测得的平均性能值（单位同你日志/工具，比如 GFLOPS 或 MB/s）
 	Failed   bool    // 测试是否失败（true=失败/出错，false=成功）
+	Error    string  // 具体错误信息；Failed=true 时非空
 }
 
 // TargetStressResult 汇总整个测试的结构化结果
@@ -253,38 +260,35 @@ func runTargetStressTestWithResult() (TargetStressResult, error) {
 
 	results := make([]GemmTestResult, 0, totalHCU*len(gemmList))
 
-	for devInd := 0; devInd < totalHCU; devInd++ {
-		for _, gemm := range gemmList {
-			logfile := filepath.Join(GEMMLogDir, fmt.Sprintf("%s_hcu%d.log", gemm.Name, devInd))
-			mValue := 5632
+	// gemmPerf 每次调用都在所有设备上运行，因此按 gemm 类型循环一次即可，
+	// 再从同一份日志里解析各设备的结果。
+	for _, gemm := range gemmList {
+		logfile := filepath.Join(GEMMLogDir, fmt.Sprintf("%s.log", gemm.Name))
+		mValue := 5632
 
-			if err := runGemmTest(gemmPerfPath, devInd, gemm.Idx, iterations, logfile, mValue); err != nil {
-				results = append(results, GemmTestResult{
-					HCUId:    devInd,
-					GemmName: gemm.Name,
-					Mean:     0,
-					Failed:   true,
-				})
-				continue
-			}
+		runErr := runGemmTest(gemmPerfPath, gemm.Idx, iterations, logfile, mValue)
 
-			mean, fail, err := parseGemmLog(logfile, devInd)
-			if err != nil {
-				results = append(results, GemmTestResult{
-					HCUId:    devInd,
-					GemmName: gemm.Name,
-					Mean:     0,
-					Failed:   true,
-				})
-				continue
-			}
+		for devInd := 0; devInd < totalHCU; devInd++ {
+			mean, fail, parseErr := parseGemmLog(logfile, devInd)
 
-			results = append(results, GemmTestResult{
+			r := GemmTestResult{
 				HCUId:    devInd,
 				GemmName: gemm.Name,
 				Mean:     mean,
-				Failed:   fail,
-			})
+				Failed:   runErr != nil || fail,
+			}
+			if runErr != nil {
+				r.Error = runErr.Error()
+			}
+			if parseErr != nil {
+				if r.Error != "" {
+					r.Error += "; " + parseErr.Error()
+				} else {
+					r.Error = parseErr.Error()
+				}
+				r.Failed = true
+			}
+			results = append(results, r)
 		}
 	}
 

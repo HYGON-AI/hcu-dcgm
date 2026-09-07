@@ -394,8 +394,11 @@ func main() {
 
 	//demoGetDeviceId()
 	//demoHCUHealthCheck()
-	demoDeviceTemperatureInfo(numDevices)
-	demoDeviceUtilizationInfo(numDevices)
+	//demoGetTempByMetric(numDevices)
+	demoCommonTemperatures(numDevices)
+	//demoDeviceTemperatureInfo(numDevices)
+	//demoDeviceUtilizationInfo(numDevices)
+	//demoExporterErrorInterfaces(numDevices)
 
 	// fmt.Println("==== HCU Interconnect Topology Demo ====")
 	//
@@ -689,6 +692,93 @@ func dataToJson(data any) string {
 	return string(jsonData)
 }
 
+func demoCommonTemperatures(numDevices int) {
+	const (
+		edgeSensor     = 0
+		junctionSensor = 1
+		memorySensor   = 2
+		coreSensor     = 11
+	)
+
+	sensors := []struct {
+		name   string
+		typeID int
+	}{
+		{"EDGE", edgeSensor},
+		{"JUNCTION", junctionSensor},
+		{"MEMORY", memorySensor},
+		{"CORE", coreSensor},
+	}
+
+	fmt.Println()
+	fmt.Println("============================================================")
+	fmt.Println("  Common Temperature Sensors Demo")
+	fmt.Println("  metric: RSMI_TEMP_CURRENT")
+	fmt.Println("============================================================")
+	fmt.Printf("Detected %d HCU(s)\n\n", numDevices)
+
+	for dvInd := 0; dvInd < numDevices; dvInd++ {
+		fmt.Printf("-------------------- HCU [%d] --------------------\n", dvInd)
+		for _, sensor := range sensors {
+			temp, err := dcgm.GetTempBySensor(dvInd, sensor.typeID, dcgm.RSMI_TEMP_CURRENT)
+			if err != nil {
+				fmt.Printf("  %-8s (sensorType=%2d): ERROR: %v\n", sensor.name, sensor.typeID, err)
+				glog.Warningf("HCU %d GetTempBySensor(%s) failed: %v", dvInd, sensor.name, err)
+				continue
+			}
+			fmt.Printf("  %-8s (sensorType=%2d): %.2f°C\n", sensor.name, sensor.typeID, temp)
+			glog.V(5).Infof("HCU %d %s temperature = %.2f°C", dvInd, sensor.name, temp)
+		}
+		fmt.Println()
+	}
+
+	fmt.Println("============================================================")
+}
+
+func demoGetTempByMetric(numDevices int) {
+	metrics := []struct {
+		name   string
+		metric dcgm.RSMITemperatureMetric
+	}{
+		{"RSMI_TEMP_CURRENT", dcgm.RSMI_TEMP_CURRENT},
+		{"RSMI_TEMP_MAX", dcgm.RSMI_TEMP_MAX},
+		{"RSMI_TEMP_MIN", dcgm.RSMI_TEMP_MIN},
+		{"RSMI_TEMP_MAX_HYST", dcgm.RSMI_TEMP_MAX_HYST},
+		{"RSMI_TEMP_MIN_HYST", dcgm.RSMI_TEMP_MIN_HYST},
+		{"RSMI_TEMP_CRITICAL", dcgm.RSMI_TEMP_CRITICAL},
+		{"RSMI_TEMP_CRITICAL_HYST", dcgm.RSMI_TEMP_CRITICAL_HYST},
+		{"RSMI_TEMP_EMERGENCY", dcgm.RSMI_TEMP_EMERGENCY},
+		{"RSMI_TEMP_EMERGENCY_HYST", dcgm.RSMI_TEMP_EMERGENCY_HYST},
+		{"RSMI_TEMP_CRIT_MIN", dcgm.RSMI_TEMP_CRIT_MIN},
+		{"RSMI_TEMP_CRIT_MIN_HYST", dcgm.RSMI_TEMP_CRIT_MIN_HYST},
+		{"RSMI_TEMP_OFFSET", dcgm.RSMI_TEMP_OFFSET},
+		{"RSMI_TEMP_LOWEST", dcgm.RSMI_TEMP_LOWEST},
+		{"RSMI_TEMP_HIGHEST", dcgm.RSMI_TEMP_HIGHEST},
+	}
+
+	fmt.Println()
+	fmt.Println("============================================================")
+	fmt.Println("  GetTempByMetric Demo (EDGE sensor)")
+	fmt.Println("============================================================")
+
+	for dvInd := 0; dvInd < numDevices; dvInd++ {
+		fmt.Printf("HCU[%d]\n", dvInd)
+		for _, item := range metrics {
+			temp, err := dcgm.GetTempByMetric(dvInd, item.metric)
+			if err != nil {
+				fmt.Printf("  %-28s (%2d): ERROR: %v\n", item.name, item.metric, err)
+				glog.Warningf("HCU %d GetTempByMetric(%s) failed: %v", dvInd, item.name, err)
+				continue
+			}
+			fmt.Printf("  %-28s (%2d): %.2f°C\n", item.name, item.metric, temp)
+			glog.V(5).Infof("HCU %d GetTempByMetric(%s) = %.2f°C", dvInd, item.name, temp)
+		}
+		fmt.Println()
+	}
+
+	fmt.Println("============================================================")
+}
+
 func demoDeviceTemperatureInfo(numDevices int) {
 	fmt.Println()
 	fmt.Println("============================================================")
@@ -753,6 +843,113 @@ func demoDeviceUtilizationInfo(numDevices int) {
 		fmt.Printf("HCU[%d] GfxActivity=%d  MemActivity=%d  Timestamp=%d ns\n",
 			dvInd, info.GfxActivity, info.MemActivity, info.Timestamp)
 		glog.V(5).Infof("HCU %d utilization info: %s", dvInd, dataToJson(info))
+	}
+
+	fmt.Println("============================================================")
+}
+
+// demoExporterErrorInterfaces 逐设备测试 exporter 日志中对应的 DCGM 接口。
+// 该 demo 保留原始返回值和错误，便于在不同版本驱动上对比接口支持情况。
+func demoExporterErrorInterfaces(numDevices int) {
+	const umcDelay = 10
+
+	fmt.Println()
+	fmt.Println("============================================================")
+	fmt.Println("  Exporter Error Interfaces Demo")
+	fmt.Println("============================================================")
+	fmt.Println("The following calls correspond to the unsupported-interface logs from hcu-exporter.")
+	fmt.Printf("Detected %d HCU(s), sample window = %d ms, UMC delay = %d\n\n",
+		numDevices, defaultSampleDurationMs, umcDelay)
+
+	for dvInd := 0; dvInd < numDevices; dvInd++ {
+		fmt.Printf("-------------------- HCU [%d] --------------------\n", dvInd)
+
+		fmt.Println("[1] HCUSEUsage -> rsmi_dev_se_util_get")
+		seUsage, err := dcgm.HCUSEUsage(dvInd)
+		if err != nil {
+			fmt.Printf("    ERROR: %v\n", err)
+		} else {
+			fmt.Printf("    RESULT: %s\n", dataToJson(seUsage))
+		}
+
+		fmt.Println("[2] HSLErrorStatus -> rsmi_dev_xgmi_error_status")
+		status, err := dcgm.HSLErrorStatus(dvInd)
+		if err != nil {
+			fmt.Printf("    ERROR: %v\n", err)
+		} else {
+			fmt.Printf("    RESULT: status=%d\n", status)
+		}
+
+		fmt.Printf("[3] HCUSampledUsage -> rsmi_dev_hcu_util_get (duration=%d)\n", defaultSampleDurationMs)
+		hcuUtil, err := dcgm.HCUSampledUsage(dvInd, defaultSampleDurationMs)
+		if err != nil {
+			fmt.Printf("    ERROR: %v\n", err)
+		} else {
+			fmt.Printf("    RESULT: %.6f\n", hcuUtil)
+		}
+
+		fmt.Printf("[4] HCUCUSampledUsage -> rsmi_dev_cu_util_get (duration=%d)\n", defaultSampleDurationMs)
+		cuUtil, err := dcgm.HCUCUSampledUsage(dvInd, defaultSampleDurationMs)
+		if err != nil {
+			fmt.Printf("    ERROR: %v\n", err)
+		} else {
+			fmt.Printf("    RESULT: %.6f\n", cuUtil)
+		}
+
+		fmt.Printf("[5] HCUWaveSampledUsage -> rsmi_dev_wave_util_get (duration=%d)\n", defaultSampleDurationMs)
+		waveUtil, err := dcgm.HCUWaveSampledUsage(dvInd, defaultSampleDurationMs)
+		if err != nil {
+			fmt.Printf("    ERROR: %v\n", err)
+		} else {
+			fmt.Printf("    RESULT: %.6f\n", waveUtil)
+		}
+
+		fmt.Printf("[6] DevCuUtil -> rsmi_dev_cu_util_get (duration=%d)\n", defaultSampleDurationMs)
+		devCuUtil, err := dcgm.DevCuUtil(dvInd, defaultSampleDurationMs)
+		if err != nil {
+			fmt.Printf("    ERROR: %v\n", err)
+		} else {
+			fmt.Printf("    RESULT: %.6f\n", devCuUtil)
+		}
+
+		fmt.Printf("[7] DevWaveUtil -> rsmi_dev_wave_util_get (duration=%d)\n", defaultSampleDurationMs)
+		devWaveUtil, err := dcgm.DevWaveUtil(dvInd, defaultSampleDurationMs)
+		if err != nil {
+			fmt.Printf("    ERROR: %v\n", err)
+		} else {
+			fmt.Printf("    RESULT: %.6f\n", devWaveUtil)
+		}
+
+		fmt.Printf("[8] UMCBandwidth -> rsmi_dev_umc_bandwidth_get (all channels, delay=%d)\n", umcDelay)
+		umcInfo, err := dcgm.UMCBandwidth(dvInd, dcgm.MAX_UMC_CHAN_NUM, umcDelay)
+		if err != nil {
+			fmt.Printf("    ERROR: %v\n", err)
+		} else {
+			var read, write, readWrite float64
+			for i := range dcgm.MAX_UMC_CHAN_NUM {
+				read += umcInfo.ReadBW[i]
+				write += umcInfo.WriteBW[i]
+				readWrite += umcInfo.ReadWriteBW[i]
+			}
+			fmt.Printf("    RESULT: read=%.2f write=%.2f readWrite=%.2f\n", read, write, readWrite)
+		}
+
+		fmt.Println()
+	}
+
+	fmt.Println("[9] GetHyLinkStatus -> rsmi_dev_xhcl_bandwidth_get (directions 0 and 1)")
+	linkStatus, err := dcgm.GetHyLinkStatus()
+	if err != nil {
+		fmt.Printf("    ERROR: %v\n", err)
+	} else {
+		fmt.Println("    RESULT: query succeeded")
+	}
+	for _, item := range linkStatus {
+		fmt.Printf("    HCU[%d]: recv=%.2f send=%.2f", item.DvInd, item.Recv, item.Send)
+		if item.Err != "" {
+			fmt.Printf(" err=%s", item.Err)
+		}
+		fmt.Println()
 	}
 
 	fmt.Println("============================================================")
