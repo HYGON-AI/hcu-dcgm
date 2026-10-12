@@ -59,11 +59,10 @@ const (
 	edppStressLoopCount = "1900000000"
 	edppStressDuration  = 10 * time.Second
 
-	// BMZ 系列统一使用 200W 作为最低门槛；BW100 实测压测平均功耗约 231W，
-	// 该阈值可避免将已通过 GEMM CPU CHECK 的有效计算误判为空载。
-	edppBMZMinAvgPowerW = 200
-	// NMZ 系列统一使用 300W 作为进入计算状态的最低门槛。
-	edppNMZMinAvgPowerW = 300
+	// BMZ 系列最低功耗门槛（100W），兼容低 TDP 卡型。
+	edppBMZMinAvgPowerW = 100
+	// NMZ 系列最低功耗门槛（200W）。
+	edppNMZMinAvgPowerW = 200
 )
 
 type edppBackendSpec struct {

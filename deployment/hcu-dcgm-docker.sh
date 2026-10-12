@@ -4,7 +4,7 @@
 
 mkdir -p /etc/vdev
 
-docker run --name hcu-dcgm -d --privileged \
+docker run --name hcu-dcgm --init -d --privileged \
   --device=/dev/kfd \
   --device=/dev/mkfd \
   --device=/dev/dri \

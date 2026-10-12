@@ -1328,7 +1328,7 @@ func DeviceInfos() (deviceInfos []DeviceInfo, err error) {
 		}
 	}
 
-	glog.V(5).Infof("deviceInfos: %s", (deviceInfos))
+	glog.V(5).Infof("deviceInfos: %v", deviceInfos)
 	return deviceInfos, nil
 }
 
@@ -1425,7 +1425,7 @@ func ProcessName(pid int) string {
 	cmd.Stdout = &out
 	err := cmd.Run()
 	if err != nil {
-		glog.V(5).Infof("Error executing command:", err)
+		glog.V(5).Infof("Error executing command: %v", err)
 		return "UNKNOWN"
 	}
 	pName := out.String()
@@ -1463,7 +1463,7 @@ func PidByName(name string) (pid string, err error) {
 	glog.V(5).Infof("pidName: %s\n", name)
 	cmd := exec.Command("pidof", name)
 	output, err := cmd.Output()
-	glog.V(5).Infof("output:", output)
+	glog.V(5).Infof("output: %s", output)
 	if err != nil {
 		glog.V(5).Infof("Error: %v\nOutput: %s", err, string(output))
 	} else {
@@ -2782,7 +2782,6 @@ func ShowPcieReplayCount(dvIdList []int) (pcieReplayCountInfos []PcieReplayCount
 	glog.V(5).Infof("pcieReplayCountInfos:%v", (pcieReplayCountInfos))
 	return
 }
-
 
 // 获取指定设备上的进程信息
 func ProcessInfoByDevice(pid int, dvInd int) (proc ProcessInfos, err error) {
@@ -4931,7 +4930,6 @@ func ProcessInfo(pid int) (proc ProcessInfos, err error) {
 	return rsmiComputeProcessInfoByPidGet(pid)
 }
 
-
 func DeviceGetCount() (deviceCount int, err error) {
 	return nvmlDeviceGetCount()
 }
@@ -5398,7 +5396,7 @@ func DevWaveUtil(dvInd int, duration int) (float32, error) {
 
 // ── sysfs 只读功能（第2批）──────────────────────────────────────────────────────
 
-// HswFwVersion 读取 HSW（海光交换机？）固件版本号。
+// HswFwVersion 读取 HSW固件版本号。
 //
 // sysfs 路径：/sys/class/hsd/hsd{dvInd}/build_info
 // 对应 hy-smi --showfwinfo 中的 HSW 条目。

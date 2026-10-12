@@ -105,16 +105,29 @@ func runGemmTest(gemmPerfPath string, gemmIdx int, iterations int, logfile strin
 	cmd.Stderr = f // stderr 也写入日志
 
 	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("执行 gemmPerf 失败: %v，请查看日志: %s", err, logfile)
+		tail := readLogTail(logfile, 10)
+		if tail != "" {
+			return fmt.Errorf("执行 gemmPerf 失败: %v [cmd: %s %s] [log tail]\n%s",
+				err, gemmPerfPath, strings.Join(args, " "), tail)
+		}
+		return fmt.Errorf("执行 gemmPerf 失败: %v [cmd: %s %s] (日志为空: %s)",
+			err, gemmPerfPath, strings.Join(args, " "), logfile)
 	}
 
-	// 确认日志大小
-	//info, err := os.Stat(logfile)
-	//if err == nil {
-	//	//fmt.Printf("Log written: %s (%d bytes)\n", logfile, info.Size())
-	//}
-
 	return nil
+}
+
+// readLogTail 读取日志文件最后 n 行，用于错误诊断。
+func readLogTail(logfile string, n int) string {
+	data, err := os.ReadFile(logfile)
+	if err != nil || len(data) == 0 {
+		return ""
+	}
+	lines := strings.Split(strings.TrimRight(string(data), "\n"), "\n")
+	if len(lines) > n {
+		lines = lines[len(lines)-n:]
+	}
+	return strings.Join(lines, "\n")
 }
 
 // ---------------- 解析 GEMM 日志 ----------------

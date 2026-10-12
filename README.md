@@ -67,6 +67,22 @@ go build -o dcgmi ./pkg/cmd
 # 查询已监视设备数量。
 curl -G http://localhost:16081/NumMonitorDevices
 
+# 运行接口兼容性验证。默认检查 HTTP GET 和 dcgmi 只读命令，
+# 每次运行会在 /tmp/dcgm-compatibility/<时间>_pid_<pid>/ 生成详细报告。
+./test_get_apis.sh --device 0
+
+# 驱动/DTK 升级后，同时验证版本兼容性矩阵。
+./test_get_apis.sh --device 0 \
+  --card-model BW1100 \
+  --driver-version 6.3.31-V1.5.1 \
+  --dtk-version 26.04
+
+# 只执行不改变设备状态的 dcgmi 检查。
+./test_get_apis.sh --dcgmi-only --dcgmi /usr/local/bin/dcgmi
+
+# 显式执行诊断；level 3/4 可能执行压力测试，默认不执行。
+./test_get_apis.sh --include-diag --diag-level 1
+
 # 命令行示例。
 ./dcgmi discovery
 ```

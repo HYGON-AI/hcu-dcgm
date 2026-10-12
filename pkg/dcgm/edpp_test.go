@@ -105,8 +105,8 @@ func TestFinalizeStressEdppResult(t *testing.T) {
 	}
 
 	result = GemmPowerEdppResult{HCU: 2, Backend: spec.name}
-	err = finalizeStressEdppResult(&result, spec, edppStressSamples{totalPower: 580, peakPower: 290, powerSamples: 2})
-	if err == nil || !strings.Contains(result.Error, "avg power 290W < threshold 300W") {
+	err = finalizeStressEdppResult(&result, spec, edppStressSamples{totalPower: 380, peakPower: 190, powerSamples: 2})
+	if err == nil || !strings.Contains(result.Error, "avg power 190W < threshold 200W") {
 		t.Fatalf("low power err = %v, result = %+v", err, result)
 	}
 }
