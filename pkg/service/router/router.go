@@ -248,9 +248,9 @@ func InitRouter() *gin.Engine {
 	router.GET("/device/cuutil/:dvInd", GetDevCuUtil)
 	router.GET("/device/waveutil/:dvInd", GetDevWaveUtil)
 
-	// 仪电近似指标：vDevice compute busy（≈MIG_ENC_UTIL/DEC_UTIL）
+	// 指标：vDevice compute busy（≈MIG_ENC_UTIL/DEC_UTIL）
 	router.GET("/vdevice/busypercent/:vDvInd", GetVDevBusyPercent)
-	// // 仪电近似指标：进程 GPU compute 占用率（≈PROC_ENC_UTIL）
+	// // 指标：进程 GPU compute 占用率（≈PROC_ENC_UTIL）
 	// router.GET("/process/gpuusage/:pid", GetProcessGpuUsage)
 
 	// 功率上限设置与复位（对应 hy-smi --setpoweroverdrive / --resetpoweroverdrive）
