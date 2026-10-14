@@ -62,8 +62,8 @@ DockerfileRocky-test
 DockerfileRocky8.6
 DockerfileRocky8.6.nodtk
 
-# docs 目录（全部本地保留）
-docs/
+# info 目录（全部本地保留）
+info/
 
 # samples 杂项
 samples/driver.png
