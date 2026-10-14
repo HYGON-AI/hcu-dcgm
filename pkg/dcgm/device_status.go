@@ -6,7 +6,7 @@ package dcgm
 
 /*
 #cgo CFLAGS: -Wall -I./include
-#cgo LDFLAGS: -L/opt/hyhal/lib -Wl,-rpath,/opt/hyhal/lib -lrocm_smi64 -Wl,--unresolved-symbols=ignore-in-object-files
+#cgo LDFLAGS: -L/opt/hyhal/lib -Wl,--enable-new-dtags -Wl,-rpath,/opt/hyhal/lib -lrocm_smi64 -Wl,--unresolved-symbols=ignore-in-object-files
 #include <stdint.h>
 #include <kfd_ioctl.h>
 #include <rocm_smi64Config.h>
@@ -18,6 +18,11 @@ import (
 	"unsafe"
 
 	"github.com/golang/glog"
+)
+
+const (
+	rsmiGPUMetricsStructSize    = C.sizeof_rsmi_gpu_metrics_t
+	rsmiGPUXCPMetricsStructSize = C.sizeof_struct_gpu_xcp_metrics_t
 )
 
 // rsmiDevTempMetricGet 获取设备的温度度量值 *
@@ -104,7 +109,7 @@ func rsmiDevPerfLevelGet(dvInd int) (perf DevPerfLevel, err error) {
 		return DevPerfLevel(cPerfLevel), fmt.Errorf("Error rsmi_dev_perf_level_get:%s", err)
 	}
 	perf = DevPerfLevel(cPerfLevel)
-	glog.V(5).Infof("dev_perf_level:", perf)
+	glog.V(5).Infof("dev_perf_level:%v", perf)
 	return perf, nil
 }
 
@@ -249,15 +254,78 @@ func rsmiDevGpuMetricsInfoGet(dvInd int) (gpuMetrics RSMIGPUMetrics, err error) 
 		CurrentFanSpeed:        uint16(cgpuMetrics.current_fan_speed),
 		PcieLinkWidth:          uint16(cgpuMetrics.pcie_link_width),
 		PcieLinkSpeed:          uint16(cgpuMetrics.pcie_link_speed),
-		//Padding:                uint16(cgpuMetrics.padding),
-		GfxActivityAcc: uint32(cgpuMetrics.gfx_activity_acc),
-		MemActivityAcc: uint32(cgpuMetrics.mem_activity_acc),
+		// Padding 为旧版 Go API 兼容字段，当前 C 结构中没有对应命名字段。
+		GfxActivityAcc:             uint32(cgpuMetrics.gfx_activity_acc),
+		MemActivityAcc:             uint32(cgpuMetrics.mem_activity_acc),
+		FirmwareTimestamp:          uint64(cgpuMetrics.firmware_timestamp),
+		VoltageSoc:                 uint16(cgpuMetrics.voltage_soc),
+		VoltageGfx:                 uint16(cgpuMetrics.voltage_gfx),
+		VoltageMem:                 uint16(cgpuMetrics.voltage_mem),
+		IndepThrottleStatus:        uint64(cgpuMetrics.indep_throttle_status),
+		CurrentSocketPower:         uint16(cgpuMetrics.current_socket_power),
+		GfxclkLockStatus:           uint32(cgpuMetrics.gfxclk_lock_status),
+		XgmiLinkWidth:              uint16(cgpuMetrics.xgmi_link_width),
+		XgmiLinkSpeed:              uint16(cgpuMetrics.xgmi_link_speed),
+		PcieBandwidthAcc:           uint64(cgpuMetrics.pcie_bandwidth_acc),
+		PcieBandwidthInst:          uint64(cgpuMetrics.pcie_bandwidth_inst),
+		PcieL0ToRecovCountAcc:      uint64(cgpuMetrics.pcie_l0_to_recov_count_acc),
+		PcieReplayCountAcc:         uint64(cgpuMetrics.pcie_replay_count_acc),
+		PcieReplayRoverCountAcc:    uint64(cgpuMetrics.pcie_replay_rover_count_acc),
+		PcieNakSentCountAcc:        uint32(cgpuMetrics.pcie_nak_sent_count_acc),
+		PcieNakRcvdCountAcc:        uint32(cgpuMetrics.pcie_nak_rcvd_count_acc),
+		AccumulationCounter:        uint64(cgpuMetrics.accumulation_counter),
+		ProchotResidencyAcc:        uint64(cgpuMetrics.prochot_residency_acc),
+		PptResidencyAcc:            uint64(cgpuMetrics.ppt_residency_acc),
+		SocketThmResidencyAcc:      uint64(cgpuMetrics.socket_thm_residency_acc),
+		VrThmResidencyAcc:          uint64(cgpuMetrics.vr_thm_residency_acc),
+		HbmThmResidencyAcc:         uint64(cgpuMetrics.hbm_thm_residency_acc),
+		NumPartition:               uint16(cgpuMetrics.num_partition),
+		PcieLcPerfOtherEndRecovery: uint32(cgpuMetrics.pcie_lc_perf_other_end_recovery),
+		VramMaxBandwidth:           uint64(cgpuMetrics.vram_max_bandwidth),
 	}
-	const hbmInstances = 4 // 确保跟 C 端的 RSMI_NUM_HBM_INSTANCES 一致
-	for i := 0; i < hbmInstances; i++ {
+
+	for i := range gpuMetrics.TempetureHBM {
 		gpuMetrics.TempetureHBM[i] = uint16(cgpuMetrics.temperature_hbm[C.int(i)])
 	}
-	glog.V(5).Infof("rsmi_dev_gpu_metrics_info_get:%s", gpuMetrics)
+	for i := range gpuMetrics.VcnActivity {
+		gpuMetrics.VcnActivity[i] = uint16(cgpuMetrics.vcn_activity[C.int(i)])
+	}
+	for i := range gpuMetrics.XgmiReadDataAcc {
+		gpuMetrics.XgmiReadDataAcc[i] = uint64(cgpuMetrics.xgmi_read_data_acc[C.int(i)])
+		gpuMetrics.XgmiWriteDataAcc[i] = uint64(cgpuMetrics.xgmi_write_data_acc[C.int(i)])
+		gpuMetrics.XgmiLinkStatus[i] = uint16(cgpuMetrics.xgmi_link_status[C.int(i)])
+	}
+	for i := range gpuMetrics.CurrentGfxclks {
+		gpuMetrics.CurrentGfxclks[i] = uint16(cgpuMetrics.current_gfxclks[C.int(i)])
+	}
+	for i := range gpuMetrics.CurrentSocclks {
+		gpuMetrics.CurrentSocclks[i] = uint16(cgpuMetrics.current_socclks[C.int(i)])
+		gpuMetrics.CurrentVclk0s[i] = uint16(cgpuMetrics.current_vclk0s[C.int(i)])
+		gpuMetrics.CurrentDclk0s[i] = uint16(cgpuMetrics.current_dclk0s[C.int(i)])
+	}
+	for i := range gpuMetrics.JpegActivity {
+		gpuMetrics.JpegActivity[i] = uint16(cgpuMetrics.jpeg_activity[C.int(i)])
+	}
+	for i := range gpuMetrics.XcpStats {
+		cXCP := &cgpuMetrics.xcp_stats[C.int(i)]
+		for j := range gpuMetrics.XcpStats[i].GfxBusyInst {
+			gpuMetrics.XcpStats[i].GfxBusyInst[j] = uint32(cXCP.gfx_busy_inst[C.int(j)])
+			gpuMetrics.XcpStats[i].GfxBusyAcc[j] = uint64(cXCP.gfx_busy_acc[C.int(j)])
+			gpuMetrics.XcpStats[i].GfxBelowHostLimitAcc[j] = uint64(cXCP.gfx_below_host_limit_acc[C.int(j)])
+			gpuMetrics.XcpStats[i].GfxBelowHostLimitPptAcc[j] = uint64(cXCP.gfx_below_host_limit_ppt_acc[C.int(j)])
+			gpuMetrics.XcpStats[i].GfxBelowHostLimitThmAcc[j] = uint64(cXCP.gfx_below_host_limit_thm_acc[C.int(j)])
+			gpuMetrics.XcpStats[i].GfxLowUtilizationAcc[j] = uint64(cXCP.gfx_low_utilization_acc[C.int(j)])
+			gpuMetrics.XcpStats[i].GfxBelowHostLimitTotalAcc[j] = uint64(cXCP.gfx_below_host_limit_total_acc[C.int(j)])
+		}
+		for j := range gpuMetrics.XcpStats[i].JpegBusy {
+			gpuMetrics.XcpStats[i].JpegBusy[j] = uint16(cXCP.jpeg_busy[C.int(j)])
+		}
+		for j := range gpuMetrics.XcpStats[i].VcnBusy {
+			gpuMetrics.XcpStats[i].VcnBusy[j] = uint16(cXCP.vcn_busy[C.int(j)])
+		}
+	}
+
+	glog.V(5).Infof("rsmi_dev_gpu_metrics_info_get:%v", gpuMetrics)
 	return
 }
 

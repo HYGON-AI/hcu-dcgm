@@ -4,15 +4,12 @@
 
 mkdir -p /etc/vdev
 
-docker run --name hcu-dcgm -d --privileged \
+docker run --name hcu-dcgm --init -d --privileged \
   --device=/dev/kfd \
   --device=/dev/mkfd \
   --device=/dev/dri \
   -v /etc/vdev:/etc/vdev \
-  -v /etc/hostname:/etc/hostname \
-  -v /etc/vdev:/etc/vdev \
   -v /opt/hyhal:/opt/hyhal \
-  -v /home/chengdm/config:/home/dcgm/config \
   -p 16081:16081 \
-  -e LD_LIBRARY_PATH="/opt/hyhal/lib" \
-  hcu-dcgm:v2.0.0
+  image.sourcefind.cn:5000/dcu/admin/base/dcu-dcgm:v2.1.0 \
+  /bin/bash -c "/usr/local/bin/start-dcgm.sh"

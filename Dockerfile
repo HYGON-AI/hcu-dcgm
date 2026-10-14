@@ -12,8 +12,8 @@ WORKDIR /home/dcgm
 RUN apt update && apt install -y kmod pciutils
 
 # 4. 复制已编译好的二进制文件
-COPY hcu-dcgm /home/dcgm/hcu-dcgm
-RUN chmod +x /home/dcgm/hcu-dcgm
+COPY hcu-dcgm /opt/hcu-dcgm/bin/hcu-dcgm
+RUN chmod +x /opt/hcu-dcgm/bin/hcu-dcgm
 
 # 设置 LD_LIBRARY_PATH=/opt/hyhal/lib
 
@@ -21,4 +21,4 @@ RUN chmod +x /home/dcgm/hcu-dcgm
 EXPOSE 16081
 
 # 6. 启动命令
-CMD ["/bin/sh", "-c", "/home/dcgm/hcu-dcgm -logtostderr -v=5 > /home/dcgm/dcgm.log 2>&1"]
+CMD ["/bin/sh", "-c", "/opt/hcu-dcgm/bin/hcu-dcgm -logtostderr -v=5 > /home/dcgm/dcgm.log 2>&1"]

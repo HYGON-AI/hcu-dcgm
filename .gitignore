@@ -3,7 +3,6 @@
 /dcgmi
 /dcgmi-*
 /hcu-dcgm
-/dcgm-dcu
 samples/*/test
 pkg/cmd/dcgmi
 pkg/service/dcgm
@@ -17,6 +16,7 @@ pkg/data/
 
 # Cursor / AI 工具生成文件
 .cursor/
+.claude/
 .planning/
 .weekly/
 docs/project_notes/
@@ -55,7 +55,6 @@ docker_build.sh
 generate_dockerfiles.sh
 start-dcgm.sh
 start-dcgm-test.sh
-test_get_apis.sh
 
 # 本地 Dockerfile 变体
 DockerfileRocky
@@ -81,3 +80,5 @@ samples/*.ps1
 dtk-25.04.1.tar.gz
 DTK-26.04-Rocky8.6-x86_64.tar.gz
 DTK-26.04.tar.gz
+
+pkg/dcgm/runtime_probe_tmp_test.go

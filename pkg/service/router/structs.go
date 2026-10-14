@@ -6,7 +6,7 @@ package router
 
 /*
 #cgo CFLAGS: -Wall -I../../dcgm/include
-#cgo LDFLAGS: -L/opt/hyhal/lib -Wl,-rpath,/opt/hyhal/lib -lrocm_smi64 -lhydmi -Wl,--unresolved-symbols=ignore-in-object-files
+#cgo LDFLAGS: -L/opt/hyhal/lib -Wl,--enable-new-dtags -Wl,-rpath,/opt/hyhal/lib -lrocm_smi64 -lhydmi -Wl,--unresolved-symbols=ignore-in-object-files
 #include <stdint.h>
 #include <kfd_ioctl.h>
 #include <rocm_smi64Config.h>
@@ -237,7 +237,26 @@ type MetricsTableHeader struct {
 	ContentRevision uint8
 }
 
-// RSMIGPUMetrics  表示设备的度量信息
+// RSMIGPUXCPMetrics 表示单个 XCP（GPU 计算分区）的度量信息。
+// swagger:model RSMIGPUXCPMetrics
+type RSMIGPUXCPMetrics struct {
+	// v1.6
+	GfxBusyInst [8]uint32
+	JpegBusy    [40]uint16
+	VcnBusy     [4]uint16
+	GfxBusyAcc  [8]uint64
+
+	// v1.7
+	GfxBelowHostLimitAcc [8]uint64
+
+	// v1.8
+	GfxBelowHostLimitPptAcc   [8]uint64
+	GfxBelowHostLimitThmAcc   [8]uint64
+	GfxLowUtilizationAcc      [8]uint64
+	GfxBelowHostLimitTotalAcc [8]uint64
+}
+
+// RSMIGPUMetrics 表示设备的度量信息；各版本字段是否有效由 CommonHeader 标识。
 // swagger:model RSMIGPUMetrics
 type RSMIGPUMetrics struct {
 	// CommonHeader   公共表头
@@ -311,6 +330,54 @@ type RSMIGPUMetrics struct {
 
 	// TempetureHBM   高带宽内存温度
 	TempetureHBM [4]uint16
+
+	// v1.2
+	FirmwareTimestamp uint64
+
+	// v1.3
+	VoltageSoc          uint16
+	VoltageGfx          uint16
+	VoltageMem          uint16
+	IndepThrottleStatus uint64
+
+	// v1.4
+	CurrentSocketPower      uint16
+	VcnActivity             [4]uint16
+	GfxclkLockStatus        uint32
+	XgmiLinkWidth           uint16
+	XgmiLinkSpeed           uint16
+	PcieBandwidthAcc        uint64
+	PcieBandwidthInst       uint64
+	PcieL0ToRecovCountAcc   uint64
+	PcieReplayCountAcc      uint64
+	PcieReplayRoverCountAcc uint64
+	XgmiReadDataAcc         [8]uint64
+	XgmiWriteDataAcc        [8]uint64
+	CurrentGfxclks          [8]uint16
+	CurrentSocclks          [4]uint16
+	CurrentVclk0s           [4]uint16
+	CurrentDclk0s           [4]uint16
+
+	// v1.5
+	JpegActivity        [32]uint16
+	PcieNakSentCountAcc uint32
+	PcieNakRcvdCountAcc uint32
+
+	// v1.6
+	AccumulationCounter   uint64
+	ProchotResidencyAcc   uint64
+	PptResidencyAcc       uint64
+	SocketThmResidencyAcc uint64
+	VrThmResidencyAcc     uint64
+	HbmThmResidencyAcc    uint64
+	NumPartition          uint16
+	XcpStats              [8]RSMIGPUXCPMetrics
+
+	PcieLcPerfOtherEndRecovery uint32
+
+	// v1.7
+	VramMaxBandwidth uint64
+	XgmiLinkStatus   [8]uint16
 }
 
 type RSMIDevPerfLevel C.rsmi_dev_perf_level_t

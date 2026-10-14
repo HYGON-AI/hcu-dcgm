@@ -92,7 +92,11 @@ func formatGEMMSummary(result dcgm.TargetStressResult) string {
 		metrics := make([]string, 0, len(gemmResults))
 		for _, gemm := range gemmResults {
 			if gemm.Failed {
-				metrics = append(metrics, fmt.Sprintf("%s=FAIL", gemm.GemmName))
+				if gemm.Mean > 0 {
+					metrics = append(metrics, fmt.Sprintf("%s=%.2f(FAIL)", gemm.GemmName, gemm.Mean))
+				} else {
+					metrics = append(metrics, fmt.Sprintf("%s=FAIL", gemm.GemmName))
+				}
 				continue
 			}
 			passed++
@@ -104,6 +108,11 @@ func formatGEMMSummary(result dcgm.TargetStressResult) string {
 			status = "WARN"
 		}
 		fmt.Fprintf(&output, "HCU %d  %s %d/%d  mean: %s\n", hcuID, status, passed, len(gemmResults), strings.Join(metrics, ", "))
+		for _, gemm := range gemmResults {
+			if gemm.Error != "" {
+				fmt.Fprintf(&output, "  [%s] error: %s\n", gemm.GemmName, gemm.Error)
+			}
+		}
 	}
 	return output.String()
 }

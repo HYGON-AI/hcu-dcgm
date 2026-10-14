@@ -101,6 +101,25 @@ func TestFormatGEMMSummary(t *testing.T) {
 	}
 }
 
+func TestFormatGEMMSummary_FailWithMeanAndError(t *testing.T) {
+	output := formatGEMMSummary(dcgm.TargetStressResult{
+		Results: []dcgm.GemmTestResult{
+			{HCUId: 0, GemmName: "hgemm", Mean: 95.50, Failed: true, Error: "子进程异常退出 exit status 1"},
+			{HCUId: 0, GemmName: "sgemm", Mean: 40.10},
+		},
+	})
+
+	for _, want := range []string{
+		"hgemm=95.50(FAIL)",
+		"sgemm=40.10",
+		"[hgemm] error: 子进程异常退出 exit status 1",
+	} {
+		if !strings.Contains(output, want) {
+			t.Fatalf("output %q does not contain %q", output, want)
+		}
+	}
+}
+
 func TestDiagnosticStatusLabel(t *testing.T) {
 	if got := diagnosticStatusLabel(dcgm.DiagResultWarn); got != "Warning" {
 		t.Fatalf("warning label = %q, want Warning", got)

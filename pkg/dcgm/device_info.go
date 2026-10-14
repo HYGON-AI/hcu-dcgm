@@ -6,7 +6,7 @@ package dcgm
 
 /*
 #cgo CFLAGS: -Wall -I./include
-#cgo LDFLAGS: -L/opt/hyhal/lib -Wl,-rpath,/opt/hyhal/lib -lrocm_smi64 -lhydmi -Wl,--unresolved-symbols=ignore-in-object-files
+#cgo LDFLAGS: -L/opt/hyhal/lib -Wl,--enable-new-dtags -Wl,-rpath,/opt/hyhal/lib -lrocm_smi64 -lhydmi -Wl,--unresolved-symbols=ignore-in-object-files
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -55,7 +55,7 @@ func rsmiDevSkuGet(dvInd int) (sku int, err error) {
 		return sku, err
 	}
 	sku = int(csku)
-	glog.V(5).Infof("rsmiDevSkuGet:", sku)
+	glog.V(5).Infof("rsmiDevSkuGet:%v", sku)
 	return
 }
 
@@ -97,7 +97,7 @@ func rsmiDevBrandGet(dvInd int) (brand string, err error) {
 	brands := make([]C.char, uint32(256))
 	C.rsmi_dev_brand_get(C.uint32_t(dvInd), &brands[0], 256)
 	brand = C.GoString(&brands[0])
-	glog.V(5).Infof("rsmiDevBrandGet:", brand)
+	glog.V(5).Infof("rsmiDevBrandGet:%v", brand)
 	return
 }
 
@@ -375,7 +375,7 @@ func rsmiDevMemoryBusyPercentGet(dvInd int) (busyPercent int, err error) {
 		return busyPercent, fmt.Errorf("Error rsmi_dev_memory_busy_percent_get:%s", err)
 	}
 	busyPercent = int(cbusyPercent)
-	glog.V(5).Infof("busy_percent:", busyPercent)
+	glog.V(5).Infof("busy_percent:%v", busyPercent)
 	return
 }
 
@@ -386,7 +386,7 @@ func rsmiDevMemoryReservedPagesGet(dvInd int) (numPages int, records []RetiredPa
 	if ret != 0 {
 		return 0, nil, fmt.Errorf("failed to get the number of pages, error code: %d", ret)
 	}
-	glog.V(5).Infof("cnumPages:", int(cnumPages))
+	glog.V(5).Infof("cnumPages:%v", int(cnumPages))
 	numPages = int(cnumPages)
 	if numPages == 0 {
 		return 0, nil, nil // No pages to retrieve
@@ -406,7 +406,7 @@ func rsmiDevMemoryReservedPagesGet(dvInd int) (numPages int, records []RetiredPa
 		}
 	}
 	indent, _ := json.MarshalIndent(records, "", "  ")
-	glog.V(5).Infof("records:", indent)
+	glog.V(5).Infof("records:%v", indent)
 	return
 }
 

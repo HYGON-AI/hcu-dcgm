@@ -6,7 +6,7 @@ package dcgm
 
 /*
 #cgo CFLAGS: -Wall -I./include
-#cgo LDFLAGS: -L/opt/hyhal/lib -Wl,-rpath,/opt/hyhal/lib -lrocm_smi64 -Wl,--unresolved-symbols=ignore-in-object-files
+#cgo LDFLAGS: -L/opt/hyhal/lib -Wl,--enable-new-dtags -Wl,-rpath,/opt/hyhal/lib -lrocm_smi64 -Wl,--unresolved-symbols=ignore-in-object-files
 #include <stdint.h>
 #include <kfd_ioctl.h>
 #include <rocm_smi64Config.h>
@@ -293,7 +293,7 @@ func takePolicyAction(hcuIndex int) error {
 
 // rsmiDevPerfLevelSet 设置设备PowerPlay性能级别
 func rsmiDevPerfLevelSet(dvInd int, devPerfLevel DevPerfLevel) (err error) {
-	glog.V(5).Infof("dev_perf_level_set:", devPerfLevel)
+	glog.V(5).Infof("dev_perf_level_set:%v", devPerfLevel)
 	ret := C.rsmi_dev_perf_level_set(C.uint32_t(dvInd), C.rsmi_dev_perf_level_t(devPerfLevel))
 	glog.V(5).Infof("dev_perf_level_set ret:%v,retstr:%v", ret, errorString(ret))
 	if err = errorString(ret); err != nil {
@@ -411,7 +411,7 @@ func rsmiCounterAvailableCountersGet(dvInd int, group RSMIEventGroup) (availAble
 // rsmiDevFanReset 将风扇复位为自动驱动控制
 func rsmiDevFanReset(dvInd, sensorInd int) (err error) {
 	ret := C.rsmi_dev_fan_reset(C.uint32_t(dvInd), C.uint32_t(sensorInd))
-	glog.V(5).Infof("rsmi_dev_fan_reset_ret:", ret)
+	glog.V(5).Infof("rsmi_dev_fan_reset_ret:%v", ret)
 	if err = errorString(ret); err != nil {
 		return fmt.Errorf("Error rsmi_dev_fan_reset: %s", err)
 	}
