@@ -38,12 +38,10 @@ import (
 func rsmiNumMonitorDevices() (gpuNum int, err error) {
 	var p C.uint
 	ret := C.rsmi_num_monitor_devices(&p)
-	glog.V(5).Infof("rsmi_num_monitor_devices_ret:%v, retStr : %v", ret, errorString(ret))
 	if err = errorString(ret); err != nil {
 		return 0, fmt.Errorf("Error go_rsmi_num_monitor_devices_ret: %s", err)
 	}
 	gpuNum = int(p)
-	glog.V(5).Infof("rsmiNumMonitorDevices:%v", gpuNum)
 	return gpuNum, nil
 }
 
@@ -227,13 +225,11 @@ func rsmiDevPciBandwidthGet(dvInd int) (pcieBandwidth PcieBandwidth, err error) 
 func rsmiDevPciIdGet(dvInd int) (bdfid int64, err error) {
 	var cbdfid C.uint64_t
 	ret := C.rsmi_dev_pci_id_get(C.uint32_t(dvInd), &cbdfid)
-	glog.V(5).Infof("rsmi_dev_pci_id_get ret:%v, retStr:%v", ret, errorString(ret))
 	if err = errorString(ret); err != nil {
 		glog.Errorf("rsmi_dev_pci_id_get err:%v", err.Error())
 		return bdfid, err
 	}
 	bdfid = int64(cbdfid)
-	glog.V(5).Infof("🚀🚀🚀dvInd: %v  rsmiDevPciIdGet bdfid:%v", dvInd, bdfid)
 	return
 }
 
