@@ -17,10 +17,13 @@ pkg/data/
 # Cursor / AI 工具生成文件
 .cursor/
 .claude/
+.agents/
 .planning/
 .weekly/
 docs/project_notes/
 docs/knowledge/
+/docs/HCU-DCGM架构与核心流程图册.html
+/docs/learning/skill-usage-guide.md
 task_plan.md
 progress.md
 findings.md
@@ -55,6 +58,7 @@ docker_build.sh
 generate_dockerfiles.sh
 start-dcgm.sh
 start-dcgm-test.sh
+/test_device_identity.sh
 
 # 本地 Dockerfile 变体
 DockerfileRocky

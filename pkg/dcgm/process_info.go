@@ -50,10 +50,20 @@ func rsmiComputeProcessInfoGet() (processInfo []ProcessInfos, numItems int, err 
 	return
 }
 
-// cArrayToGoSlice 将 C 数组转换为 Go 切片
-func cArrayToGoSlice[T any](cArray unsafe.Pointer, count int) []T {
-	arr := (*[1 << 30]T)(cArray)[:count:count] // 将 C 数组转换为 Go 切片
-	return arr
+// copyProcessGPUIndices copies the 32-bit C GPU indices into Go ints.
+// The RSMI ABI declares gpuIndex as an array of C int values. On 64-bit
+// systems, C int is 4 bytes while Go int is 8 bytes, so the array must not
+// be reinterpreted as []int with unsafe.Pointer.
+func copyProcessGPUIndices(values []int32, count int) ([]int, error) {
+	if count < 0 || count > len(values) {
+		return nil, fmt.Errorf("invalid GPU count %d, expected 0..%d", count, len(values))
+	}
+
+	indices := make([]int, count)
+	for i := 0; i < count; i++ {
+		indices[i] = int(values[i])
+	}
+	return indices, nil
 }
 
 // getProcessInfoByPID 根据进程 ID 获取进程的计算信息
@@ -67,11 +77,25 @@ func getProcessInfoByPID(pid uint32) (rsmiProcessInfoV2 RsmiProcessInfoV2, err e
 		return rsmiProcessInfoV2, fmt.Errorf("failed to get process info")
 	}
 
-	// 将 C 数组 gpuIndex 转换为 Go 切片
-	gpuIndex := cArrayToGoSlice[int](unsafe.Pointer(&proc.gpuIndex[0]), int(proc.usedGpus))
+	gpuCount := int(proc.usedGpus)
+	if gpuCount < 0 || gpuCount > len(proc.gpuIndex) {
+		return rsmiProcessInfoV2, fmt.Errorf("invalid GPU count %d, expected 0..%d", gpuCount, len(proc.gpuIndex))
+	}
 
-	// 将 C 数组 gpuUsageRate 转换为 Go 切片
-	gpuUsageRate := cArrayToGoSlice[float32](unsafe.Pointer(&proc.gpuUsageRate[0]), int(proc.usedGpus))
+	// The RSMI ABI declares gpuIndex as an array of 32-bit C int values.
+	rawGPUIndices := make([]int32, gpuCount)
+	for i := 0; i < gpuCount; i++ {
+		rawGPUIndices[i] = int32(proc.gpuIndex[i])
+	}
+	gpuIndex, err := copyProcessGPUIndices(rawGPUIndices, gpuCount)
+	if err != nil {
+		return rsmiProcessInfoV2, err
+	}
+
+	gpuUsageRate := make([]float32, gpuCount)
+	for i := 0; i < gpuCount; i++ {
+		gpuUsageRate[i] = float32(proc.gpuUsageRate[i])
+	}
 
 	// 构建并返回 Go 语言的结构体
 	rsmiProcessInfoV2 = RsmiProcessInfoV2{
@@ -130,30 +154,49 @@ func rsmiProcessInfoByDevice(pid int, dvInd int) (proc ProcessInfos, err error) 
 // rsmiComputeProcessGpusGet 获取进程当前正在使用的设备索引
 func rsmiComputeProcessGpusGet(pid int) (dvIndices []int, err error) {
 	var cnumDevices C.uint32_t
+	cPid := C.uint32_t(pid)
+
 	// 第一次调用以获取numDevices的值
-	ret := C.rsmi_compute_process_gpus_get(C.uint32_t(pid), nil, &cnumDevices)
+	ret := C.rsmi_compute_process_gpus_get(cPid, nil, &cnumDevices)
+	glog.V(5).Infof(
+		"rsmi_compute_process_gpus_get initial: pid=%d, ret=%d, num_devices=%d",
+		pid, ret, cnumDevices,
+	)
 	if err := errorString(ret); err != nil {
 		return dvIndices, fmt.Errorf("Error in RSMIComputeProcessGPUsGet (initial call): %s", err)
 	}
 
 	// 没有正在使用设备时不需要进行第二次调用，避免访问空切片的首元素。
 	if cnumDevices == 0 {
+		glog.V(5).Infof("rsmi_compute_process_gpus_get result: pid=%d, devices=[]", pid)
 		return []int{}, nil
 	}
 
 	// 创建一个大小为numDevices的切片
-	dvIndicesC := make([]C.uint32_t, cnumDevices)
+	requestedDevices := cnumDevices
+	dvIndicesC := make([]C.uint32_t, int(requestedDevices))
 	// 第二次调用以获取实际的数据
-	ret = C.rsmi_compute_process_gpus_get(C.uint32_t(pid), &dvIndicesC[0], &cnumDevices)
+	ret = C.rsmi_compute_process_gpus_get(cPid, &dvIndicesC[0], &cnumDevices)
+	glog.V(5).Infof(
+		"rsmi_compute_process_gpus_get data: pid=%d, ret=%d, requested_devices=%d, returned_devices=%d, raw_indices=%v",
+		pid, ret, requestedDevices, cnumDevices, dvIndicesC,
+	)
 	if err := errorString(ret); err != nil {
 		return nil, fmt.Errorf("Error in RSMIComputeProcessGPUsGet: %s", err)
 	}
+	if cnumDevices > requestedDevices {
+		return nil, fmt.Errorf(
+			"invalid device count returned for PID %d: %d, requested %d",
+			pid, cnumDevices, requestedDevices,
+		)
+	}
+
 	// 将C数组转换为Go切片
-	dvIndices = make([]int, cnumDevices)
+	dvIndices = make([]int, int(cnumDevices))
 	for i := 0; i < int(cnumDevices); i++ {
 		dvIndices[i] = int(dvIndicesC[i])
 	}
-	glog.V(5).Infof("RSMIComputeProcessGPUsGet: %v", dvIndices)
+	glog.V(5).Infof("RSMIComputeProcessGPUsGet: pid=%d, devices=%v", pid, dvIndices)
 	return
 }
 

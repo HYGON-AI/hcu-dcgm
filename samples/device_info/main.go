@@ -33,10 +33,47 @@ func main() {
 	flag.Parse()
 	defer glog.Flush()
 	glog.Info("go-dcgm start ...")
-	//初始化dcgm服务
-	dcgm.Init()
+	// 初始化 DCGM 服务
+	if err := dcgm.Init(); err != nil {
+		glog.Errorf("dcgm.Init failed: %v", err)
+		return
+	}
 	defer dcgm.ShutDown()
-	//HCU物理设备总数量
+
+	// 先获取 HCU 物理设备数量，再逐卡测试三个设备信息接口。
+	numDevices, err := dcgm.NumMonitorDevices()
+	if err != nil {
+		glog.Errorf("NumMonitorDevices failed: %v", err)
+		return
+	}
+	glog.Infof("NumMonitorDevices: %d", numDevices)
+
+	for dvInd := 0; dvInd < numDevices; dvInd++ {
+		glog.Infof("===== device[%d] =====", dvInd)
+
+		uniqueID, err := dcgm.GetDeviceUniqueId(dvInd)
+		if err != nil {
+			glog.Errorf("device[%d] GetDeviceUniqueId failed: %v", dvInd, err)
+		} else {
+			glog.Infof("device[%d] GetDeviceUniqueId: %s", dvInd, uniqueID)
+		}
+
+		busID, err := dcgm.PicBusInfo(dvInd)
+		if err != nil {
+			glog.Errorf("device[%d] PicBusInfo failed: %v", dvInd, err)
+		} else {
+			glog.Infof("device[%d] PicBusInfo: %s", dvInd, busID)
+		}
+
+		deviceID, err := dcgm.GetDeviceId(dvInd)
+		if err != nil {
+			glog.Errorf("device[%d] GetDeviceId failed: %v", dvInd, err)
+		} else {
+			glog.Infof("device[%d] GetDeviceId (SN): %s", dvInd, deviceID)
+		}
+	}
+
+	// HCU 物理设备总数量
 	// dcgm.NumMonitorDevices()
 	// //HCU名称
 	// dcgm.DevName(0)
@@ -145,11 +182,11 @@ func main() {
 	// dcgm.ShowVoltageCurve([]int{0, 1, 2})
 	// //指定设备的HSL错误状态（K100_AI卡不支持该操作）
 	// dcgm.ShowHSLErr([]int{0, 1, 2}, true)
-	use, err := dcgm.HCUUse(0)
-	if err != nil {
-		glog.Error(err)
-		return
-	}
-	glog.Info(use)
+	// use, err := dcgm.HCUUse(0)
+	// if err != nil {
+	// 	glog.Error(err)
+	// 	return
+	// }
+	// glog.Info(use)
 
 }

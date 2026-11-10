@@ -3775,10 +3775,10 @@ func XhclLinkStates(dvInd int) ([]XhclLinkState, error) {
 	return states, nil
 }
 
-// DumpXhclRemoteBdfids 获取指定 GPU 上所有 UP 状态的 XHCL 链路对应的远端设备 BDF ID。
+// DumpXhclRemoteBdfids 获取指定 GPU 上有拓扑连接记录的 XHCL 链路对应的远端设备 BDF ID。
 //
 // @Summary 获取 GPU 的 XHCL 远端设备 BDF 信息
-// @Description 枚举指定 GPU 上所有处于 UP 状态的 XHCL 链路，并返回每条链路所连接的远端设备 BDF ID。
+// @Description 跳过状态值为 0 的空链路，返回其余链路成功查询到的远端设备 BDF ID。
 // @Tags Topology
 // @Param dvInd query int true "设备 ID（GPU Index）"
 // @Success 200 {array} XhclRemoteBdf "XHCL 链路远端设备 BDF 列表"
@@ -3789,15 +3789,20 @@ func DumpXhclRemoteBdfids(dvInd int) ([]XhclRemoteBdf, error) {
 		return nil, err
 	}
 
+	return collectXhclRemoteBdfids(dvInd, states, rsmiXhclLinkRemoteBdfidGet), nil
+}
+
+func collectXhclRemoteBdfids(dvInd int, states []XhclLinkState, queryRemoteBdf func(int, int) (uint64, error)) []XhclRemoteBdf {
 	results := make([]XhclRemoteBdf, 0)
 
 	for _, s := range states {
-		// 只处理 UP 状态的链路
-		if !s.Up {
+		// HSD 拓扑中的非零状态（已观察到 1、2）都可能有连接记录。
+		// 拓扑枚举以远端 BDF 查询结果为准，不依赖仅识别 state=1 的 Up 标记。
+		if s.State == XhclLinkDown {
 			continue
 		}
 
-		bdfid, err := rsmiXhclLinkRemoteBdfidGet(dvInd, s.LinkID)
+		bdfid, err := queryRemoteBdf(dvInd, s.LinkID)
 		if err != nil {
 			glog.Warningf(
 				"HCU %d link %d get remote bdfid failed: %v",
@@ -3819,7 +3824,7 @@ func DumpXhclRemoteBdfids(dvInd int) ([]XhclRemoteBdf, error) {
 		})
 	}
 
-	return results, nil
+	return results
 }
 
 // DiscoverInterconnectTopology 枚举整机 HCU 的互联关系，返回 HCU × HCU 的互联矩阵。
