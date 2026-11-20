@@ -1,0 +1,260 @@
+{
+  "generated_at": "2026-11-09 14:50:03",
+  "environment": {
+    "hy_smi": "/opt/hyhal/bin/hy-smi",
+    "image": "bert:v2",
+    "inference_image": "harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10",
+    "card": "5",
+    "card2": "6",
+    "full_card": "7",
+    "physical_cards": "8",
+    "work": "/root/tz",
+    "vllm_model": "/workspace/openbmb--MiniCPM5-1B-SFT",
+    "cluster_tests": "1",
+    "resource_prefix": "",
+    "card_offset": "1",
+    "cluster_mutating_tests": "1",
+    "render_offset": "0",
+    "cluster_namespace": "vdcu-test",
+    "k8s_image": "bert:v2",
+    "k8s_node": "m09r3n14",
+    "record_commands": "1",
+    "record_output_limit": "1500"
+  },
+  "summary": {
+    "PASS": 9,
+    "FAIL": 1,
+    "XFAIL": 0,
+    "XPASS": 0,
+    "SKIP": 5
+  },
+  "results": [
+    {
+      "id": "VDCU-K8S-001",
+      "name": "Kubernetes 节点资源注册",
+      "category": "K8S",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 0.11,
+      "message": "ok",
+      "steps": [
+        "$ kubectl get nodes -o json\n[rc=0]               \"registry.cn-beijing.aliyuncs.com/kubesphereio/flannel-cni-plugin@sha256:bf4b62b131666d040f35a327d906ee5a3418280b68a88d9b9c7e828057210443\",\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/flannel-cni-plugin:v1.1.2\"\n                        ],\n                        \"sizeBytes\": 3842055\n                    },\n                    {\n                        \"names\": [\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/pause@sha256:7031c1b283388d2c2e09b57badb803c05ebed362dc88d84b480cc47f72a21097\",\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/pause:3.9\"\n                        ],\n                        \"sizeBytes\": 321520\n                    }\n                ],\n                \"nodeInfo\": {\n                    \"architecture\": \"amd64\",\n                    \"bootID\": \"172c4ebe-02ad-4723-a702-70557c733ec4\",\n                    \"containerRuntimeVersion\": \"containerd://1.7.13\",\n                    \"kernelVersion\": \"5.15.0-25-generic\",\n                    \"kubeProxyVersion\": \"v1.32.8\",\n                    \"kubeletVersion\": \"v1.32.8\",\n                    \"machineID\": \"4282e38254c446279f01532dd4904e3d\",\n                    \"operatingSystem\": \"linux\",\n                    \"osImage\": \"Ubuntu 22.04 LTS\",\n                    \"systemUUID\": \"ab5f7a00-ea25-11f0-a606-e8611aae3d36\"\n                }\n            }\n        }\n    ],\n    \"kind\": \"List\",\n    \"metadata\": {\n        \"resourceVersion\": \"\"\n    }\n}\n\n...（输出共 77757 字符，已截断至末 1500）"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-K8S-002",
+      "name": "Kubernetes Pod 资源申请、设备可见与回收",
+      "category": "K8S",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 33.3,
+      "message": "ok",
+      "steps": [
+        "$ kubectl get nodes -o json\n[rc=0]               \"registry.cn-beijing.aliyuncs.com/kubesphereio/flannel-cni-plugin@sha256:bf4b62b131666d040f35a327d906ee5a3418280b68a88d9b9c7e828057210443\",\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/flannel-cni-plugin:v1.1.2\"\n                        ],\n                        \"sizeBytes\": 3842055\n                    },\n                    {\n                        \"names\": [\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/pause@sha256:7031c1b283388d2c2e09b57badb803c05ebed362dc88d84b480cc47f72a21097\",\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/pause:3.9\"\n                        ],\n                        \"sizeBytes\": 321520\n                    }\n                ],\n                \"nodeInfo\": {\n                    \"architecture\": \"amd64\",\n                    \"bootID\": \"172c4ebe-02ad-4723-a702-70557c733ec4\",\n                    \"containerRuntimeVersion\": \"containerd://1.7.13\",\n                    \"kernelVersion\": \"5.15.0-25-generic\",\n                    \"kubeProxyVersion\": \"v1.32.8\",\n                    \"kubeletVersion\": \"v1.32.8\",\n                    \"machineID\": \"4282e38254c446279f01532dd4904e3d\",\n                    \"operatingSystem\": \"linux\",\n                    \"osImage\": \"Ubuntu 22.04 LTS\",\n                    \"systemUUID\": \"ab5f7a00-ea25-11f0-a606-e8611aae3d36\"\n                }\n            }\n        }\n    ],\n    \"kind\": \"List\",\n    \"metadata\": {\n        \"resourceVersion\": \"\"\n    }\n}\n\n...（输出共 77757 字符，已截断至末 1500）",
+        "$ kubectl apply -f -\n[rc=0] pod/vdcu-k8s-fe18cd53 created\n",
+        "$ kubectl get pod vdcu-k8s-fe18cd53 -n vdcu-test -o json\n[rc=0] nsitionTime\": \"2026-11-09T06:47:35Z\",\n                \"message\": \"containers with unready status: [probe]\",\n                \"reason\": \"ContainersNotReady\",\n                \"status\": \"False\",\n                \"type\": \"ContainersReady\"\n            },\n            {\n                \"lastProbeTime\": null,\n                \"lastTransitionTime\": \"2026-11-09T06:47:35Z\",\n                \"status\": \"True\",\n                \"type\": \"PodScheduled\"\n            }\n        ],\n        \"containerStatuses\": [\n            {\n                \"image\": \"bert:v2\",\n                \"imageID\": \"\",\n                \"lastState\": {},\n                \"name\": \"probe\",\n                \"ready\": false,\n                \"restartCount\": 0,\n                \"started\": false,\n                \"state\": {\n                    \"waiting\": {\n                        \"reason\": \"ContainerCreating\"\n                    }\n                },\n                \"volumeMounts\": [\n                    {\n                        \"mountPath\": \"/var/run/secrets/kubernetes.io/serviceaccount\",\n                        \"name\": \"kube-api-access-j5j4x\",\n                        \"readOnly\": true,\n                        \"recursiveReadOnly\": \"Disabled\"\n                    }\n                ]\n            }\n        ],\n        \"hostIP\": \"10.211.9.54\",\n        \"hostIPs\": [\n            {\n                \"ip\": \"10.211.9.54\"\n            }\n        ],\n        \"phase\": \"Pending\",\n        \"qosClass\": \"BestEffort\",\n        \"startTime\": \"2026-11-09T06:47:35Z\"\n    }\n}\n\n...（输出共 6609 字符，已截断至末 1500）",
+        "$ kubectl get pod vdcu-k8s-fe18cd53 -n vdcu-test -o json\n[rc=0] \": \"2026-11-09T06:47:35Z\",\n                \"status\": \"True\",\n                \"type\": \"PodScheduled\"\n            }\n        ],\n        \"containerStatuses\": [\n            {\n                \"containerID\": \"containerd://6889c9838220d622cd8b06529c2d1512164848141714b6e6f351d53e0598429f\",\n                \"image\": \"docker.io/library/bert:v2\",\n                \"imageID\": \"sha256:5d4f6b5bf7ef576e870c2ed87024359baeb45e569d9832eddfa45089058b1fff\",\n                \"lastState\": {},\n                \"name\": \"probe\",\n                \"ready\": true,\n                \"restartCount\": 0,\n                \"started\": true,\n                \"state\": {\n                    \"running\": {\n                        \"startedAt\": \"2026-11-09T06:47:36Z\"\n                    }\n                },\n                \"volumeMounts\": [\n                    {\n                        \"mountPath\": \"/var/run/secrets/kubernetes.io/serviceaccount\",\n                        \"name\": \"kube-api-access-j5j4x\",\n                        \"readOnly\": true,\n                        \"recursiveReadOnly\": \"Disabled\"\n                    }\n                ]\n            }\n        ],\n        \"hostIP\": \"10.211.9.54\",\n        \"hostIPs\": [\n            {\n                \"ip\": \"10.211.9.54\"\n            }\n        ],\n        \"phase\": \"Running\",\n        \"podIP\": \"10.233.68.175\",\n        \"podIPs\": [\n            {\n                \"ip\": \"10.233.68.175\"\n            }\n        ],\n        \"qosClass\": \"BestEffort\",\n        \"startTime\": \"2026-11-09T06:47:35Z\"\n    }\n}\n\n...（输出共 6706 字符，已截断至末 1500）",
+        "$ kubectl exec -n vdcu-test vdcu-k8s-fe18cd53 -- bash -lc /opt/hyhal/bin/hy-smi virtual --show-device-info 2>&1 || true\n[rc=0] Device 0:\n\tPhysical Device: 0\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\n",
+        "$ kubectl delete pod vdcu-k8s-fe18cd53 -n vdcu-test --ignore-not-found --wait=true\n[rc=0] pod \"vdcu-k8s-fe18cd53\" deleted\n",
+        "$ kubectl get pod vdcu-k8s-fe18cd53 -n vdcu-test -o json\n[rc=1] Error from server (NotFound): pods \"vdcu-k8s-fe18cd53\" not found\n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-K8S-003",
+      "name": "Kubernetes 资源不足时保持 Pending",
+      "category": "K8S",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 0.37,
+      "message": "ok",
+      "steps": [
+        "$ kubectl get nodes -o json\n[rc=0]               \"registry.cn-beijing.aliyuncs.com/kubesphereio/flannel-cni-plugin@sha256:bf4b62b131666d040f35a327d906ee5a3418280b68a88d9b9c7e828057210443\",\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/flannel-cni-plugin:v1.1.2\"\n                        ],\n                        \"sizeBytes\": 3842055\n                    },\n                    {\n                        \"names\": [\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/pause@sha256:7031c1b283388d2c2e09b57badb803c05ebed362dc88d84b480cc47f72a21097\",\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/pause:3.9\"\n                        ],\n                        \"sizeBytes\": 321520\n                    }\n                ],\n                \"nodeInfo\": {\n                    \"architecture\": \"amd64\",\n                    \"bootID\": \"172c4ebe-02ad-4723-a702-70557c733ec4\",\n                    \"containerRuntimeVersion\": \"containerd://1.7.13\",\n                    \"kernelVersion\": \"5.15.0-25-generic\",\n                    \"kubeProxyVersion\": \"v1.32.8\",\n                    \"kubeletVersion\": \"v1.32.8\",\n                    \"machineID\": \"4282e38254c446279f01532dd4904e3d\",\n                    \"operatingSystem\": \"linux\",\n                    \"osImage\": \"Ubuntu 22.04 LTS\",\n                    \"systemUUID\": \"ab5f7a00-ea25-11f0-a606-e8611aae3d36\"\n                }\n            }\n        }\n    ],\n    \"kind\": \"List\",\n    \"metadata\": {\n        \"resourceVersion\": \"\"\n    }\n}\n\n...（输出共 77757 字符，已截断至末 1500）",
+        "$ kubectl apply -f -\n[rc=0] pod/vdcu-pending-3e50b82d created\n",
+        "$ kubectl get pod vdcu-pending-3e50b82d -n vdcu-test -o json\n[rc=0]                        }\n                        },\n                        {\n                            \"configMap\": {\n                                \"items\": [\n                                    {\n                                        \"key\": \"ca.crt\",\n                                        \"path\": \"ca.crt\"\n                                    }\n                                ],\n                                \"name\": \"kube-root-ca.crt\"\n                            }\n                        },\n                        {\n                            \"downwardAPI\": {\n                                \"items\": [\n                                    {\n                                        \"fieldRef\": {\n                                            \"apiVersion\": \"v1\",\n                                            \"fieldPath\": \"metadata.namespace\"\n                                        },\n                                        \"path\": \"namespace\"\n                                    }\n                                ]\n                            }\n                        }\n                    ]\n                }\n            }\n        ]\n    },\n    \"status\": {\n        \"message\": \"Pod was rejected: Allocate failed due to requested number of devices unavailable for hygon.com/dcu. Requested: 9, Available: 6, which is unexpected\",\n        \"phase\": \"Failed\",\n        \"qosClass\": \"BestEffort\",\n        \"reason\": \"UnexpectedAdmissionError\",\n        \"startTime\": \"2026-11-09T06:48:08Z\"\n    }\n}\n\n...（输出共 4611 字符，已截断至末 1500）",
+        "超额申请（9 > 8）Pod 状态：Failed",
+        "$ kubectl delete pod vdcu-pending-3e50b82d -n vdcu-test --ignore-not-found --wait=true\n[rc=0] pod \"vdcu-pending-3e50b82d\" deleted\n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-K8S-004",
+      "name": "Kubernetes 设备插件重启后资源恢复",
+      "category": "K8S",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 11.74,
+      "message": "ok",
+      "steps": [
+        "$ kubectl get daemonset -A -o json\n[rc=0]         \"path\": \"/proc\",\n                                    \"type\": \"\"\n                                },\n                                \"name\": \"proc\"\n                            },\n                            {\n                                \"hostPath\": {\n                                    \"path\": \"/sys\",\n                                    \"type\": \"\"\n                                },\n                                \"name\": \"sys\"\n                            },\n                            {\n                                \"hostPath\": {\n                                    \"path\": \"/\",\n                                    \"type\": \"\"\n                                },\n                                \"name\": \"root\"\n                            }\n                        ]\n                    }\n                },\n                \"updateStrategy\": {\n                    \"rollingUpdate\": {\n                        \"maxSurge\": 0,\n                        \"maxUnavailable\": 1\n                    },\n                    \"type\": \"RollingUpdate\"\n                }\n            },\n            \"status\": {\n                \"currentNumberScheduled\": 7,\n                \"desiredNumberScheduled\": 7,\n                \"numberAvailable\": 7,\n                \"numberMisscheduled\": 0,\n                \"numberReady\": 7,\n                \"observedGeneration\": 1,\n                \"updatedNumberScheduled\": 7\n            }\n        }\n    ],\n    \"kind\": \"List\",\n    \"metadata\": {\n        \"resourceVersion\": \"\"\n    }\n}\n\n...（输出共 71040 字符，已截断至末 1500）",
+        "$ kubectl rollout status daemonset/dcu-device-plugin -n kube-system --timeout=120s\n[rc=0] daemon set \"dcu-device-plugin\" successfully rolled out\n",
+        "$ kubectl rollout restart daemonset/dcu-device-plugin -n kube-system\n[rc=0] daemonset.apps/dcu-device-plugin restarted\n",
+        "$ kubectl rollout status daemonset/dcu-device-plugin -n kube-system --timeout=180s\n[rc=0] ted...\nWaiting for daemon set \"dcu-device-plugin\" rollout to finish: 1 out of 7 new pods have been updated...\nWaiting for daemon set \"dcu-device-plugin\" rollout to finish: 1 out of 7 new pods have been updated...\nWaiting for daemon set \"dcu-device-plugin\" rollout to finish: 2 out of 7 new pods have been updated...\nWaiting for daemon set \"dcu-device-plugin\" rollout to finish: 2 out of 7 new pods have been updated...\nWaiting for daemon set \"dcu-device-plugin\" rollout to finish: 3 out of 7 new pods have been updated...\nWaiting for daemon set \"dcu-device-plugin\" rollout to finish: 3 out of 7 new pods have been updated...\nWaiting for daemon set \"dcu-device-plugin\" rollout to finish: 4 out of 7 new pods have been updated...\nWaiting for daemon set \"dcu-device-plugin\" rollout to finish: 4 out of 7 new pods have been updated...\nWaiting for daemon set \"dcu-device-plugin\" rollout to finish: 5 out of 7 new pods have been updated...\nWaiting for daemon set \"dcu-device-plugin\" rollout to finish: 5 out of 7 new pods have been updated...\nWaiting for daemon set \"dcu-device-plugin\" rollout to finish: 5 out of 7 new pods have been updated...\nWaiting for daemon set \"dcu-device-plugin\" rollout to finish: 6 out of 7 new pods have been updated...\nWaiting for daemon set \"dcu-device-plugin\" rollout to finish: 6 out of 7 new pods have been updated...\nWaiting for daemon set \"dcu-device-plugin\" rollout to finish: 6 of 7 updated pods are available...\ndaemon set \"dcu-device-plugin\" successfully rolled out\n\n...（输出共 1699 字符，已截断至末 1500）"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-HAMI-001",
+      "name": "HAMi/HCU 动态资源与组件识别",
+      "category": "HAMI",
+      "priority": "P0",
+      "status": "SKIP",
+      "duration_s": 0.53,
+      "message": "HAMi/vHCU 动态切分未启用（dcunum=0）；按官方文档部署 HAMi 模式后执行",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-HAMI-002",
+      "name": "HAMi vHCU Pod 申请与设备可见",
+      "category": "HAMI",
+      "priority": "P0",
+      "status": "SKIP",
+      "duration_s": 0.52,
+      "message": "当前集群未启用 HAMi/vHCU 资源",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-HAMI-003",
+      "name": "HAMi Pod 删除后的 vHCU 资源回收",
+      "category": "HAMI",
+      "priority": "P1",
+      "status": "SKIP",
+      "duration_s": 0.5,
+      "message": "当前集群未启用 HAMi/vHCU 资源",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-PX-001",
+      "name": "资源名前缀现状确认",
+      "category": "K8S",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 0.16,
+      "message": "ok",
+      "steps": [
+        "$ kubectl get nodes -o json\n[rc=0]               \"registry.cn-beijing.aliyuncs.com/kubesphereio/flannel-cni-plugin@sha256:bf4b62b131666d040f35a327d906ee5a3418280b68a88d9b9c7e828057210443\",\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/flannel-cni-plugin:v1.1.2\"\n                        ],\n                        \"sizeBytes\": 3842055\n                    },\n                    {\n                        \"names\": [\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/pause@sha256:7031c1b283388d2c2e09b57badb803c05ebed362dc88d84b480cc47f72a21097\",\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/pause:3.9\"\n                        ],\n                        \"sizeBytes\": 321520\n                    }\n                ],\n                \"nodeInfo\": {\n                    \"architecture\": \"amd64\",\n                    \"bootID\": \"172c4ebe-02ad-4723-a702-70557c733ec4\",\n                    \"containerRuntimeVersion\": \"containerd://1.7.13\",\n                    \"kernelVersion\": \"5.15.0-25-generic\",\n                    \"kubeProxyVersion\": \"v1.32.8\",\n                    \"kubeletVersion\": \"v1.32.8\",\n                    \"machineID\": \"4282e38254c446279f01532dd4904e3d\",\n                    \"operatingSystem\": \"linux\",\n                    \"osImage\": \"Ubuntu 22.04 LTS\",\n                    \"systemUUID\": \"ab5f7a00-ea25-11f0-a606-e8611aae3d36\"\n                }\n            }\n        }\n    ],\n    \"kind\": \"List\",\n    \"metadata\": {\n        \"resourceVersion\": \"\"\n    }\n}\n\n...（输出共 77757 字符，已截断至末 1500）",
+        "节点注册的 hygon.com 资源名：hygon.com/dcu, hygon.com/dcu-share-0c-16g, hygon.com/dcu-share-20c-16g, hygon.com/dcu-share-40c-32g, hygon.com/dcucores, hygon.com/dcumem, hygon.com/dcunum",
+        "$ kubectl get daemonset -n kube-system -o json\n[rc=0]                             \"items\": [\n                                        {\n                                            \"key\": \"config.json\",\n                                            \"path\": \"config.json\"\n                                        }\n                                    ],\n                                    \"name\": \"rdma-devices\"\n                                },\n                                \"name\": \"config\"\n                            },\n                            {\n                                \"hostPath\": {\n                                    \"path\": \"/dev/\",\n                                    \"type\": \"\"\n                                },\n                                \"name\": \"devs\"\n                            }\n                        ]\n                    }\n                },\n                \"updateStrategy\": {\n                    \"rollingUpdate\": {\n                        \"maxSurge\": 0,\n                        \"maxUnavailable\": 1\n                    },\n                    \"type\": \"RollingUpdate\"\n                }\n            },\n            \"status\": {\n                \"currentNumberScheduled\": 7,\n                \"desiredNumberScheduled\": 7,\n                \"numberAvailable\": 7,\n                \"numberMisscheduled\": 0,\n                \"numberReady\": 7,\n                \"observedGeneration\": 1,\n                \"updatedNumberScheduled\": 7\n            }\n        }\n    ],\n    \"kind\": \"List\",\n    \"metadata\": {\n        \"resourceVersion\": \"\"\n    }\n}\n\n...（输出共 45966 字符，已截断至末 1500）",
+        "设备插件镜像：harbor.sourcefind.cn:5443/dcu/admin/base/dcu-device-plugin:v2.4.2\n插件环境变量：{'PULSE': '30', 'RESOURCE_REGISTER_STRATEGY': 'mixed', 'LOG_THRESHOLD': 'INFO', 'LOG_VERBOSE': '2', 'LOG_OUTPUT': 'true', 'POLICY': '0', 'NODE_NAME': None}",
+        "当前识别资源：hygon.com/dcu（dcu）"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-PX-002",
+      "name": "HCU 前缀全流程（当前版本基线）",
+      "category": "K8S",
+      "priority": "P0",
+      "status": "SKIP",
+      "duration_s": 0.08,
+      "message": "当前节点未注册 HCU 前缀（hygon.com/hcunum），以实际注册前缀执行：hygon.com/dcu",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-PX-003",
+      "name": "DCU 前缀全流程（同机线复测）",
+      "category": "K8S",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 33.51,
+      "message": "ok",
+      "steps": [
+        "$ kubectl get nodes -o json\n[rc=0]               \"registry.cn-beijing.aliyuncs.com/kubesphereio/flannel-cni-plugin@sha256:bf4b62b131666d040f35a327d906ee5a3418280b68a88d9b9c7e828057210443\",\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/flannel-cni-plugin:v1.1.2\"\n                        ],\n                        \"sizeBytes\": 3842055\n                    },\n                    {\n                        \"names\": [\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/pause@sha256:7031c1b283388d2c2e09b57badb803c05ebed362dc88d84b480cc47f72a21097\",\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/pause:3.9\"\n                        ],\n                        \"sizeBytes\": 321520\n                    }\n                ],\n                \"nodeInfo\": {\n                    \"architecture\": \"amd64\",\n                    \"bootID\": \"172c4ebe-02ad-4723-a702-70557c733ec4\",\n                    \"containerRuntimeVersion\": \"containerd://1.7.13\",\n                    \"kernelVersion\": \"5.15.0-25-generic\",\n                    \"kubeProxyVersion\": \"v1.32.8\",\n                    \"kubeletVersion\": \"v1.32.8\",\n                    \"machineID\": \"4282e38254c446279f01532dd4904e3d\",\n                    \"operatingSystem\": \"linux\",\n                    \"osImage\": \"Ubuntu 22.04 LTS\",\n                    \"systemUUID\": \"ab5f7a00-ea25-11f0-a606-e8611aae3d36\"\n                }\n            }\n        }\n    ],\n    \"kind\": \"List\",\n    \"metadata\": {\n        \"resourceVersion\": \"\"\n    }\n}\n\n...（输出共 77757 字符，已截断至末 1500）",
+        "DCU 前缀全流程使用资源：hygon.com/dcu",
+        "$ kubectl apply -f -\n[rc=0] pod/vdcu-px-dcu-c6975927 created\n",
+        "$ kubectl get pod vdcu-px-dcu-c6975927 -n vdcu-test -o json\n[rc=0] nsitionTime\": \"2026-11-09T06:48:22Z\",\n                \"message\": \"containers with unready status: [probe]\",\n                \"reason\": \"ContainersNotReady\",\n                \"status\": \"False\",\n                \"type\": \"ContainersReady\"\n            },\n            {\n                \"lastProbeTime\": null,\n                \"lastTransitionTime\": \"2026-11-09T06:48:22Z\",\n                \"status\": \"True\",\n                \"type\": \"PodScheduled\"\n            }\n        ],\n        \"containerStatuses\": [\n            {\n                \"image\": \"bert:v2\",\n                \"imageID\": \"\",\n                \"lastState\": {},\n                \"name\": \"probe\",\n                \"ready\": false,\n                \"restartCount\": 0,\n                \"started\": false,\n                \"state\": {\n                    \"waiting\": {\n                        \"reason\": \"ContainerCreating\"\n                    }\n                },\n                \"volumeMounts\": [\n                    {\n                        \"mountPath\": \"/var/run/secrets/kubernetes.io/serviceaccount\",\n                        \"name\": \"kube-api-access-2rpwg\",\n                        \"readOnly\": true,\n                        \"recursiveReadOnly\": \"Disabled\"\n                    }\n                ]\n            }\n        ],\n        \"hostIP\": \"10.211.9.54\",\n        \"hostIPs\": [\n            {\n                \"ip\": \"10.211.9.54\"\n            }\n        ],\n        \"phase\": \"Pending\",\n        \"qosClass\": \"BestEffort\",\n        \"startTime\": \"2026-11-09T06:48:22Z\"\n    }\n}\n\n...（输出共 6615 字符，已截断至末 1500）",
+        "$ kubectl get pod vdcu-px-dcu-c6975927 -n vdcu-test -o json\n[rc=0] \": \"2026-11-09T06:48:22Z\",\n                \"status\": \"True\",\n                \"type\": \"PodScheduled\"\n            }\n        ],\n        \"containerStatuses\": [\n            {\n                \"containerID\": \"containerd://b5a85e951d5ba5783d998f74313836647705df416156ae9480cf55bb8490231f\",\n                \"image\": \"docker.io/library/bert:v2\",\n                \"imageID\": \"sha256:5d4f6b5bf7ef576e870c2ed87024359baeb45e569d9832eddfa45089058b1fff\",\n                \"lastState\": {},\n                \"name\": \"probe\",\n                \"ready\": true,\n                \"restartCount\": 0,\n                \"started\": true,\n                \"state\": {\n                    \"running\": {\n                        \"startedAt\": \"2026-11-09T06:48:23Z\"\n                    }\n                },\n                \"volumeMounts\": [\n                    {\n                        \"mountPath\": \"/var/run/secrets/kubernetes.io/serviceaccount\",\n                        \"name\": \"kube-api-access-2rpwg\",\n                        \"readOnly\": true,\n                        \"recursiveReadOnly\": \"Disabled\"\n                    }\n                ]\n            }\n        ],\n        \"hostIP\": \"10.211.9.54\",\n        \"hostIPs\": [\n            {\n                \"ip\": \"10.211.9.54\"\n            }\n        ],\n        \"phase\": \"Running\",\n        \"podIP\": \"10.233.68.177\",\n        \"podIPs\": [\n            {\n                \"ip\": \"10.233.68.177\"\n            }\n        ],\n        \"qosClass\": \"BestEffort\",\n        \"startTime\": \"2026-11-09T06:48:22Z\"\n    }\n}\n\n...（输出共 6712 字符，已截断至末 1500）",
+        "$ kubectl exec -n vdcu-test vdcu-px-dcu-c6975927 -- bash -lc /opt/hyhal/bin/hy-smi virtual --show-device-info 2>&1 || true\n[rc=0] Device 0:\n\tPhysical Device: 0\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\n",
+        "容器内设备信息：\nDevice 0:\n\tPhysical Device: 0\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\n",
+        "$ kubectl delete pod vdcu-px-dcu-c6975927 -n vdcu-test --ignore-not-found --wait=true\n[rc=0] pod \"vdcu-px-dcu-c6975927\" deleted\n",
+        "$ kubectl get pod vdcu-px-dcu-c6975927 -n vdcu-test -o json\n[rc=1] Error from server (NotFound): pods \"vdcu-px-dcu-c6975927\" not found\n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-PX-004",
+      "name": "自定义前缀压测（GPU 等任意配置）",
+      "category": "K8S",
+      "priority": "P2",
+      "status": "SKIP",
+      "duration_s": 0.08,
+      "message": "当前插件未注册自定义前缀（GPU 等）；配置化版本上线后执行（注册名：hygon.com/dcu, hygon.com/dcu-share-0c-16g, hygon.com/dcu-share-20c-16g, hygon.com/dcu-share-40c-32g, hygon.com/dcucores, hygon.com/dcumem, hygon.com/dcunum）",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-PX-005",
+      "name": "前缀非法值边界",
+      "category": "K8S",
+      "priority": "P2",
+      "status": "PASS",
+      "duration_s": 0.08,
+      "message": "ok",
+      "steps": [
+        "$ kubectl get daemonset -n kube-system -o json\n[rc=0]                             \"items\": [\n                                        {\n                                            \"key\": \"config.json\",\n                                            \"path\": \"config.json\"\n                                        }\n                                    ],\n                                    \"name\": \"rdma-devices\"\n                                },\n                                \"name\": \"config\"\n                            },\n                            {\n                                \"hostPath\": {\n                                    \"path\": \"/dev/\",\n                                    \"type\": \"\"\n                                },\n                                \"name\": \"devs\"\n                            }\n                        ]\n                    }\n                },\n                \"updateStrategy\": {\n                    \"rollingUpdate\": {\n                        \"maxSurge\": 0,\n                        \"maxUnavailable\": 1\n                    },\n                    \"type\": \"RollingUpdate\"\n                }\n            },\n            \"status\": {\n                \"currentNumberScheduled\": 7,\n                \"desiredNumberScheduled\": 7,\n                \"numberAvailable\": 7,\n                \"numberMisscheduled\": 0,\n                \"numberReady\": 7,\n                \"observedGeneration\": 1,\n                \"updatedNumberScheduled\": 7\n            }\n        }\n    ],\n    \"kind\": \"List\",\n    \"metadata\": {\n        \"resourceVersion\": \"\"\n    }\n}\n\n...（输出共 45966 字符，已截断至末 1500）",
+        "插件前缀相关环境变量：{'RESOURCE_REGISTER_STRATEGY': 'mixed'}",
+        "非法前缀输入（空值/大小写混用/特殊字符）的组件侧行为待配置化版本上线后验证（PX-004 同批）"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-PX-006",
+      "name": "前缀切换与共存",
+      "category": "K8S",
+      "priority": "P2",
+      "status": "PASS",
+      "duration_s": 0.08,
+      "message": "ok",
+      "steps": [
+        "$ kubectl get nodes -o json\n[rc=0]               \"registry.cn-beijing.aliyuncs.com/kubesphereio/flannel-cni-plugin@sha256:bf4b62b131666d040f35a327d906ee5a3418280b68a88d9b9c7e828057210443\",\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/flannel-cni-plugin:v1.1.2\"\n                        ],\n                        \"sizeBytes\": 3842055\n                    },\n                    {\n                        \"names\": [\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/pause@sha256:7031c1b283388d2c2e09b57badb803c05ebed362dc88d84b480cc47f72a21097\",\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/pause:3.9\"\n                        ],\n                        \"sizeBytes\": 321520\n                    }\n                ],\n                \"nodeInfo\": {\n                    \"architecture\": \"amd64\",\n                    \"bootID\": \"172c4ebe-02ad-4723-a702-70557c733ec4\",\n                    \"containerRuntimeVersion\": \"containerd://1.7.13\",\n                    \"kernelVersion\": \"5.15.0-25-generic\",\n                    \"kubeProxyVersion\": \"v1.32.8\",\n                    \"kubeletVersion\": \"v1.32.8\",\n                    \"machineID\": \"4282e38254c446279f01532dd4904e3d\",\n                    \"operatingSystem\": \"linux\",\n                    \"osImage\": \"Ubuntu 22.04 LTS\",\n                    \"systemUUID\": \"ab5f7a00-ea25-11f0-a606-e8611aae3d36\"\n                }\n            }\n        }\n    ],\n    \"kind\": \"List\",\n    \"metadata\": {\n        \"resourceVersion\": \"\"\n    }\n}\n\n...（输出共 77757 字符，已截断至末 1500）",
+        "当前并存的前缀资源：hygon.com/dcu, hygon.com/dcu-share-0c-16g, hygon.com/dcu-share-20c-16g, hygon.com/dcu-share-40c-32g, hygon.com/dcucores, hygon.com/dcumem, hygon.com/dcunum"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-K8S-002D",
+      "name": "Pod 内 /dev/dri 注入视图与单机最小挂载一致",
+      "category": "K8S",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 33.45,
+      "message": "ok",
+      "steps": [
+        "$ kubectl get nodes -o json\n[rc=0]               \"registry.cn-beijing.aliyuncs.com/kubesphereio/flannel-cni-plugin@sha256:bf4b62b131666d040f35a327d906ee5a3418280b68a88d9b9c7e828057210443\",\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/flannel-cni-plugin:v1.1.2\"\n                        ],\n                        \"sizeBytes\": 3842055\n                    },\n                    {\n                        \"names\": [\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/pause@sha256:7031c1b283388d2c2e09b57badb803c05ebed362dc88d84b480cc47f72a21097\",\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/pause:3.9\"\n                        ],\n                        \"sizeBytes\": 321520\n                    }\n                ],\n                \"nodeInfo\": {\n                    \"architecture\": \"amd64\",\n                    \"bootID\": \"172c4ebe-02ad-4723-a702-70557c733ec4\",\n                    \"containerRuntimeVersion\": \"containerd://1.7.13\",\n                    \"kernelVersion\": \"5.15.0-25-generic\",\n                    \"kubeProxyVersion\": \"v1.32.8\",\n                    \"kubeletVersion\": \"v1.32.8\",\n                    \"machineID\": \"4282e38254c446279f01532dd4904e3d\",\n                    \"operatingSystem\": \"linux\",\n                    \"osImage\": \"Ubuntu 22.04 LTS\",\n                    \"systemUUID\": \"ab5f7a00-ea25-11f0-a606-e8611aae3d36\"\n                }\n            }\n        }\n    ],\n    \"kind\": \"List\",\n    \"metadata\": {\n        \"resourceVersion\": \"\"\n    }\n}\n\n...（输出共 77757 字符，已截断至末 1500）",
+        "$ kubectl apply -f -\n[rc=0] pod/vdcu-driview-01a86fd9 created\n",
+        "$ kubectl get pod vdcu-driview-01a86fd9 -n vdcu-test -o json\n[rc=0] nsitionTime\": \"2026-11-09T06:48:56Z\",\n                \"message\": \"containers with unready status: [probe]\",\n                \"reason\": \"ContainersNotReady\",\n                \"status\": \"False\",\n                \"type\": \"ContainersReady\"\n            },\n            {\n                \"lastProbeTime\": null,\n                \"lastTransitionTime\": \"2026-11-09T06:48:56Z\",\n                \"status\": \"True\",\n                \"type\": \"PodScheduled\"\n            }\n        ],\n        \"containerStatuses\": [\n            {\n                \"image\": \"bert:v2\",\n                \"imageID\": \"\",\n                \"lastState\": {},\n                \"name\": \"probe\",\n                \"ready\": false,\n                \"restartCount\": 0,\n                \"started\": false,\n                \"state\": {\n                    \"waiting\": {\n                        \"reason\": \"ContainerCreating\"\n                    }\n                },\n                \"volumeMounts\": [\n                    {\n                        \"mountPath\": \"/var/run/secrets/kubernetes.io/serviceaccount\",\n                        \"name\": \"kube-api-access-9fg7x\",\n                        \"readOnly\": true,\n                        \"recursiveReadOnly\": \"Disabled\"\n                    }\n                ]\n            }\n        ],\n        \"hostIP\": \"10.211.9.54\",\n        \"hostIPs\": [\n            {\n                \"ip\": \"10.211.9.54\"\n            }\n        ],\n        \"phase\": \"Pending\",\n        \"qosClass\": \"BestEffort\",\n        \"startTime\": \"2026-11-09T06:48:56Z\"\n    }\n}\n\n...（输出共 6617 字符，已截断至末 1500）",
+        "$ kubectl get pod vdcu-driview-01a86fd9 -n vdcu-test -o json\n[rc=0] \": \"2026-11-09T06:48:56Z\",\n                \"status\": \"True\",\n                \"type\": \"PodScheduled\"\n            }\n        ],\n        \"containerStatuses\": [\n            {\n                \"containerID\": \"containerd://5b14f51c6a769c93416a07733db23c27ea06a5b85e70b8a6c1244dd1ac7c927c\",\n                \"image\": \"docker.io/library/bert:v2\",\n                \"imageID\": \"sha256:5d4f6b5bf7ef576e870c2ed87024359baeb45e569d9832eddfa45089058b1fff\",\n                \"lastState\": {},\n                \"name\": \"probe\",\n                \"ready\": true,\n                \"restartCount\": 0,\n                \"started\": true,\n                \"state\": {\n                    \"running\": {\n                        \"startedAt\": \"2026-11-09T06:48:57Z\"\n                    }\n                },\n                \"volumeMounts\": [\n                    {\n                        \"mountPath\": \"/var/run/secrets/kubernetes.io/serviceaccount\",\n                        \"name\": \"kube-api-access-9fg7x\",\n                        \"readOnly\": true,\n                        \"recursiveReadOnly\": \"Disabled\"\n                    }\n                ]\n            }\n        ],\n        \"hostIP\": \"10.211.9.54\",\n        \"hostIPs\": [\n            {\n                \"ip\": \"10.211.9.54\"\n            }\n        ],\n        \"phase\": \"Running\",\n        \"podIP\": \"10.233.68.178\",\n        \"podIPs\": [\n            {\n                \"ip\": \"10.233.68.178\"\n            }\n        ],\n        \"qosClass\": \"BestEffort\",\n        \"startTime\": \"2026-11-09T06:48:56Z\"\n    }\n}\n\n...（输出共 6714 字符，已截断至末 1500）",
+        "$ kubectl exec -n vdcu-test vdcu-driview-01a86fd9 -- bash -lc ls -l /dev/dri 2>&1\n[rc=0] total 0\ncrw-rw---- 1 root video 226,   4 Nov  9 14:48 card4\ncrw-rw-rw- 1 root kvm   226, 130 Nov  9 14:48 renderD130\n",
+        "Pod 内 /dev/dri 视图：\ntotal 0\ncrw-rw---- 1 root video 226,   4 Nov  9 14:48 card4\ncrw-rw-rw- 1 root kvm   226, 130 Nov  9 14:48 renderD130\n",
+        "Pod 内可见 card 设备符数量：1",
+        "$ kubectl delete pod vdcu-driview-01a86fd9 -n vdcu-test --ignore-not-found --wait=true\n[rc=0] pod \"vdcu-driview-01a86fd9\" deleted\n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-K8S-002S",
+      "name": "预切分 vHCU（dcu-share）Pod 申请与设备可见",
+      "category": "K8S",
+      "priority": "P0",
+      "status": "FAIL",
+      "duration_s": 33.37,
+      "message": "容器内未查询到设备信息: bash: line 1: /opt/hyhal/bin/hy-smi: No such file or directory\n",
+      "steps": [
+        "$ kubectl get nodes -o json\n[rc=0]               \"registry.cn-beijing.aliyuncs.com/kubesphereio/flannel-cni-plugin@sha256:bf4b62b131666d040f35a327d906ee5a3418280b68a88d9b9c7e828057210443\",\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/flannel-cni-plugin:v1.1.2\"\n                        ],\n                        \"sizeBytes\": 3842055\n                    },\n                    {\n                        \"names\": [\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/pause@sha256:7031c1b283388d2c2e09b57badb803c05ebed362dc88d84b480cc47f72a21097\",\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/pause:3.9\"\n                        ],\n                        \"sizeBytes\": 321520\n                    }\n                ],\n                \"nodeInfo\": {\n                    \"architecture\": \"amd64\",\n                    \"bootID\": \"172c4ebe-02ad-4723-a702-70557c733ec4\",\n                    \"containerRuntimeVersion\": \"containerd://1.7.13\",\n                    \"kernelVersion\": \"5.15.0-25-generic\",\n                    \"kubeProxyVersion\": \"v1.32.8\",\n                    \"kubeletVersion\": \"v1.32.8\",\n                    \"machineID\": \"4282e38254c446279f01532dd4904e3d\",\n                    \"operatingSystem\": \"linux\",\n                    \"osImage\": \"Ubuntu 22.04 LTS\",\n                    \"systemUUID\": \"ab5f7a00-ea25-11f0-a606-e8611aae3d36\"\n                }\n            }\n        }\n    ],\n    \"kind\": \"List\",\n    \"metadata\": {\n        \"resourceVersion\": \"\"\n    }\n}\n\n...（输出共 77757 字符，已截断至末 1500）",
+        "使用资源 rdma/rdma_shared_devices_a（节点 m09r3n11）",
+        "$ kubectl apply -f -\n[rc=0] pod/vdcu-share-c4374650 created\n",
+        "$ kubectl get pod vdcu-share-c4374650 -n vdcu-test -o json\n[rc=0] nsitionTime\": \"2026-11-09T06:49:29Z\",\n                \"message\": \"containers with unready status: [probe]\",\n                \"reason\": \"ContainersNotReady\",\n                \"status\": \"False\",\n                \"type\": \"ContainersReady\"\n            },\n            {\n                \"lastProbeTime\": null,\n                \"lastTransitionTime\": \"2026-11-09T06:49:29Z\",\n                \"status\": \"True\",\n                \"type\": \"PodScheduled\"\n            }\n        ],\n        \"containerStatuses\": [\n            {\n                \"image\": \"bert:v2\",\n                \"imageID\": \"\",\n                \"lastState\": {},\n                \"name\": \"probe\",\n                \"ready\": false,\n                \"restartCount\": 0,\n                \"started\": false,\n                \"state\": {\n                    \"waiting\": {\n                        \"reason\": \"ContainerCreating\"\n                    }\n                },\n                \"volumeMounts\": [\n                    {\n                        \"mountPath\": \"/var/run/secrets/kubernetes.io/serviceaccount\",\n                        \"name\": \"kube-api-access-x75bc\",\n                        \"readOnly\": true,\n                        \"recursiveReadOnly\": \"Disabled\"\n                    }\n                ]\n            }\n        ],\n        \"hostIP\": \"10.211.9.54\",\n        \"hostIPs\": [\n            {\n                \"ip\": \"10.211.9.54\"\n            }\n        ],\n        \"phase\": \"Pending\",\n        \"qosClass\": \"BestEffort\",\n        \"startTime\": \"2026-11-09T06:49:29Z\"\n    }\n}\n\n...（输出共 6665 字符，已截断至末 1500）",
+        "$ kubectl get pod vdcu-share-c4374650 -n vdcu-test -o json\n[rc=0] \": \"2026-11-09T06:49:29Z\",\n                \"status\": \"True\",\n                \"type\": \"PodScheduled\"\n            }\n        ],\n        \"containerStatuses\": [\n            {\n                \"containerID\": \"containerd://73a818edea6d30258a78bb01afa8140abb93a9d9834189a1f1c40efad2a60345\",\n                \"image\": \"docker.io/library/bert:v2\",\n                \"imageID\": \"sha256:5d4f6b5bf7ef576e870c2ed87024359baeb45e569d9832eddfa45089058b1fff\",\n                \"lastState\": {},\n                \"name\": \"probe\",\n                \"ready\": true,\n                \"restartCount\": 0,\n                \"started\": true,\n                \"state\": {\n                    \"running\": {\n                        \"startedAt\": \"2026-11-09T06:49:30Z\"\n                    }\n                },\n                \"volumeMounts\": [\n                    {\n                        \"mountPath\": \"/var/run/secrets/kubernetes.io/serviceaccount\",\n                        \"name\": \"kube-api-access-x75bc\",\n                        \"readOnly\": true,\n                        \"recursiveReadOnly\": \"Disabled\"\n                    }\n                ]\n            }\n        ],\n        \"hostIP\": \"10.211.9.54\",\n        \"hostIPs\": [\n            {\n                \"ip\": \"10.211.9.54\"\n            }\n        ],\n        \"phase\": \"Running\",\n        \"podIP\": \"10.233.68.179\",\n        \"podIPs\": [\n            {\n                \"ip\": \"10.233.68.179\"\n            }\n        ],\n        \"qosClass\": \"BestEffort\",\n        \"startTime\": \"2026-11-09T06:49:29Z\"\n    }\n}\n\n...（输出共 6762 字符，已截断至末 1500）",
+        "$ kubectl exec -n vdcu-test vdcu-share-c4374650 -- bash -lc /opt/hyhal/bin/hy-smi virtual --show-device-info 2>&1 || true\n[rc=0] bash: line 1: /opt/hyhal/bin/hy-smi: No such file or directory\n",
+        "容器内设备信息：\nbash: line 1: /opt/hyhal/bin/hy-smi: No such file or directory\n",
+        "$ kubectl delete pod vdcu-share-c4374650 -n vdcu-test --ignore-not-found --wait=true\n[rc=0] pod \"vdcu-share-c4374650\" deleted\n"
+      ],
+      "issue": ""
+    }
+  ]
+}

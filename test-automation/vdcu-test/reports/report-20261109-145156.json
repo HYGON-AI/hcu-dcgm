@@ -1,0 +1,78 @@
+{
+  "generated_at": "2026-11-09 14:51:56",
+  "environment": {
+    "hy_smi": "/opt/hyhal/bin/hy-smi",
+    "image": "bert:v2",
+    "inference_image": "harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10",
+    "card": "5",
+    "card2": "6",
+    "full_card": "7",
+    "physical_cards": "8",
+    "work": "/root/tz",
+    "vllm_model": "/workspace/openbmb--MiniCPM5-1B-SFT",
+    "cluster_tests": "1",
+    "resource_prefix": "",
+    "card_offset": "1",
+    "cluster_mutating_tests": "1",
+    "render_offset": "0",
+    "cluster_namespace": "vdcu-test",
+    "k8s_image": "bert:v2",
+    "k8s_node": "m09r3n14",
+    "record_commands": "1",
+    "record_output_limit": "1500"
+  },
+  "summary": {
+    "PASS": 2,
+    "FAIL": 0,
+    "XFAIL": 0,
+    "XPASS": 0,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "id": "VDCU-ISO-001",
+      "name": "显存配额硬隔离（越界分配）",
+      "category": "ISO",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 21.44,
+      "message": "ok",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=0] The virtual device is destroyed successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 4 -d 5\n[rc=0] The virtual device is created successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 4:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 5:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 4:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 5:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 4:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 5:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\n\n",
+        "$ docker run --rm --shm-size 16G --device=/dev/kfd --device=/dev/mkfd --device=/dev/dri/card7 --device=/dev/dri/renderD133 -v /opt/hyhal:/opt/hyhal:ro -v /root/tz:/workspace:ro -v /etc/vdev/vdev0.conf:/etc/vdev/docker/vdev0.conf:ro -e HIP_VISIBLE_DEVICES=0 bert:v2 bash -lc \npython - <<'PY'\nimport torch\ntry:\n    x = torch.empty(int(24 * 1024 ** 3), dtype=torch.uint8, device=\"cuda\")\n    print(\"ALLOC_OK\", x.numel())\nexcept Exception as e:\n    print(\"ALLOC_FAIL\", type(e).__name__, str(e)[:200])\nPY\n\n[rc=0] ALLOC_FAIL OutOfMemoryError CUDA out of memory. Tried to allocate 24.00 GiB. GPU 0 has a total capacity of 16.00 GiB of which 15.75 GiB is free. Of the allocated memory 0 bytes is allocated by PyTorch, and 0 bytes is reserved by\nCould not open /var/log/hylog/.\n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-ISO-002",
+      "name": "CU 配额硬隔离（算力不越界）",
+      "category": "ISO",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 53.22,
+      "message": "ok",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\n\tContainer id: 0xfae78f4b531eb17b\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 4:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 5:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 14:51:03.472] Failed to destroy virtual devices. The device is exist and may be in use.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 4:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 5:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=0] The virtual device is destroyed successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 4 -d 5\n[rc=0] The virtual device is created successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 4:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 5:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 4:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 5:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 4:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 5:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 4:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 5:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\n\n",
+        "$ docker run --rm --shm-size 16G --device=/dev/kfd --device=/dev/mkfd --device=/dev/dri/card7 --device=/dev/dri/renderD133 -v /opt/hyhal:/opt/hyhal:ro -v /root/tz:/workspace:ro -v /etc/vdev/vdev0.conf:/etc/vdev/docker/vdev0.conf:ro -e HIP_VISIBLE_DEVICES=0 bert:v2 bash -lc \npython - <<'PY'\nimport torch, time\ntorch.cuda.set_device(0)\na = torch.randn(2048, 2048, device=\"cuda\")\nb = torch.randn(2048, 2048, device=\"cuda\")\nfor _ in range(5):\n    a @ b\ntorch.cuda.synchronize()\nt = time.time()\nfor _ in range(40):\n    a @ b\ntorch.cuda.synchronize()\nprint(\"ELAPSED %.3f\" % (time.time() - t))\nPY\n\n[rc=0] ELAPSED 0.068\nCould not open /var/log/hylog/.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\n\tContainer id: 0xd1354339f3fdac50\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 4:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 5:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\n\n",
+        "$ docker run --rm --shm-size 16G --device=/dev/kfd --device=/dev/mkfd --device=/dev/dri/card9 --device=/dev/dri/renderD135 -v /opt/hyhal:/opt/hyhal:ro -v /root/tz:/workspace:ro -e HIP_VISIBLE_DEVICES=0 bert:v2 bash -lc \npython - <<'PY'\nimport torch, time\ntorch.cuda.set_device(0)\na = torch.randn(2048, 2048, device=\"cuda\")\nb = torch.randn(2048, 2048, device=\"cuda\")\nfor _ in range(5):\n    a @ b\ntorch.cuda.synchronize()\nt = time.time()\nfor _ in range(40):\n    a @ b\ntorch.cuda.synchronize()\nprint(\"ELAPSED %.3f\" % (time.time() - t))\nPY\n\n[rc=0] ELAPSED 0.015\nCould not open /var/log/hylog/.\n"
+      ],
+      "issue": ""
+    }
+  ]
+}

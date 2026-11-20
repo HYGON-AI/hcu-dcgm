@@ -1,0 +1,429 @@
+{
+  "generated_at": "2026-11-09 14:02:52",
+  "environment": {
+    "hy_smi": "/opt/hyhal/bin/hy-smi",
+    "image": "bert:v2",
+    "inference_image": "harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10",
+    "card": "5",
+    "card2": "6",
+    "full_card": "7",
+    "physical_cards": "8",
+    "work": "/root/tz",
+    "vllm_model": "/workspace/openbmb--MiniCPM5-1B-SFT",
+    "cluster_tests": "1",
+    "resource_prefix": "",
+    "card_offset": "1",
+    "cluster_mutating_tests": "1",
+    "render_offset": "0",
+    "cluster_namespace": "vdcu-test",
+    "k8s_image": "bert:v2",
+    "k8s_node": "m09r3n14",
+    "record_commands": "1",
+    "record_output_limit": "1500"
+  },
+  "summary": {
+    "PASS": 19,
+    "FAIL": 0,
+    "XFAIL": 0,
+    "XPASS": 0,
+    "SKIP": 1
+  },
+  "results": [
+    {
+      "id": "VDCU-FUN-001",
+      "name": "物理设备与剩余资源查询基线",
+      "category": "FUN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 1.06,
+      "message": "ok",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=0] The virtual device is destroyed successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-device-info\n[rc=0] Device 0:\n\tPhysical Device: 0\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 1:\n\tPhysical Device: 1\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 2:\n\tPhysical Device: 2\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 3:\n\tPhysical Device: 3\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 4:\n\tPhysical Device: 4\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 5:\n\tPhysical Device: 5\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 6:\n\tPhysical Device: 6\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 7:\n\tPhysical Device: 7\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-device-info\n[rc=0] Device 0:\n\tPhysical Device: 0\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 1:\n\tPhysical Device: 1\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 2:\n\tPhysical Device: 2\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 3:\n\tPhysical Device: 3\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 4:\n\tPhysical Device: 4\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 5:\n\tPhysical Device: 5\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 6:\n\tPhysical Device: 6\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 7:\n\tPhysical Device: 7\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-remaining-info\n[rc=0] Device 0:\n\tRemaining compute units: 80\n\tRemaining memories: 68702699520 bytes\n\nDevice 1:\n\tRemaining compute units: 80\n\tRemaining memories: 68702699520 bytes\n\nDevice 2:\n\tRemaining compute units: 80\n\tRemaining memories: 68702699520 bytes\n\nDevice 3:\n\tRemaining compute units: 80\n\tRemaining memories: 68702699520 bytes\n\nDevice 4:\n\tRemaining compute units: 80\n\tRemaining memories: 68702699520 bytes\n\nDevice 5:\n\tRemaining compute units: 80\n\tRemaining memories: 68702699520 bytes\n\nDevice 6:\n\tRemaining compute units: 80\n\tRemaining memories: 68702699520 bytes\n\nDevice 7:\n\tRemaining compute units: 80\n\tRemaining memories: 68702699520 bytes\n\n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-002",
+      "name": "创建 2 个 CU 与显存等分 vDCU",
+      "category": "FUN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 0.04,
+      "message": "ok",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-device-info\n[rc=0] Device 0:\n\tPhysical Device: 0\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 1:\n\tPhysical Device: 1\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 2:\n\tPhysical Device: 2\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 3:\n\tPhysical Device: 3\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 4:\n\tPhysical Device: 4\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 5:\n\tPhysical Device: 5\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 6:\n\tPhysical Device: 6\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 7:\n\tPhysical Device: 7\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 -d 5\n[rc=0] The virtual device is created successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-003",
+      "name": "创建 4 个等分 vDCU（实例上限）",
+      "category": "FUN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 1.07,
+      "message": "ok",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=0] The virtual device is destroyed successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-device-info\n[rc=0] Device 0:\n\tPhysical Device: 0\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 1:\n\tPhysical Device: 1\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 2:\n\tPhysical Device: 2\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 3:\n\tPhysical Device: 3\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 4:\n\tPhysical Device: 4\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 5:\n\tPhysical Device: 5\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 6:\n\tPhysical Device: 6\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 7:\n\tPhysical Device: 7\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 4 -d 5\n[rc=0] The virtual device is created successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 2:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 3:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-remaining-info\n[rc=0] Device 0:\n\tRemaining compute units: 80\n\tRemaining memories: 68702699520 bytes\n\nDevice 1:\n\tRemaining compute units: 80\n\tRemaining memories: 68702699520 bytes\n\nDevice 2:\n\tRemaining compute units: 80\n\tRemaining memories: 68702699520 bytes\n\nDevice 3:\n\tRemaining compute units: 80\n\tRemaining memories: 68702699520 bytes\n\nDevice 4:\n\tRemaining compute units: 80\n\tRemaining memories: 68702699520 bytes\n\nDevice 5:\n\tRemaining compute units: 0\n\tRemaining memories: 0 bytes\n\nDevice 6:\n\tRemaining compute units: 80\n\tRemaining memories: 68702699520 bytes\n\nDevice 7:\n\tRemaining compute units: 80\n\tRemaining memories: 68702699520 bytes\n\n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-004",
+      "name": "创建数量超限（5 个）应被拒绝",
+      "category": "FUN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 1.04,
+      "message": "ok",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 2:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 3:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=0] The virtual device is destroyed successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 5 -d 5\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 14:01:53.360] Create 5 vdevices failed, the supported range is 1 to 4.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-005",
+      "name": "自定义 CU 与显存组合创建",
+      "category": "FUN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 0.03,
+      "message": "ok",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 4 --vdevice-compute-units 10,10,20,40 --vdevice-memory-size 4096,8192,16384,32768 -d 5\n[rc=0] The virtual device is created successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 10\n\tGlobal memory: 4294967296 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 10\n\tGlobal memory: 8589934592 bytes\nVirtual Device 2:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17179869184 bytes\nVirtual Device 3:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34359738368 bytes\n\n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-006",
+      "name": "CU 共享模式创建（CU=0）",
+      "category": "FUN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 1.06,
+      "message": "ok",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 10\n\tGlobal memory: 4294967296 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 10\n\tGlobal memory: 8589934592 bytes\nVirtual Device 2:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17179869184 bytes\nVirtual Device 3:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34359738368 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=0] The virtual device is destroyed successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-device-info\n[rc=0] Device 0:\n\tPhysical Device: 0\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 1:\n\tPhysical Device: 1\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 2:\n\tPhysical Device: 2\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 3:\n\tPhysical Device: 3\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 4:\n\tPhysical Device: 4\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 5:\n\tPhysical Device: 5\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 6:\n\tPhysical Device: 6\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 7:\n\tPhysical Device: 7\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 --vdevice-compute-units 0,0 -d 5\n[rc=0] The virtual device is created successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 0\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 0\n\tGlobal memory: 34351349760 bytes\n\n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-007",
+      "name": "显存总和超物理显存应被拒绝",
+      "category": "FUN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 1.05,
+      "message": "ok",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 0\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 0\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=0] The virtual device is destroyed successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 --vdevice-memory-size 40960,40960 -d 5\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 14:01:55.486] Failed to create virtual devices. Failed to allocate the necessary resources. The required resources exceed the upper limit of physical devices.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-008",
+      "name": "CU 总和超物理 CU 应被拒绝",
+      "category": "FUN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 0.04,
+      "message": "ok",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-device-info\n[rc=0] Device 0:\n\tPhysical Device: 0\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 1:\n\tPhysical Device: 1\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 2:\n\tPhysical Device: 2\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 3:\n\tPhysical Device: 3\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 4:\n\tPhysical Device: 4\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 5:\n\tPhysical Device: 5\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 6:\n\tPhysical Device: 6\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 7:\n\tPhysical Device: 7\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 --vdevice-compute-units 50,50 -d 5\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 14:01:55.529] Failed to create virtual devices. Failed to allocate the necessary resources. The required resources exceed the upper limit of physical devices.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-009",
+      "name": "更新 vDCU 的 CU 与显存",
+      "category": "FUN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 0.09,
+      "message": "ok",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-device-info\n[rc=0] Device 0:\n\tPhysical Device: 0\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 1:\n\tPhysical Device: 1\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 2:\n\tPhysical Device: 2\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 3:\n\tPhysical Device: 3\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 4:\n\tPhysical Device: 4\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 5:\n\tPhysical Device: 5\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 6:\n\tPhysical Device: 6\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 7:\n\tPhysical Device: 7\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 -d 5\n[rc=0] The virtual device is created successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --update-vdevice 30,* -v 0\n[rc=0] The virtual device is updated successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 30\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --update-vdevice *,16384 -v 0\n[rc=0] The virtual device is updated successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 30\n\tGlobal memory: 17179869184 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --update-vdevice 20,8192 -v 0\n[rc=0] The virtual device is updated successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 8589934592 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-010",
+      "name": "更新后资源超限应被拒绝",
+      "category": "FUN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 1.09,
+      "message": "ok",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 8589934592 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=0] The virtual device is destroyed successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-device-info\n[rc=0] Device 0:\n\tPhysical Device: 0\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 1:\n\tPhysical Device: 1\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 2:\n\tPhysical Device: 2\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 3:\n\tPhysical Device: 3\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 4:\n\tPhysical Device: 4\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 5:\n\tPhysical Device: 5\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 6:\n\tPhysical Device: 6\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 7:\n\tPhysical Device: 7\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 -d 5\n[rc=0] The virtual device is created successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --update-vdevice 70,* -v 0\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 14:01:56.694] Failed to update virtual device. Failed to allocate the necessary resources. The required resources exceed the upper limit of physical devices.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --update-vdevice *,40960 -v 0\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 14:01:56.701] Failed to update virtual device. Failed to allocate the necessary resources. The required resources exceed the upper limit of physical devices.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-016",
+      "name": "使用中 vDCU 销毁应被拒绝",
+      "category": "FUN",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 28.63,
+      "message": "ok",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=0] The virtual device is destroyed successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 -d 5\n[rc=0] The virtual device is created successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ docker rm -f tz_fun016_holder\n[rc=0] ",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ docker run -d --name tz_fun016_holder --shm-size 16G --device=/dev/kfd --device=/dev/mkfd --device=/dev/dri/card7 --device=/dev/dri/renderD133 -v /opt/hyhal:/opt/hyhal:ro -v /root/tz:/workspace:ro -v /etc/vdev/vdev0.conf:/etc/vdev/docker/vdev0.conf:ro -e HIP_VISIBLE_DEVICES=0 bert:v2 bash -lc \npython - <<'PY'\nimport time\nimport torch\n\ntorch.cuda.set_device(0)\na = torch.randn(1024, 1024, device=\"cuda\")\nb = torch.randn(1024, 1024, device=\"cuda\")\nwhile True:\n    _ = a @ b\n    torch.cuda.synchronize()\n    time.sleep(0.2)\nPY\n\n[rc=0] 8f020a3aed33ffa987b93e5d712740c12a9dc500b5e19432d1b3363714b7b18f\n",
+        "$ docker inspect -f {{.State.Running}} tz_fun016_holder\n[rc=0] true\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x8f020a3aed33ffa9\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x8f020a3aed33ffa9\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x8f020a3aed33ffa9\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x8f020a3aed33ffa9\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x8f020a3aed33ffa9\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x8f020a3aed33ffa9\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x8f020a3aed33ffa9\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x8f020a3aed33ffa9\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tUsage memory: 167956480 bytes (0.49%)\n\tContainer id: 0x8f020a3aed33ffa9\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tUsage memory: 277008384 bytes (0.81%)\n\tContainer id: 0x8f020a3aed33ffa9\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -v 0\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 14:02:22.695] Failed to destroy virtual devices. The device is exist and may be in use.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tUsage memory: 277008384 bytes (0.81%)\n\tContainer id: 0x8f020a3aed33ffa9\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ docker rm -f tz_fun016_holder\n[rc=0] tz_fun016_holder\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x8f020a3aed33ffa9\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 14:02:23.314] Failed to destroy virtual devices. The device is exist and may be in use.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=0] The virtual device is destroyed successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-017",
+      "name": "使用中 vDCU 更新应被拒绝且保持原配置",
+      "category": "FUN",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 23.16,
+      "message": "ok",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 -d 5\n[rc=0] The virtual device is created successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ docker rm -f tz_fun017_holder\n[rc=0] ",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ docker run -d --name tz_fun017_holder --shm-size 16G --device=/dev/kfd --device=/dev/mkfd --device=/dev/dri/card7 --device=/dev/dri/renderD133 -v /opt/hyhal:/opt/hyhal:ro -v /root/tz:/workspace:ro -v /etc/vdev/vdev0.conf:/etc/vdev/docker/vdev0.conf:ro -e HIP_VISIBLE_DEVICES=0 bert:v2 bash -lc \npython - <<'PY'\nimport time\nimport torch\n\ntorch.cuda.set_device(0)\na = torch.randn(1024, 1024, device=\"cuda\")\nb = torch.randn(1024, 1024, device=\"cuda\")\nwhile True:\n    _ = a @ b\n    torch.cuda.synchronize()\n    time.sleep(0.2)\nPY\n\n[rc=0] 3a9137cb34830d321b30526a0dbf8c0fa83b060efe07bfec401aff42ee0d19fa\n",
+        "$ docker inspect -f {{.State.Running}} tz_fun017_holder\n[rc=0] true\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x3a9137cb34830d32\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x3a9137cb34830d32\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x3a9137cb34830d32\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x3a9137cb34830d32\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x3a9137cb34830d32\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x3a9137cb34830d32\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x3a9137cb34830d32\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x3a9137cb34830d32\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tUsage memory: 167956480 bytes (0.49%)\n\tContainer id: 0x3a9137cb34830d32\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tUsage memory: 277008384 bytes (0.81%)\n\tContainer id: 0x3a9137cb34830d32\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --update-vdevice 30,* -v 0\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 14:02:45.827] Failed to update virtual device. The device is exist and may be in use.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tUsage memory: 277008384 bytes (0.81%)\n\tContainer id: 0x3a9137cb34830d32\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ docker rm -f tz_fun017_holder\n[rc=0] tz_fun017_holder\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x3a9137cb34830d32\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 14:02:46.472] Failed to destroy virtual devices. The device is exist and may be in use.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=0] The virtual device is destroyed successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-011",
+      "name": "销毁指定 vDCU",
+      "category": "FUN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 0.05,
+      "message": "ok",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 4 -d 5\n[rc=0] The virtual device is created successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 2:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 3:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -v 1\n[rc=0] The virtual device is destroyed successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 2:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 3:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\n\n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-012",
+      "name": "销毁指定物理卡的全部 vDCU",
+      "category": "FUN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 2.12,
+      "message": "ok",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 2:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 3:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=0] The virtual device is destroyed successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 -d 5\n[rc=0] The virtual device is created successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 -d 6\n[rc=0] The virtual device is created successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=0] The virtual device is destroyed successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 6\n[rc=0] The virtual device is destroyed successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-013",
+      "name": "销毁全部 vDCU",
+      "category": "FUN",
+      "priority": "P2",
+      "status": "SKIP",
+      "duration_s": 0.0,
+      "message": "全局销毁会清除生产卡上的既有 vDCU，需 --allow-destructive 后执行",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-015",
+      "name": "非 root 用户执行管理命令应被拒绝",
+      "category": "FUN",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 0.04,
+      "message": "ok",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n",
+        "$ runuser -u tangzhao -- /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 -d 5\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 14:02:50.699] Failed to create virtual devices. Root privilege required.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-018",
+      "name": "加密虚拟机状态查询",
+      "category": "FUN",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 0.01,
+      "message": "ok",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi virtual --show-encrypted-status\n[rc=0] Encrypted status: Disable!\n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-019",
+      "name": "加密虚拟机开关可切换并恢复",
+      "category": "FUN",
+      "priority": "P2",
+      "status": "PASS",
+      "duration_s": 0.05,
+      "message": "ok",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi virtual --show-encrypted-status\n[rc=0] Encrypted status: Disable!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --disable-encrypted\n[rc=0] Disable successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-encrypted-status\n[rc=0] Encrypted status: Disable!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --enable-encrypted\n[rc=0] Enable successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --enable-encrypted\n[rc=0] Enable successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --disable-encrypted\n[rc=0] Disable successfully!\n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-020",
+      "name": "多物理卡并行切分与编号连续性",
+      "category": "FUN",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 2.1,
+      "message": "ok",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 -d 5\n[rc=0] The virtual device is created successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 -d 6\n[rc=0] The virtual device is created successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=0] The virtual device is destroyed successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 6\n[rc=0] The virtual device is destroyed successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-022",
+      "name": "版本查询与帮助信息",
+      "category": "FUN",
+      "priority": "P2",
+      "status": "PASS",
+      "duration_s": 0.01,
+      "message": "ok",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi --version\n[rc=0] Version 1.27.0 (Sep 11 2026 08:50:50 b7fc42afc8590607e0fa9a1f9912cfe54150055a)\n",
+        "$ /opt/hyhal/bin/hy-smi virtual -h\n[rc=0]                                      corresponding field, must specify the target virtual device \n                                        by '-v/--vdevice' parameter.\n -vdevice-compute-units --vdevice-compute-units <string> \n                                        When creating virtual devices, specify the number of \n                                        comma-separated compute units for the virtual device.\n -vdevice-memory-size --vdevice-memory-size <string> \n                                        When creating virtual devices, specify the comma-split \n                                        memory size(MiB) for the virtual device.\n -show-device-info --show-device-info   Show the memory size(Bytes) and compute units of a specified \n                                        physical device.\n -show-vdevice-info --show-vdevice-info Show the memory size(Bytes) and compute units of a specified \n                                        virtual device.\n -show-remaining-info --show-remaining-info\n                                        Show the remaining memory size(Bytes) and compute units of a \n                                        specified device for virtual device's further use.\n\nEnctypted VM options:\n -enable-encrypted --enable-encrypted   Enable encryption virtual machine.\n -disable-encrypted --disable-encrypted Disable encryption virtual machine.\n -show-encrypted-status --show-encrypted-status\n                                        Show encryption virtual machine status.\n\n...（输出共 2543 字符，已截断至末 1500）"
+      ],
+      "issue": ""
+    }
+  ]
+}

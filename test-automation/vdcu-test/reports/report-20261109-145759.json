@@ -1,0 +1,68 @@
+{
+  "generated_at": "2026-11-09 14:57:59",
+  "environment": {
+    "hy_smi": "/opt/hyhal/bin/hy-smi",
+    "image": "bert:v2",
+    "inference_image": "harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10",
+    "card": "5",
+    "card2": "6",
+    "full_card": "7",
+    "physical_cards": "8",
+    "work": "/root/tz",
+    "vllm_model": "/workspace/openbmb--MiniCPM5-1B-SFT",
+    "cluster_tests": "1",
+    "resource_prefix": "",
+    "card_offset": "1",
+    "cluster_mutating_tests": "1",
+    "render_offset": "0",
+    "cluster_namespace": "vdcu-test",
+    "k8s_image": "bert:v2",
+    "k8s_node": "m09r3n14",
+    "record_commands": "1",
+    "record_output_limit": "1500"
+  },
+  "summary": {
+    "PASS": 1,
+    "FAIL": 1,
+    "XFAIL": 0,
+    "XPASS": 0,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "id": "VDCU-SEC-001",
+      "name": "设备节点最小权限挂载与越权防护",
+      "category": "SEC",
+      "priority": "P1",
+      "status": "FAIL",
+      "duration_s": 1.61,
+      "message": "容器内 mknod 创建设备节点未被拒绝",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=0] The virtual device is destroyed successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 -d 5\n[rc=0] The virtual device is created successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ docker run --rm --shm-size 16G --device=/dev/kfd --device=/dev/mkfd --device=/dev/dri/card7 --device=/dev/dri/renderD133 -v /opt/hyhal:/opt/hyhal:ro -v /root/tz:/workspace:ro -v /etc/vdev/vdev0.conf:/etc/vdev/docker/vdev0.conf:ro -e HIP_VISIBLE_DEVICES=0 bert:v2 bash -lc \necho \"DRI_BEGIN\"\nls /dev/dri\necho \"DRI_END\"\necho \"MKNOD_BEGIN\"\nmknod /tmp/fake_card c 226 99 2>&1; echo \"mknod_rc=$?\"\necho \"MKNOD_END\"\nls /etc/vdev/docker/ 2>&1\n/opt/hyhal/bin/hy-smi virtual --destroy-vdevices -v 0 2>&1 | tail -2\n\n[rc=0] DRI_BEGIN\ncard7\nrenderD133\nDRI_END\nMKNOD_BEGIN\nmknod_rc=0\nMKNOD_END\nvdev0.conf\n\u001b[31mError\u001b[0m: [2026-11-09 14:57:59.155] Failed to destroy virtual devices. DMI function is not supported on this node.\n",
+        "容器内安全探测输出：\nDRI_BEGIN\ncard7\nrenderD133\nDRI_END\nMKNOD_BEGIN\nmknod_rc=0\nMKNOD_END\nvdev0.conf\n\u001b[31mError\u001b[0m: [2026-11-09 14:57:59.155] Failed to destroy virtual devices. DMI function is not supported on this node.\n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-SEC-005",
+      "name": "加密虚拟机开关与状态查询",
+      "category": "SEC",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 0.01,
+      "message": "ok",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi virtual --show-encrypted-status\n[rc=0] Encrypted status: Disable!\n",
+        "加密状态：Encrypted status: Disable!"
+      ],
+      "issue": ""
+    }
+  ]
+}

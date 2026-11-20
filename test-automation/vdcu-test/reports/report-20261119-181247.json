@@ -1,0 +1,87 @@
+{
+  "generated_at": "2026-11-19 18:12:47",
+  "environment": {
+    "hy_smi": "/opt/hyhal/bin/hy-smi",
+    "image": "bert:v2",
+    "inference_image": "harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10",
+    "card": "5",
+    "card2": "6",
+    "full_card": "7",
+    "physical_cards": "8",
+    "work": "/root/tz",
+    "vllm_model": "/workspace/openbmb--MiniCPM5-1B-SFT",
+    "cluster_tests": "1",
+    "resource_prefix": "",
+    "card_offset": "1",
+    "cluster_mutating_tests": "1",
+    "render_offset": "0",
+    "cluster_namespace": "vdcu-test",
+    "k8s_image": "bert:v2",
+    "k8s_node": "m09r3n14",
+    "record_commands": "1",
+    "record_output_limit": "1500"
+  },
+  "summary": {
+    "PASS": 1,
+    "FAIL": 2,
+    "XFAIL": 0,
+    "XPASS": 0,
+    "SKIP": 1
+  },
+  "results": [
+    {
+      "id": "VDCU-HAMI-001",
+      "name": "HAMi/HCU 动态资源与组件识别",
+      "category": "HAMI",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 0.11,
+      "message": "ok",
+      "steps": [
+        "$ kubectl get nodes -o json\n[rc=0]               \"registry.cn-beijing.aliyuncs.com/kubesphereio/flannel-cni-plugin@sha256:bf4b62b131666d040f35a327d906ee5a3418280b68a88d9b9c7e828057210443\",\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/flannel-cni-plugin:v1.1.2\"\n                        ],\n                        \"sizeBytes\": 3842055\n                    },\n                    {\n                        \"names\": [\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/pause@sha256:7031c1b283388d2c2e09b57badb803c05ebed362dc88d84b480cc47f72a21097\",\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/pause:3.9\"\n                        ],\n                        \"sizeBytes\": 321520\n                    }\n                ],\n                \"nodeInfo\": {\n                    \"architecture\": \"amd64\",\n                    \"bootID\": \"172c4ebe-02ad-4723-a702-70557c733ec4\",\n                    \"containerRuntimeVersion\": \"containerd://1.7.13\",\n                    \"kernelVersion\": \"5.15.0-25-generic\",\n                    \"kubeProxyVersion\": \"v1.32.8\",\n                    \"kubeletVersion\": \"v1.32.8\",\n                    \"machineID\": \"4282e38254c446279f01532dd4904e3d\",\n                    \"operatingSystem\": \"linux\",\n                    \"osImage\": \"Ubuntu 22.04 LTS\",\n                    \"systemUUID\": \"ab5f7a00-ea25-11f0-a606-e8611aae3d36\"\n                }\n            }\n        }\n    ],\n    \"kind\": \"List\",\n    \"metadata\": {\n        \"resourceVersion\": \"\"\n    }\n}\n\n...（输出共 94611 字符，已截断至末 1500）",
+        "HAMi 资源可用：hygon.com/hcunum"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-HAMI-002",
+      "name": "HAMi vHCU Pod 申请与设备可见",
+      "category": "HAMI",
+      "priority": "P0",
+      "status": "FAIL",
+      "duration_s": 0.35,
+      "message": "提交 Pod 失败: Error from server (Forbidden): error when creating \"STDIN\": admission webhook \"vgpu.hami.io\" denied the request: pod has node assigned\n",
+      "steps": [
+        "$ kubectl get nodes -o json\n[rc=0]               \"registry.cn-beijing.aliyuncs.com/kubesphereio/flannel-cni-plugin@sha256:bf4b62b131666d040f35a327d906ee5a3418280b68a88d9b9c7e828057210443\",\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/flannel-cni-plugin:v1.1.2\"\n                        ],\n                        \"sizeBytes\": 3842055\n                    },\n                    {\n                        \"names\": [\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/pause@sha256:7031c1b283388d2c2e09b57badb803c05ebed362dc88d84b480cc47f72a21097\",\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/pause:3.9\"\n                        ],\n                        \"sizeBytes\": 321520\n                    }\n                ],\n                \"nodeInfo\": {\n                    \"architecture\": \"amd64\",\n                    \"bootID\": \"172c4ebe-02ad-4723-a702-70557c733ec4\",\n                    \"containerRuntimeVersion\": \"containerd://1.7.13\",\n                    \"kernelVersion\": \"5.15.0-25-generic\",\n                    \"kubeProxyVersion\": \"v1.32.8\",\n                    \"kubeletVersion\": \"v1.32.8\",\n                    \"machineID\": \"4282e38254c446279f01532dd4904e3d\",\n                    \"operatingSystem\": \"linux\",\n                    \"osImage\": \"Ubuntu 22.04 LTS\",\n                    \"systemUUID\": \"ab5f7a00-ea25-11f0-a606-e8611aae3d36\"\n                }\n            }\n        }\n    ],\n    \"kind\": \"List\",\n    \"metadata\": {\n        \"resourceVersion\": \"\"\n    }\n}\n\n...（输出共 94611 字符，已截断至末 1500）",
+        "$ kubectl apply -f -\n[rc=1] Error from server (Forbidden): error when creating \"STDIN\": admission webhook \"vgpu.hami.io\" denied the request: pod has node assigned\n",
+        "$ kubectl delete pod vdcu-hami-fe5fe440 -n vdcu-test --ignore-not-found --wait=true\n[rc=0] "
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-HAMI-003",
+      "name": "HAMi Pod 删除后的 vHCU 资源回收",
+      "category": "HAMI",
+      "priority": "P1",
+      "status": "FAIL",
+      "duration_s": 0.25,
+      "message": "提交 Pod 失败: Error from server (Forbidden): error when creating \"STDIN\": admission webhook \"vgpu.hami.io\" denied the request: pod has node assigned\n",
+      "steps": [
+        "$ kubectl get nodes -o json\n[rc=0]               \"registry.cn-beijing.aliyuncs.com/kubesphereio/flannel-cni-plugin@sha256:bf4b62b131666d040f35a327d906ee5a3418280b68a88d9b9c7e828057210443\",\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/flannel-cni-plugin:v1.1.2\"\n                        ],\n                        \"sizeBytes\": 3842055\n                    },\n                    {\n                        \"names\": [\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/pause@sha256:7031c1b283388d2c2e09b57badb803c05ebed362dc88d84b480cc47f72a21097\",\n                            \"registry.cn-beijing.aliyuncs.com/kubesphereio/pause:3.9\"\n                        ],\n                        \"sizeBytes\": 321520\n                    }\n                ],\n                \"nodeInfo\": {\n                    \"architecture\": \"amd64\",\n                    \"bootID\": \"172c4ebe-02ad-4723-a702-70557c733ec4\",\n                    \"containerRuntimeVersion\": \"containerd://1.7.13\",\n                    \"kernelVersion\": \"5.15.0-25-generic\",\n                    \"kubeProxyVersion\": \"v1.32.8\",\n                    \"kubeletVersion\": \"v1.32.8\",\n                    \"machineID\": \"4282e38254c446279f01532dd4904e3d\",\n                    \"operatingSystem\": \"linux\",\n                    \"osImage\": \"Ubuntu 22.04 LTS\",\n                    \"systemUUID\": \"ab5f7a00-ea25-11f0-a606-e8611aae3d36\"\n                }\n            }\n        }\n    ],\n    \"kind\": \"List\",\n    \"metadata\": {\n        \"resourceVersion\": \"\"\n    }\n}\n\n...（输出共 94611 字符，已截断至末 1500）",
+        "$ kubectl apply -f -\n[rc=1] Error from server (Forbidden): error when creating \"STDIN\": admission webhook \"vgpu.hami.io\" denied the request: pod has node assigned\n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-ISO-004",
+      "name": "CU 共享模式调度公平性",
+      "category": "ISO",
+      "priority": "P1",
+      "status": "SKIP",
+      "duration_s": 0.0,
+      "message": "CU 共享调度公平性依赖 HAMi 插件环境（v1.2 同）",
+      "steps": [],
+      "issue": ""
+    }
+  ]
+}
