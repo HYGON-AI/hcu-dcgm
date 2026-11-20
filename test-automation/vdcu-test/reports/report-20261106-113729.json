@@ -224,7 +224,7 @@
       "duration_s": 35.28,
       "message": "ok",
       "steps": [
-        "容器内 /etc/vdev/docker/ 内容：__                  __  \n    ____  __  __/ /_____  __________/ /_ \n   / __ \\/ / / / __/ __ \\/ ___/ ___/ __ \\\n  / /_/ / /_/ / /_/ /_/ / /  / /__/ / / /\n / .___/\\__, /\\__/\\____/_/   \\___/_/ /_/ \n/_/    /____/                            \ndtk    : dtk2610\nbuilt  : 20261030-1400\n\u001b[32m1\u001b[0m vHCU were detected in the container.\n\u001b[31mNOTE:\u001b[0m Make sure the user is in the 39 group.\nFor more information, please go to https://developer.sourcefind.cn/\nvdev0.conf"
+        "容器内 /etc/vdev/docker/ 内容：__                  __  \n    ____  __  __/ /_____  __________/ /_ \n   / __ \\/ / / / __/ __ \\/ ___/ ___/ __ \\\n  / /_/ / /_/ / /_/ /_/ / /  / /__/ / / /\n / .___/\\__, /\\__/\\____/_/   \\___/_/ /_/ \n/_/    /____/                            \ndtk    : dtk2610\nbuilt  : 20261030-1400\n1 vHCU were detected in the container.\nNOTE: Make sure the user is in the 39 group.\nFor more information, please go to https://developer.sourcefind.cn/\nvdev0.conf"
       ],
       "issue": ""
     },
@@ -237,7 +237,7 @@
       "duration_s": 41.59,
       "message": "ok",
       "steps": [
-        "缺 mkfd：rc=0\n : dtk2610\nbuilt  : 20261030-1400\n\u001b[32m1\u001b[0m HCU were detected in the container.\n\u001b[31mNOTE:\u001b[0m Make sure the user is in the 39 group.\nFor more information, please go to https://developer.sourcefind.cn/\nTORCH_COUNT 1\nTORCH_MEM_0 31.99\nMATMUL_OK True\n\u001b[31mError\u001b[0m: [2026-11-06 10:33:40.334] Failed to set log level. The device management runtime does not initialize.\nCould not open /var/log/hylog/.\n",
+        "缺 mkfd：rc=0\n : dtk2610\nbuilt  : 20261030-1400\n1 HCU were detected in the container.\nNOTE: Make sure the user is in the 39 group.\nFor more information, please go to https://developer.sourcefind.cn/\nTORCH_COUNT 1\nTORCH_MEM_0 31.99\nMATMUL_OK True\nError: [2026-11-06 10:33:40.334] Failed to set log level. The device management runtime does not initialize.\nCould not open /var/log/hylog/.\n",
         "缺 kfd：rc=1\necent call last):\n  File \"<stdin>\", line 4, in <module>\n  File \"/usr/local/lib/python3.12/site-packages/torch/cuda/__init__.py\", line 803, in get_device_properties\n    _lazy_init()  # will define _get_device_properties\n    ^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/torch/cuda/__init__.py\", line 595, in _lazy_init\n    torch._C._cuda_init()\nRuntimeError: No CUDA GPUs are available\n",
         "实测发现：缺 mkfd 基础运算可用=True；缺 kfd 基础运算可用=False"
       ],
@@ -294,7 +294,7 @@
       "message": "ok",
       "steps": [
         "vDCU0 占用就绪：\nVirtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
-        "vDCU1 启动日志：\n        ____        \n _   __/ / /___ ___ \n| | / / / / __ `__ \\\n| |/ / / / / / / / /\n|___/_/_/_/ /_/ /_/ \n                    \ndtk    : dtk2610\nbuilt  : 20261102-0302\n\u001b[32m1\u001b[0m vHCU were detected in the container.\n\u001b[31mNOTE:\u001b[0m Make sure the user is in the 39 group.\nFor more information, please go to https://developer.sourcefind.cn/\nVLLM_RESULT {\"model\": \"/workspace/openbmb--MiniCPM5-1B-SFT\", \"text\": \"虚拟化\\n虚拟化技术是现代计算机系统中广泛应用的一种技术，它允许用户在物理机上运行多个操作系统实例，而无需修改硬件配置。GPU\", \"completion_tokens\": 32}\n",
+        "vDCU1 启动日志：\n        ____        \n _   __/ / /___ ___ \n| | / / / / __ `__ \\\n| |/ / / / / / / / /\n|___/_/_/_/ /_/ /_/ \n                    \ndtk    : dtk2610\nbuilt  : 20261102-0302\n1 vHCU were detected in the container.\nNOTE: Make sure the user is in the 39 group.\nFor more information, please go to https://developer.sourcefind.cn/\nVLLM_RESULT {\"model\": \"/workspace/openbmb--MiniCPM5-1B-SFT\", \"text\": \"虚拟化\\n虚拟化技术是现代计算机系统中广泛应用的一种技术，它允许用户在物理机上运行多个操作系统实例，而无需修改硬件配置。GPU\", \"completion_tokens\": 32}\n",
         "2625004 回归：DTK 26.10 上第二个实例正常启动推理（305.4s），无 heap memory 报错"
       ],
       "issue": ""

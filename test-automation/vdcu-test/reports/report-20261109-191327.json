@@ -38,9 +38,9 @@
       "duration_s": 43.99,
       "message": "整卡训练 loss 异常: nan",
       "steps": [
-        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 19:11:30.865] Failed to get virtual device's info. A generic error has occurred.\n",
-        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 19:11:30.875] Failed to get virtual device's info. A generic error has occurred.\n",
-        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 19:11:30.886] Failed to get virtual device's info. A generic error has occurred.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=1] Error: [2026-11-09 19:11:30.865] Failed to get virtual device's info. A generic error has occurred.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=1] Error: [2026-11-09 19:11:30.875] Failed to get virtual device's info. A generic error has occurred.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=1] Error: [2026-11-09 19:11:30.886] Failed to get virtual device's info. A generic error has occurred.\n",
         "$ docker run --rm --shm-size 16G --device=/dev/kfd --device=/dev/mkfd --device=/dev/dri/card9 --device=/dev/dri/renderD135 -v /opt/hyhal:/opt/hyhal:ro -v /root/tz:/workspace:ro -v /root/tz/vdcu-test/assets:/opt/assets:ro -e HIP_VISIBLE_DEVICES=0 bert:v2 bash -lc python /opt/assets/qwen_train_smoke.py --steps 20\n[rc=0] apsed_s\": 11.57, \"tokens\": 5120, \"tok_per_s\": 442.7, \"mem_gb\": 7.79, \"visible_gb\": 63.98}\nCould not open /var/log/hylog/.\n[transformers] `torch_dtype` is deprecated! Use `dtype` instead!\n\nLoading weights:   0%|          | 0/320 [00:00<?, ?it/s]\nLoading weights:   0%|          | 1/320 [00:00<00:39,  8.14it/s]\nLoading weights:  62%|██████▎   | 200/320 [00:00<00:00, 1060.48it/s]\nLoading weights: 100%|██████████| 320/320 [00:00<00:00, 989.58it/s] \n[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.\n[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.\nLaunch params (16, 64, 1) are larger than launch bounds (256) for kernel _ZL39rocblas_trsm_block_forward_substitutionIffPKPKfPKPfLb1ELb0ELb1EEv18rocblas_operation_llT0_T1_lllT2_lllb please add __launch_bounds__ to kernel define or use --gpu-max-threads-per-block recompile program ! \n/usr/local/lib/python3.10/dist-packages/transformers/integrations/sdpa_attention.py:170: UserWarning: sdpa adopt the new interface of flash-attn (Triggered internally at /home/pytorch/aten/src/ATen/native/transformers/hip/cutlassfa_adapter.h:148.)\n  attn_output = torch.nn.functional.scaled_dot_product_attention(\n\n...（输出共 1596 字符，已截断至末 1500）",
         "整卡基线：tok/s=442.7 loss=nan"
       ],
@@ -55,9 +55,9 @@
       "duration_s": 0.12,
       "message": "并发容器 tz_trn202_a 等待失败",
       "steps": [
-        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 19:12:14.857] Failed to get virtual device's info. A generic error has occurred.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=1] Error: [2026-11-09 19:12:14.857] Failed to get virtual device's info. A generic error has occurred.\n",
         "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 -d 5\n[rc=0] The virtual device is created successfully!\n",
-        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 19:12:14.877] Failed to get virtual device's info. A generic error has occurred.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=1] Error: [2026-11-09 19:12:14.877] Failed to get virtual device's info. A generic error has occurred.\n",
         "$ docker rm -f tz_trn202_a\n[rc=0] ",
         "$ docker rm -f tz_trn202_b\n[rc=0] ",
         "$ docker wait tz_trn202_a\n[rc=1] Error response from daemon: No such container: tz_trn202_a\n",
@@ -108,9 +108,9 @@
       "duration_s": 38.92,
       "message": "整卡多模态推理失败: \n  File \"/usr/local/lib/python3.10/dist-packages/transformers/utils/import_utils.py\", line 1903, in torch_compilable_check\n    torch._check_tensor_all_with(error_type, cond, msg_callable)\n  File \"/usr/local/lib/python3.10/dist-packages/torch/__init__.py\", line 1884, in _check_tensor_all_with\n    _check_with(error_type, cond._is_all_true().item(), message)  # type: ignore[arg-type]\n  File \"/usr/local/lib/python3.10/dist-packages/torch/__init__.py\", line 1743, in _check_with\n    raise error_type(message_evaluated)\nValueError: Image features and image tokens do not match, tokens: 0, features: 64\n",
       "steps": [
-        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 19:12:14.981] Failed to get virtual device's info. A generic error has occurred.\n",
-        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 19:12:14.988] Failed to get virtual device's info. A generic error has occurred.\n",
-        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 19:12:14.995] Failed to get virtual device's info. A generic error has occurred.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=1] Error: [2026-11-09 19:12:14.981] Failed to get virtual device's info. A generic error has occurred.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=1] Error: [2026-11-09 19:12:14.988] Failed to get virtual device's info. A generic error has occurred.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=1] Error: [2026-11-09 19:12:14.995] Failed to get virtual device's info. A generic error has occurred.\n",
         "$ docker run --rm --shm-size 16G --device=/dev/kfd --device=/dev/mkfd --device=/dev/dri/card9 --device=/dev/dri/renderD135 -v /opt/hyhal:/opt/hyhal:ro -v /root/tz:/workspace:ro -v /root/tz/vdcu-test/assets:/opt/assets:ro -e HIP_VISIBLE_DEVICES=0 bert:v2 bash -lc python /opt/assets/vl_smoke.py\n[rc=1] /lib/python3.10/dist-packages/transformers/models/qwen3_vl/modeling_qwen3_vl.py\", line 1364, in forward\n    outputs = self.model(\n  File \"/usr/local/lib/python3.10/dist-packages/torch/nn/modules/module.py\", line 1778, in _wrapped_call_impl\n    return self._call_impl(*args, **kwargs)\n  File \"/usr/local/lib/python3.10/dist-packages/torch/nn/modules/module.py\", line 1789, in _call_impl\n    return forward_call(*args, **kwargs)\n  File \"/usr/local/lib/python3.10/dist-packages/transformers/utils/generic.py\", line 943, in wrapper\n    output = func(self, *args, **kwargs)\n  File \"/usr/local/lib/python3.10/dist-packages/transformers/models/qwen3_vl/modeling_qwen3_vl.py\", line 1187, in forward\n    image_mask, _ = self.get_placeholder_mask(\n  File \"/usr/local/lib/python3.10/dist-packages/transformers/models/qwen3_vl/modeling_qwen3_vl.py\", line 1078, in get_placeholder_mask\n    torch_compilable_check(\n  File \"/usr/local/lib/python3.10/dist-packages/transformers/utils/import_utils.py\", line 1903, in torch_compilable_check\n    torch._check_tensor_all_with(error_type, cond, msg_callable)\n  File \"/usr/local/lib/python3.10/dist-packages/torch/__init__.py\", line 1884, in _check_tensor_all_with\n    _check_with(error_type, cond._is_all_true().item(), message)  # type: ignore[arg-type]\n  File \"/usr/local/lib/python3.10/dist-packages/torch/__init__.py\", line 1743, in _check_with\n    raise error_type(message_evaluated)\nValueError: Image features and image tokens do not match, tokens: 0, features: 64\n\n...（输出共 3627 字符，已截断至末 1500）"
       ],
       "issue": ""
@@ -122,10 +122,10 @@
       "priority": "P1",
       "status": "FAIL",
       "duration_s": 0.02,
-      "message": "创建 vDCU 失败: \u001b[31mError\u001b[0m: [2026-11-09 19:12:53.914] Failed to create virtual devices. Failed to allocate the necessary resources. The required resources exceed the upper limit of physical devices.\n",
+      "message": "创建 vDCU 失败: Error: [2026-11-09 19:12:53.914] Failed to create virtual devices. Failed to allocate the necessary resources. The required resources exceed the upper limit of physical devices.\n",
       "steps": [
-        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 19:12:53.903] Failed to get virtual device's info. A generic error has occurred.\n",
-        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 -d 5\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 19:12:53.914] Failed to create virtual devices. Failed to allocate the necessary resources. The required resources exceed the upper limit of physical devices.\n"
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=1] Error: [2026-11-09 19:12:53.903] Failed to get virtual device's info. A generic error has occurred.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 -d 5\n[rc=1] Error: [2026-11-09 19:12:53.914] Failed to create virtual devices. Failed to allocate the necessary resources. The required resources exceed the upper limit of physical devices.\n"
       ],
       "issue": ""
     },
@@ -138,9 +138,9 @@
       "duration_s": 33.15,
       "message": "ok",
       "steps": [
-        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 19:12:53.925] Failed to get virtual device's info. A generic error has occurred.\n",
-        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 19:12:53.934] Failed to get virtual device's info. A generic error has occurred.\n",
-        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 19:12:53.946] Failed to get virtual device's info. A generic error has occurred.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=1] Error: [2026-11-09 19:12:53.925] Failed to get virtual device's info. A generic error has occurred.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=1] Error: [2026-11-09 19:12:53.934] Failed to get virtual device's info. A generic error has occurred.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=1] Error: [2026-11-09 19:12:53.946] Failed to get virtual device's info. A generic error has occurred.\n",
         "$ docker run --rm --shm-size 16G --device=/dev/kfd --device=/dev/mkfd --device=/dev/dri/card9 --device=/dev/dri/renderD135 -v /opt/hyhal:/opt/hyhal:ro -v /root/tz:/workspace:ro -v /root/tz/vdcu-test/assets:/opt/assets:ro -e HIP_VISIBLE_DEVICES=0 bert:v2 bash -lc python /opt/assets/emb_smoke.py\n[rc=0] EMB_RESULT {\"sentences\": 16, \"dim\": 1024, \"elapsed_ms\": 4095.2, \"visible_gb\": 63.98, \"sim_0_1\": 0.5622}\nCould not open /var/log/hylog/.\n[transformers] `torch_dtype` is deprecated! Use `dtype` instead!\n\nLoading weights:   0%|          | 0/310 [00:00<?, ?it/s]\nLoading weights:  44%|████▍     | 136/310 [00:00<00:00, 1357.51it/s]\nLoading weights:  95%|█████████▍| 294/310 [00:00<00:00, 1482.15it/s]\nLoading weights: 100%|██████████| 310/310 [00:00<00:00, 1493.85it/s]\n/usr/local/lib/python3.10/dist-packages/transformers/integrations/sdpa_attention.py:170: UserWarning: 1Torch was not compiled with memory efficient attention. (Triggered internally at /home/pytorch/aten/src/ATen/native/transformers/hip/sdp_utils.cpp:880.)\n  attn_output = torch.nn.functional.scaled_dot_product_attention(\n"
       ],
       "issue": ""
@@ -152,10 +152,10 @@
       "priority": "P1",
       "status": "FAIL",
       "duration_s": 0.02,
-      "message": "创建 vDCU 失败: \u001b[31mError\u001b[0m: [2026-11-09 19:13:27.088] Failed to create virtual devices. Failed to allocate the necessary resources. The required resources exceed the upper limit of physical devices.\n",
+      "message": "创建 vDCU 失败: Error: [2026-11-09 19:13:27.088] Failed to create virtual devices. Failed to allocate the necessary resources. The required resources exceed the upper limit of physical devices.\n",
       "steps": [
-        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 19:13:27.077] Failed to get virtual device's info. A generic error has occurred.\n",
-        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 -d 5\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 19:13:27.088] Failed to create virtual devices. Failed to allocate the necessary resources. The required resources exceed the upper limit of physical devices.\n"
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=1] Error: [2026-11-09 19:13:27.077] Failed to get virtual device's info. A generic error has occurred.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 -d 5\n[rc=1] Error: [2026-11-09 19:13:27.088] Failed to create virtual devices. Failed to allocate the necessary resources. The required resources exceed the upper limit of physical devices.\n"
       ],
       "issue": ""
     }

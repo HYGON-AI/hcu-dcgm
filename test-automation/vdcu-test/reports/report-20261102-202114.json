@@ -668,7 +668,7 @@
       "priority": "P1",
       "status": "FAIL",
       "duration_s": 72.88,
-      "message": "vLLM 服务冒烟失败:         ____        \n _   __/ / /___ ___ \n| | / / / / __ `__ \\\n| |/ / / / / / / / /\n|___/_/_/_/ /_/ /_/ \n                    \ndtk    : dtk2610\nbuilt  : 20261102-0302\n\u001b[32m1\u001b[0m vHCU were detected in the container.\n\u001b[31mNOTE:\u001b[0m Make sure the user is in the 39 group.\nFor more information, please go to https://developer.sourcefind.cn/\nVLLM_FAIL {\"error\": \"startup timeout\", \"log\": \"\"}\n",
+      "message": "vLLM 服务冒烟失败:         ____        \n _   __/ / /___ ___ \n| | / / / / __ `__ \\\n| |/ / / / / / / / /\n|___/_/_/_/ /_/ /_/ \n                    \ndtk    : dtk2610\nbuilt  : 20261102-0302\n1 vHCU were detected in the container.\nNOTE: Make sure the user is in the 39 group.\nFor more information, please go to https://developer.sourcefind.cn/\nVLLM_FAIL {\"error\": \"startup timeout\", \"log\": \"\"}\n",
       "steps": [],
       "issue": ""
     },

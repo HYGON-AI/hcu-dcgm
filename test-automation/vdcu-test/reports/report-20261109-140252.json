@@ -94,7 +94,7 @@
         "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 2:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\nVirtual Device 3:\n\tPhysical Device: 5\n\tCompute units: 20\n\tGlobal memory: 17175674880 bytes\n\n",
         "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=0] The virtual device is destroyed successfully!\n",
         "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n",
-        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 5 -d 5\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 14:01:53.360] Create 5 vdevices failed, the supported range is 1 to 4.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 5 -d 5\n[rc=1] Error: [2026-11-09 14:01:53.360] Create 5 vdevices failed, the supported range is 1 to 4.\n",
         "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n"
       ],
       "issue": ""
@@ -144,7 +144,7 @@
         "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 0\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 0\n\tGlobal memory: 34351349760 bytes\n\n",
         "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=0] The virtual device is destroyed successfully!\n",
         "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n",
-        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 --vdevice-memory-size 40960,40960 -d 5\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 14:01:55.486] Failed to create virtual devices. Failed to allocate the necessary resources. The required resources exceed the upper limit of physical devices.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 --vdevice-memory-size 40960,40960 -d 5\n[rc=1] Error: [2026-11-09 14:01:55.486] Failed to create virtual devices. Failed to allocate the necessary resources. The required resources exceed the upper limit of physical devices.\n",
         "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n"
       ],
       "issue": ""
@@ -160,7 +160,7 @@
       "steps": [
         "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n",
         "$ /opt/hyhal/bin/hy-smi virtual --show-device-info\n[rc=0] Device 0:\n\tPhysical Device: 0\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 1:\n\tPhysical Device: 1\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 2:\n\tPhysical Device: 2\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 3:\n\tPhysical Device: 3\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 4:\n\tPhysical Device: 4\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 5:\n\tPhysical Device: 5\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 6:\n\tPhysical Device: 6\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 7:\n\tPhysical Device: 7\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\n",
-        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 --vdevice-compute-units 50,50 -d 5\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 14:01:55.529] Failed to create virtual devices. Failed to allocate the necessary resources. The required resources exceed the upper limit of physical devices.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 --vdevice-compute-units 50,50 -d 5\n[rc=1] Error: [2026-11-09 14:01:55.529] Failed to create virtual devices. Failed to allocate the necessary resources. The required resources exceed the upper limit of physical devices.\n",
         "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n"
       ],
       "issue": ""
@@ -202,8 +202,8 @@
         "$ /opt/hyhal/bin/hy-smi virtual --show-device-info\n[rc=0] Device 0:\n\tPhysical Device: 0\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 1:\n\tPhysical Device: 1\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 2:\n\tPhysical Device: 2\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 3:\n\tPhysical Device: 3\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 4:\n\tPhysical Device: 4\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 5:\n\tPhysical Device: 5\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 6:\n\tPhysical Device: 6\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\nDevice 7:\n\tPhysical Device: 7\n\tCompute units: 80\n\tGlobal memory: 68702699520 bytes\n\tUsage memory: 107446272 bytes (0.16%)\n\n",
         "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 -d 5\n[rc=0] The virtual device is created successfully!\n",
         "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
-        "$ /opt/hyhal/bin/hy-smi virtual --update-vdevice 70,* -v 0\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 14:01:56.694] Failed to update virtual device. Failed to allocate the necessary resources. The required resources exceed the upper limit of physical devices.\n",
-        "$ /opt/hyhal/bin/hy-smi virtual --update-vdevice *,40960 -v 0\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 14:01:56.701] Failed to update virtual device. Failed to allocate the necessary resources. The required resources exceed the upper limit of physical devices.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --update-vdevice 70,* -v 0\n[rc=1] Error: [2026-11-09 14:01:56.694] Failed to update virtual device. Failed to allocate the necessary resources. The required resources exceed the upper limit of physical devices.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --update-vdevice *,40960 -v 0\n[rc=1] Error: [2026-11-09 14:01:56.701] Failed to update virtual device. Failed to allocate the necessary resources. The required resources exceed the upper limit of physical devices.\n",
         "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n"
       ],
       "issue": ""
@@ -238,11 +238,11 @@
         "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x8f020a3aed33ffa9\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
         "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tUsage memory: 167956480 bytes (0.49%)\n\tContainer id: 0x8f020a3aed33ffa9\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
         "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tUsage memory: 277008384 bytes (0.81%)\n\tContainer id: 0x8f020a3aed33ffa9\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
-        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -v 0\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 14:02:22.695] Failed to destroy virtual devices. The device is exist and may be in use.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -v 0\n[rc=1] Error: [2026-11-09 14:02:22.695] Failed to destroy virtual devices. The device is exist and may be in use.\n",
         "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tUsage memory: 277008384 bytes (0.81%)\n\tContainer id: 0x8f020a3aed33ffa9\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
         "$ docker rm -f tz_fun016_holder\n[rc=0] tz_fun016_holder\n",
         "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x8f020a3aed33ffa9\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
-        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 14:02:23.314] Failed to destroy virtual devices. The device is exist and may be in use.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=1] Error: [2026-11-09 14:02:23.314] Failed to destroy virtual devices. The device is exist and may be in use.\n",
         "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
         "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=0] The virtual device is destroyed successfully!\n",
         "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n"
@@ -277,11 +277,11 @@
         "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x3a9137cb34830d32\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
         "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tUsage memory: 167956480 bytes (0.49%)\n\tContainer id: 0x3a9137cb34830d32\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
         "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info -d 5\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tUsage memory: 277008384 bytes (0.81%)\n\tContainer id: 0x3a9137cb34830d32\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
-        "$ /opt/hyhal/bin/hy-smi virtual --update-vdevice 30,* -v 0\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 14:02:45.827] Failed to update virtual device. The device is exist and may be in use.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --update-vdevice 30,* -v 0\n[rc=1] Error: [2026-11-09 14:02:45.827] Failed to update virtual device. The device is exist and may be in use.\n",
         "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tUsage memory: 277008384 bytes (0.81%)\n\tContainer id: 0x3a9137cb34830d32\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
         "$ docker rm -f tz_fun017_holder\n[rc=0] tz_fun017_holder\n",
         "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x3a9137cb34830d32\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
-        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 14:02:46.472] Failed to destroy virtual devices. The device is exist and may be in use.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=1] Error: [2026-11-09 14:02:46.472] Failed to destroy virtual devices. The device is exist and may be in use.\n",
         "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
         "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=0] The virtual device is destroyed successfully!\n",
         "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n"
@@ -352,7 +352,7 @@
       "message": "ok",
       "steps": [
         "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n",
-        "$ runuser -u tangzhao -- /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 -d 5\n[rc=1] \u001b[31mError\u001b[0m: [2026-11-09 14:02:50.699] Failed to create virtual devices. Root privilege required.\n",
+        "$ runuser -u tangzhao -- /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 -d 5\n[rc=1] Error: [2026-11-09 14:02:50.699] Failed to create virtual devices. Root privilege required.\n",
         "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] \n"
       ],
       "issue": ""
