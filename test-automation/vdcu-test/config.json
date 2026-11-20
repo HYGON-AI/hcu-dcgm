@@ -1,0 +1,21 @@
+{
+  "hy_smi": "/opt/hyhal/bin/hy-smi",
+  "full_card": "7",
+  "physical_cards": "8",
+  "card": "5",
+  "work": "/root/tz",
+  "cluster_tests": "1",
+  "resource_prefix": "",
+  "card2": "6",
+  "card_offset": "1",
+  "cluster_mutating_tests": "1",
+  "render_offset": "0",
+  "vllm_model": "/workspace/openbmb--MiniCPM5-1B-SFT",
+  "image": "bert:v2",
+  "cluster_namespace": "vdcu-test",
+  "inference_image": "harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10",
+  "k8s_image": "bert:v2",
+  "k8s_node": "",
+  "record_commands": "1",
+  "record_output_limit": "1500"
+}

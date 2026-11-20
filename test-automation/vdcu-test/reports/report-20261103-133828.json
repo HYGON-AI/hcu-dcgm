@@ -1,0 +1,247 @@
+{
+  "generated_at": "2026-11-03 13:38:28",
+  "environment": {
+    "hy_smi": "/opt/hyhal/bin/hy-smi",
+    "image": "bert:v1",
+    "inference_image": "42.228.13.241:5000/jenkins/model_test_env/vllm:0.28.1rc1-ubuntu22.04-dtk2610-py3.12-20261102-0302",
+    "card": "5",
+    "card2": "6",
+    "full_card": "7",
+    "physical_cards": "8",
+    "work": "/root/tz",
+    "vllm_model": "/workspace/openbmb--MiniCPM5-1B-SFT",
+    "cluster_tests": "1",
+    "cluster_namespace": "vdcu-test",
+    "k8s_image": "bert:v1",
+    "cluster_mutating_tests": "0"
+  },
+  "summary": {
+    "PASS": 9,
+    "FAIL": 4,
+    "XFAIL": 0,
+    "XPASS": 0,
+    "SKIP": 7
+  },
+  "results": [
+    {
+      "id": "VDCU-K8S-001",
+      "name": "Kubernetes 节点资源注册",
+      "category": "K8S",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 0.09,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-K8S-002",
+      "name": "Kubernetes Pod 资源申请、设备可见与回收",
+      "category": "K8S",
+      "priority": "P0",
+      "status": "FAIL",
+      "duration_s": 181.7,
+      "message": "Pod 未进入 Running: Pending",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-K8S-003",
+      "name": "Kubernetes 资源不足时保持 Pending",
+      "category": "K8S",
+      "priority": "P1",
+      "status": "SKIP",
+      "duration_s": 0.0,
+      "message": "资源不足测试可能占用节点；设置 VDCU_CLUSTER_MUTATING_TESTS=1",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-K8S-004",
+      "name": "Kubernetes 设备插件重启后资源恢复",
+      "category": "K8S",
+      "priority": "P1",
+      "status": "SKIP",
+      "duration_s": 0.16,
+      "message": "设备插件重启属于变更操作；设置 VDCU_CLUSTER_MUTATING_TESTS=1",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-HAMI-001",
+      "name": "HAMi/HCU 动态资源与组件识别",
+      "category": "HAMI",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 0.08,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-HAMI-002",
+      "name": "HAMi vHCU Pod 申请与设备可见",
+      "category": "HAMI",
+      "priority": "P0",
+      "status": "FAIL",
+      "duration_s": 250.27,
+      "message": "HAMi vHCU Pod 未进入 Running",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-HAMI-003",
+      "name": "HAMi Pod 删除后的 vHCU 资源回收",
+      "category": "HAMI",
+      "priority": "P1",
+      "status": "FAIL",
+      "duration_s": 181.37,
+      "message": "HAMi Pod 未进入 Running",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-VOL-001",
+      "name": "Volcano 组件状态与调度器可用",
+      "category": "VOL",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 0.23,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-VOL-002",
+      "name": "Volcano deviceshare 配置生效",
+      "category": "VOL",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 0.3,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-VOL-003",
+      "name": "Volcano 调度器镜像与版本信息",
+      "category": "VOL",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 0.23,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-VOL-004",
+      "name": "Volcano 调度器运行 vHCU Pod",
+      "category": "VOL",
+      "priority": "P0",
+      "status": "SKIP",
+      "duration_s": 0.15,
+      "message": "vHCU Pod 调度 需要创建/删除 Volcano 工作负载；设置 VDCU_CLUSTER_MUTATING_TESTS=1",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-VOL-005",
+      "name": "Volcano Gang 调度配置与 PodGroup",
+      "category": "VOL",
+      "priority": "P1",
+      "status": "FAIL",
+      "duration_s": 0.29,
+      "message": "未安装 Volcano PodGroup CRD，无法执行 gang 测试",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-VOL-006",
+      "name": "Volcano 队列与配额对象",
+      "category": "VOL",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 0.22,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-VOL-007",
+      "name": "Volcano 抢占与资源回收配置",
+      "category": "VOL",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 0.3,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-VOL-008",
+      "name": "Volcano binpack/spread 调度策略",
+      "category": "VOL",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 0.3,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-VOL-009",
+      "name": "Volcano vHCU 与整卡资源混合调度",
+      "category": "VOL",
+      "priority": "P1",
+      "status": "SKIP",
+      "duration_s": 0.24,
+      "message": "混合调度需要提交两个工作负载；设置 VDCU_CLUSTER_MUTATING_TESTS=1",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-VOL-010",
+      "name": "Volcano Job 失败重试与资源回收",
+      "category": "VOL",
+      "priority": "P1",
+      "status": "SKIP",
+      "duration_s": 0.15,
+      "message": "Job 重试 需要创建/删除 Volcano 工作负载；设置 VDCU_CLUSTER_MUTATING_TESTS=1",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-VOL-011",
+      "name": "Volcano PodGroup 状态与事件可观测性",
+      "category": "VOL",
+      "priority": "P2",
+      "status": "PASS",
+      "duration_s": 1.27,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-VOL-012",
+      "name": "Volcano 训练与推理混合负载",
+      "category": "VOL",
+      "priority": "P1",
+      "status": "SKIP",
+      "duration_s": 0.15,
+      "message": "训练/推理混合负载 需要创建/删除 Volcano 工作负载；设置 VDCU_CLUSTER_MUTATING_TESTS=1",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-VOL-013",
+      "name": "Volcano 并发 Job 提交与资源稳定性",
+      "category": "VOL",
+      "priority": "P2",
+      "status": "SKIP",
+      "duration_s": 0.16,
+      "message": "并发 Job 需要创建/删除 Volcano 工作负载；设置 VDCU_CLUSTER_MUTATING_TESTS=1",
+      "steps": [],
+      "issue": ""
+    }
+  ]
+}

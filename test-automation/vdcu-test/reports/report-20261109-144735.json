@@ -1,0 +1,75 @@
+{
+  "generated_at": "2026-11-09 14:47:35",
+  "environment": {
+    "hy_smi": "/opt/hyhal/bin/hy-smi",
+    "image": "bert:v2",
+    "inference_image": "harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10",
+    "card": "5",
+    "card2": "6",
+    "full_card": "7",
+    "physical_cards": "8",
+    "work": "/root/tz",
+    "vllm_model": "/workspace/openbmb--MiniCPM5-1B-SFT",
+    "cluster_tests": "1",
+    "resource_prefix": "",
+    "card_offset": "1",
+    "cluster_mutating_tests": "1",
+    "render_offset": "0",
+    "cluster_namespace": "vdcu-test",
+    "k8s_image": "bert:v2",
+    "k8s_node": "m09r3n14",
+    "record_commands": "1",
+    "record_output_limit": "1500"
+  },
+  "summary": {
+    "PASS": 2,
+    "FAIL": 0,
+    "XFAIL": 0,
+    "XPASS": 0,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "id": "VDCU-INF-001",
+      "name": "单 vDCU 模型加载与生成（冒烟）",
+      "category": "INF",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 38.37,
+      "message": "ok",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 0\n\tGlobal memory: 17175674880 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 0\n\tGlobal memory: 17175674880 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 4:\n\tPhysical Device: 5\n\tCompute units: 0\n\tGlobal memory: 17175674880 bytes\nVirtual Device 5:\n\tPhysical Device: 5\n\tCompute units: 0\n\tGlobal memory: 17175674880 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=0] The virtual device is destroyed successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 -d 5\n[rc=0] The virtual device is created successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ docker run --rm --shm-size 16G --device=/dev/kfd --device=/dev/mkfd --device=/dev/dri/card7 --device=/dev/dri/renderD133 -v /opt/hyhal:/opt/hyhal:ro -v /root/tz:/workspace:ro -v /etc/vdev/vdev0.conf:/etc/vdev/docker/vdev0.conf:ro -v /root/tz/vdcu-test/assets:/opt/assets:ro -e HIP_VISIBLE_DEVICES=0 bert:v2 bash -lc python /opt/assets/gen_smoke.py --max-new-tokens 32\n[rc=0] al_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.\n[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.\nLaunch params (16, 64, 1) are larger than launch bounds (256) for kernel _ZL39rocblas_trsm_block_forward_substitutionIffPKPKfPKPfLb1ELb0ELb1EEv18rocblas_operation_llT0_T1_lllT2_lllb please add __launch_bounds__ to kernel define or use --gpu-max-threads-per-block recompile program ! \n/usr/local/lib/python3.10/dist-packages/transformers/integrations/sdpa_attention.py:170: UserWarning: sdpa adopt the new interface of flash-attn (Triggered internally at /home/pytorch/aten/src/ATen/native/transformers/hip/cutlassfa_adapter.h:148.)\n  attn_output = torch.nn.functional.scaled_dot_product_attention(\n[transformers] `causal_conv1d_update` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.\n[transformers] `fused_recurrent_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.\n\n...（输出共 2126 字符，已截断至末 1500）"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-INF-002",
+      "name": "vLLM 单实例服务与 OpenAI 接口冒烟",
+      "category": "INF",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 249.34,
+      "message": "ok",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x6339ba6635c27c2e\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=1] Error: [2026-11-09 14:43:25.826] Failed to destroy virtual devices. The device is exist and may be in use.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=0] The virtual device is destroyed successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 -d 5\n[rc=0] The virtual device is created successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ docker run --rm --shm-size 16G --device=/dev/kfd --device=/dev/mkfd --device=/dev/dri/card7 --device=/dev/dri/renderD133 -v /opt/hyhal:/opt/hyhal:ro -v /root/tz:/workspace:ro -v /etc/vdev/vdev0.conf:/etc/vdev/docker/vdev0.conf:ro -v /root/tz/vdcu-test/assets:/opt/assets:ro -e HIP_VISIBLE_DEVICES=0 harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10 bash -lc python /opt/assets/vllm_smoke.py --model /workspace/openbmb--MiniCPM5-1B-SFT --max-model-len 2048\n[rc=0] VLLM_RESULT {\"model\": \"/workspace/openbmb--MiniCPM5-1B-SFT\", \"text\": \"虚拟化\\n虚拟化技术是现代计算机系统中广泛应用的一种技术，它允许用户在物理机上运行多个操作系统实例，而无需修改硬件配置。GPU\", \"completion_tokens\": 32}\n"
+      ],
+      "issue": ""
+    }
+  ]
+}

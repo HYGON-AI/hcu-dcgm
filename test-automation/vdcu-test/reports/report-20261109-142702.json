@@ -1,0 +1,84 @@
+{
+  "generated_at": "2026-11-09 14:27:02",
+  "environment": {
+    "hy_smi": "/opt/hyhal/bin/hy-smi",
+    "image": "bert:v2",
+    "inference_image": "harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10",
+    "card": "5",
+    "card2": "6",
+    "full_card": "7",
+    "physical_cards": "8",
+    "work": "/root/tz",
+    "vllm_model": "/workspace/openbmb--MiniCPM5-1B-SFT",
+    "cluster_tests": "1",
+    "resource_prefix": "",
+    "card_offset": "1",
+    "cluster_mutating_tests": "1",
+    "render_offset": "0",
+    "cluster_namespace": "vdcu-test",
+    "k8s_image": "bert:v2",
+    "k8s_node": "m09r3n14",
+    "record_commands": "1",
+    "record_output_limit": "1500"
+  },
+  "summary": {
+    "PASS": 0,
+    "FAIL": 0,
+    "XFAIL": 2,
+    "XPASS": 0,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "id": "VDCU-COM-002",
+      "name": "单容器同卡双 vDCU 集合通信",
+      "category": "COM",
+      "priority": "P0",
+      "status": "XFAIL",
+      "duration_s": 45.71,
+      "message": "同卡双 vDCU 集合通信失败：Duplicate GPU detected : rank 1 and rank 0 both on CUDA device b5000",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tUsage memory: 32359116800 bytes (94.20%)\n\tContainer id: 0xb7b60584f8d0d672\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=1] Error: [2026-11-09 14:25:32.377] Failed to destroy virtual devices. The device is exist and may be in use.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0xb7b60584f8d0d672\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=1] Error: [2026-11-09 14:25:33.399] Failed to destroy virtual devices. The device is exist and may be in use.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=0] The virtual device is destroyed successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 -d 5\n[rc=0] The virtual device is created successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ docker run --rm --shm-size 16G --device=/dev/kfd --device=/dev/mkfd --device=/dev/dri/card7 --device=/dev/dri/renderD133 -v /opt/hyhal:/opt/hyhal:ro -v /root/tz:/workspace:ro -v /etc/vdev/vdev0.conf:/etc/vdev/docker/vdev0.conf:ro -v /etc/vdev/vdev1.conf:/etc/vdev/docker/vdev1.conf:ro -v /root/tz/vdcu-test/assets:/opt/assets:ro -e HIP_VISIBLE_DEVICES=0,1 bert:v2 bash -lc cd /tmp && torchrun --standalone --nproc_per_node=2 /opt/assets/allreduce.py\n[rc=1] 0/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py\", line 367, in wrapper\n    return f(*args, **kwargs)\n  File \"/usr/local/lib/python3.10/dist-packages/torch/distributed/run.py\", line 1016, in main\n    run(args)\n  File \"/usr/local/lib/python3.10/dist-packages/torch/distributed/run.py\", line 1007, in run\n    elastic_launch(\n  File \"/usr/local/lib/python3.10/dist-packages/torch/distributed/launcher/api.py\", line 191, in __call__\n    return launch_agent(self._config, self._entrypoint, list(args))\n  File \"/usr/local/lib/python3.10/dist-packages/torch/distributed/launcher/api.py\", line 371, in launch_agent\n    raise ChildFailedError(\ntorch.distributed.elastic.multiprocessing.errors.ChildFailedError: \n============================================================\n/opt/assets/allreduce.py FAILED\n------------------------------------------------------------\nFailures:\n[1]:\n  time      : 2026-11-09_14:26:14\n  host      : 1adc2cf9e96b\n  rank      : 0 (local_rank: 0)\n  exitcode  : -15 (pid: 81)  (SIGTERM)\n  error_file: <N/A>\n  traceback : Signal 15 (SIGTERM) received by PID 81\n------------------------------------------------------------\nRoot Cause (first observed failure):\n[0]:\n  time      : 2026-11-09_14:26:14\n  host      : 1adc2cf9e96b\n  rank      : 1 (local_rank: 1)\n  exitcode  : 1 (pid: 82) \n  error_file: <N/A>\n  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html\n============================================================\n\n...（输出共 9417 字符，已截断至末 1500）"
+      ],
+      "issue": "ISSUE-013"
+    },
+    {
+      "id": "VDCU-COM-003",
+      "name": "单容器跨卡双 vDCU 集合通信",
+      "category": "COM",
+      "priority": "P0",
+      "status": "XFAIL",
+      "duration_s": 44.56,
+      "message": "跨卡双 vDCU 集合通信失败：Duplicate GPU detected : rank 0 and rank 1 both on CUDA device b5000",
+      "steps": [
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x1adc2cf9e96b1cb0\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x1adc2cf9e96b1cb0\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=1] Error: [2026-11-09 14:26:18.087] Failed to destroy virtual devices. The device is exist and may be in use.\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 5\n[rc=0] The virtual device is destroyed successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 -d 5\n[rc=0] The virtual device is created successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --destroy-vdevices -d 6\n[rc=0] The virtual device is destroyed successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --create-vdevices 2 -d 6\n[rc=0] The virtual device is created successfully!\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ /opt/hyhal/bin/hy-smi virtual --show-vdevice-info\n[rc=0] Virtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 1:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 2:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\nVirtual Device 3:\n\tPhysical Device: 6\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "$ docker run --rm --shm-size 16G --device=/dev/kfd --device=/dev/mkfd --device=/dev/dri/card7 --device=/dev/dri/renderD133 --device=/dev/dri/card8 --device=/dev/dri/renderD134 -v /opt/hyhal:/opt/hyhal:ro -v /root/tz:/workspace:ro -v /etc/vdev/vdev0.conf:/etc/vdev/docker/vdev0.conf:ro -v /etc/vdev/vdev2.conf:/etc/vdev/docker/vdev2.conf:ro -v /root/tz/vdcu-test/assets:/opt/assets:ro -e HIP_VISIBLE_DEVICES=0,1 bert:v2 bash -lc cd /tmp && torchrun --standalone --nproc_per_node=2 /opt/assets/allreduce.py\n[rc=1] 0/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py\", line 367, in wrapper\n    return f(*args, **kwargs)\n  File \"/usr/local/lib/python3.10/dist-packages/torch/distributed/run.py\", line 1016, in main\n    run(args)\n  File \"/usr/local/lib/python3.10/dist-packages/torch/distributed/run.py\", line 1007, in run\n    elastic_launch(\n  File \"/usr/local/lib/python3.10/dist-packages/torch/distributed/launcher/api.py\", line 191, in __call__\n    return launch_agent(self._config, self._entrypoint, list(args))\n  File \"/usr/local/lib/python3.10/dist-packages/torch/distributed/launcher/api.py\", line 371, in launch_agent\n    raise ChildFailedError(\ntorch.distributed.elastic.multiprocessing.errors.ChildFailedError: \n============================================================\n/opt/assets/allreduce.py FAILED\n------------------------------------------------------------\nFailures:\n[1]:\n  time      : 2026-11-09_14:27:00\n  host      : 40d9c348f0c7\n  rank      : 1 (local_rank: 1)\n  exitcode  : -15 (pid: 82)  (SIGTERM)\n  error_file: <N/A>\n  traceback : Signal 15 (SIGTERM) received by PID 82\n------------------------------------------------------------\nRoot Cause (first observed failure):\n[0]:\n  time      : 2026-11-09_14:27:00\n  host      : 40d9c348f0c7\n  rank      : 0 (local_rank: 0)\n  exitcode  : 1 (pid: 81) \n  error_file: <N/A>\n  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html\n============================================================\n\n...（输出共 9418 字符，已截断至末 1500）"
+      ],
+      "issue": "ISSUE-013"
+    }
+  ]
+}

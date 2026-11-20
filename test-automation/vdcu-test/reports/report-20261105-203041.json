@@ -1,0 +1,212 @@
+{
+  "generated_at": "2026-11-05 20:30:41",
+  "environment": {
+    "hy_smi": "/opt/hyhal/bin/hy-smi",
+    "image": "bert:v1",
+    "inference_image": "42.228.13.241:5000/jenkins/model_test_env/vllm:0.28.1rc1-ubuntu22.04-dtk2610-py3.12-20261102-0302",
+    "card": "5",
+    "card2": "6",
+    "full_card": "7",
+    "physical_cards": "8",
+    "work": "/root/tz",
+    "vllm_model": "/workspace/openbmb--MiniCPM5-1B-SFT",
+    "cluster_tests": "1",
+    "resource_prefix": "",
+    "card_offset": "1",
+    "cluster_mutating_tests": "1",
+    "render_offset": "0",
+    "cluster_namespace": "vdcu-test",
+    "k8s_image": "bert:v1"
+  },
+  "summary": {
+    "PASS": 11,
+    "FAIL": 1,
+    "XFAIL": 1,
+    "XPASS": 0,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "id": "VDCU-CTR-012",
+      "name": "同一 vDCU 绑定到第二个容器（互斥）",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "XFAIL",
+      "duration_s": 35.75,
+      "message": "第二个容器仍可使用已被占用的 vDCU（互斥未实现）",
+      "steps": [],
+      "issue": "ISSUE-012"
+    },
+    {
+      "id": "VDCU-MX-002",
+      "name": "同一 vDCU 多容器叠加压力（2/3/4 容器）",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 102.01,
+      "message": "ok",
+      "steps": [
+        "1 个容器占用：\nVirtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "第 2 个容器绑定后：usable=True\nVirtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tUsage memory: 4441853952 bytes (12.93%)\n\tContainer id: 0xd2300474f40ec381\n\n",
+        "第 3 个容器绑定后：usable=True\nVirtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tUsage memory: 4441853952 bytes (12.93%)\n\tContainer id: 0xd2300474f40ec381\n\n",
+        "第 4 个容器绑定后：usable=True\nVirtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tUsage memory: 4441853952 bytes (12.93%)\n\tContainer id: 0xd2300474f40ec381\n\n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-MX-003",
+      "name": "container id 关联字段核查矩阵",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 35.91,
+      "message": "ok",
+      "steps": [
+        "空闲态：\nVirtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "空闲态 container id 字段存在=False（期望：无或空）",
+        "docker 实际容器 ID：11de4fac1e6caca9f47ead1a",
+        "单容器占用态：\nVirtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "宿主机上报 container_id=None 与真实 ID 一致=字段不存在",
+        "第二容器绑定后：\nVirtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tUsage memory: 4441853952 bytes (12.93%)\n\tContainer id: 0x11de4fac1e6caca9\n\n",
+        "容器退出后：\nVirtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x11de4fac1e6caca9\n\n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CTR-009",
+      "name": "非特权容器与最小设备节点挂载（母用例）",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 2.69,
+      "message": "ok",
+      "steps": [
+        "设备节点映射校准：\n\ncrw-rw-rw- 1 root render 226, 133 Oct 20 15:08 renderD133\ncrw-rw-rw- 1 root render 226, 134 Oct 20 15:08 renderD134\ncrw-rw-rw- 1 root render 226, 135 Oct 20 15:08 renderD135\n\n/dev/dri/by-path/:\ntotal 0\nlrwxrwxrwx 1 root root  8 Oct 20 15:08 pci-0000:09:00.0-card -> ../card1\nlrwxrwxrwx 1 root root 13 Oct 20 15:08 pci-0000:09:00.0-render -> ../renderD128\nlrwxrwxrwx 1 root root  8 Oct 20 15:08 pci-0000:0b:00.0-card -> ../card0\nlrwxrwxrwx 1 root root  8 Oct 20 15:08 pci-0000:36:00.0-card -> ../card3\nlrwxrwxrwx 1 root root 13 Oct 20 15:08 pci-0000:36:00.0-render -> ../renderD129\nlrwxrwxrwx 1 root root  8 Oct 20 15:08 pci-0000:55:00.0-card -> ../card4\nlrwxrwxrwx 1 root root 13 Oct 20 15:08 pci-0000:55:00.0-render -> ../renderD130\nlrwxrwxrwx 1 root root  8 Oct 20 15:08 pci-0000:77:00.0-card -> ../card5\nlrwxrwxrwx 1 root root 13 Oct 20 15:08 pci-0000:77:00.0-render -> ../renderD131\nlrwxrwxrwx 1 root root  8 Oct 20 15:08 pci-0000:85:00.0-card -> ../card6\nlrwxrwxrwx 1 root root 13 Oct 20 15:08 pci-0000:85:00.0-render -> ../renderD132\nlrwxrwxrwx 1 root root  8 Oct 20 15:08 pci-0000:b5:00.0-card -> ../card7\nlrwxrwxrwx 1 root root 13 Oct 20 15:08 pci-0000:b5:00.0-render -> ../renderD133\nlrwxrwxrwx 1 root root  8 Oct 20 15:08 pci-0000:d5:00.0-card -> ../card8\nlrwxrwxrwx 1 root root 13 Oct 20 15:08 pci-0000:d5:00.0-render -> ../renderD134\nlrwxrwxrwx 1 root root  8 Oct 20 15:08 pci-0000:f5:00.0-card -> ../card9\nlrwxrwxrwx 1 root root 13 Oct 20 15:08 pci-0000:f5:00.0-render -> ../renderD135\n",
+        "phys=5 → /dev/dri/card7(存在=True) / /dev/dri/renderD133(存在=True) 来源=vdev-conf:0000:b5:00.0",
+        "phys=5 → /dev/dri/card7(存在=True) / /dev/dri/renderD133(存在=True) 来源=vdev-conf:0000:b5:00.0"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CTR-009A",
+      "name": "009A 形态对照：特权整树 vs 非特权最小挂载",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 66.42,
+      "message": "ok",
+      "steps": [
+        "形态对照：整树  to https://developer.sourcefind.cn/ Device 0: \tPhysical Device: 5 \tCompute units: 40 \tGlobal memory: 34351349760 bytes  TORCH_COUNT 1 TORCH_MEM_0 31.99 MATMUL_OK True Could not open /var/log/hylog/.  vs 最小  to https://developer.sourcefind.cn/ Device 0: \tPhysical Device: 0 \tCompute units: 40 \tGlobal memory: 34351349760 bytes  TORCH_COUNT 1 TORCH_MEM_0 31.99 MATMUL_OK True Could not open /var/log/hylog/. "
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CTR-009B",
+      "name": "009B 非特权 + 单卡最小设备节点挂载",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 68.27,
+      "message": "ok",
+      "steps": [
+        "容器内 /dev/dri 视图：\ntotal 0\ncrw-rw---- 1 root video 226,   7 Nov  5 20:11 card7\ncrw-rw-rw- 1 root kvm   226, 133 Nov  5 20:11 renderD133"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CTR-009C",
+      "name": "009C 跨卡多 vDCU 最小挂载",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "FAIL",
+      "duration_s": 36.48,
+      "message": "两个设备应分属不同物理卡",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CTR-009D",
+      "name": "009D 仅挂关联 vDCU 配置（不挂整目录）",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 35.54,
+      "message": "ok",
+      "steps": [
+        "容器内 /etc/vdev/docker/ 内容：__                  __  \n    ____  __  __/ /_____  __________/ /_ \n   / __ \\/ / / / __/ __ \\/ ___/ ___/ __ \\\n  / /_/ / /_/ / /_/ /_/ / /  / /__/ / / /\n / .___/\\__, /\\__/\\____/_/   \\___/_/ /_/ \n/_/    /____/                            \ndtk    : dtk2610\nbuilt  : 20261030-1400\n1 vHCU were detected in the container.\nNOTE: Make sure the user is in the 39 group.\nFor more information, please go to https://developer.sourcefind.cn/\nvdev0.conf"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CTR-009E",
+      "name": "009E 必挂节点缺失负向",
+      "category": "CTR",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 39.55,
+      "message": "ok",
+      "steps": [
+        "缺 mkfd：rc=0\n : dtk2610\nbuilt  : 20261030-1400\n1 HCU were detected in the container.\nNOTE: Make sure the user is in the 39 group.\nFor more information, please go to https://developer.sourcefind.cn/\nTORCH_COUNT 1\nTORCH_MEM_0 31.99\nMATMUL_OK True\nError: [2026-11-05 20:13:48.700] Failed to set log level. The device management runtime does not initialize.\nCould not open /var/log/hylog/.\n",
+        "缺 kfd：rc=1\necent call last):\n  File \"<stdin>\", line 4, in <module>\n  File \"/usr/local/lib/python3.12/site-packages/torch/cuda/__init__.py\", line 803, in get_device_properties\n    _lazy_init()  # will define _get_device_properties\n    ^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/torch/cuda/__init__.py\", line 595, in _lazy_init\n    torch._C._cuda_init()\nRuntimeError: No CUDA GPUs are available\n",
+        "实测发现：缺 mkfd 基础运算可用=True；缺 kfd 基础运算可用=False"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CTR-009F",
+      "name": "009F 历史缺陷回归（6.3.8 之前 bug）",
+      "category": "CTR",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 34.95,
+      "message": "ok",
+      "steps": [
+        "驱动/工具版本：Version 1.27.0 (Sep 11 2026 08:50:50 b7fc42afc8590607e0fa9a1f9912cfe54150055a)",
+        "6.4.2 最小挂载回归：PASS，无 6.3.8 之前 bug 复发"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CN-001",
+      "name": "四等分 4 vDCU 同步并发启动 vLLM 实例（改造 CTR-016）",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 328.52,
+      "message": "ok",
+      "steps": [
+        "tz_cn001_1 就绪并推理成功（325.4s）：VLLM_RESULT {\"model\": \"/workspace/openbmb--MiniCPM5-1B-SFT\", \"text\": \"虚拟化\\n虚拟化技术是现代计算机系统中广泛应用的一种技术，它允许用户在物理机上运行多个操作系统实例，而无需修改硬件配置。GPU\", \"completion_tokens\": 32}\n",
+        "tz_cn001_2 就绪并推理成功（325.5s）：VLLM_RESULT {\"model\": \"/workspace/openbmb--MiniCPM5-1B-SFT\", \"text\": \"虚拟化\\n虚拟化技术是现代计算机系统中广泛应用的一种技术，它允许用户在物理机上运行多个操作系统实例，而无需修改硬件配置。GPU\", \"completion_tokens\": 32}\n",
+        "tz_cn001_3 就绪并推理成功（326.0s）：VLLM_RESULT {\"model\": \"/workspace/openbmb--MiniCPM5-1B-SFT\", \"text\": \"虚拟化\\n虚拟化技术是现代计算机系统中广泛应用的一种技术，它允许用户在物理机上运行多个操作系统实例，而无需修改硬件配置。GPU\", \"completion_tokens\": 32}\n",
+        "tz_cn001_4 就绪并推理成功（326.0s）：VLLM_RESULT {\"model\": \"/workspace/openbmb--MiniCPM5-1B-SFT\", \"text\": \"虚拟化\\n虚拟化技术是现代计算机系统中广泛应用的一种技术，它允许用户在物理机上运行多个操作系统实例，而无需修改硬件配置。GPU\", \"completion_tokens\": 32}\n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CN-002",
+      "name": "二等分 2 vDCU 同步并发启动 vLLM 实例",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 304.8,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CN-003",
+      "name": "显存紧张场景回归（2625004 复现模板）",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 306.37,
+      "message": "ok",
+      "steps": [
+        "vDCU0 占用就绪：\nVirtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "vDCU1 启动日志：\n        ____        \n _   __/ / /___ ___ \n| | / / / / __ `__ \\\n| |/ / / / / / / / /\n|___/_/_/_/ /_/ /_/ \n                    \ndtk    : dtk2610\nbuilt  : 20261102-0302\n1 vHCU were detected in the container.\nNOTE: Make sure the user is in the 39 group.\nFor more information, please go to https://developer.sourcefind.cn/\nVLLM_RESULT {\"model\": \"/workspace/openbmb--MiniCPM5-1B-SFT\", \"text\": \"虚拟化\\n虚拟化技术是现代计算机系统中广泛应用的一种技术，它允许用户在物理机上运行多个操作系统实例，而无需修改硬件配置。GPU\", \"completion_tokens\": 32}\n",
+        "2625004 回归：DTK 26.10 上第二个实例正常启动推理（303.4s），无 heap memory 报错"
+      ],
+      "issue": ""
+    }
+  ]
+}

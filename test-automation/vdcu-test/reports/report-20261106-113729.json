@@ -1,0 +1,1100 @@
+{
+  "generated_at": "2026-11-06 11:37:29",
+  "environment": {
+    "hy_smi": "/opt/hyhal/bin/hy-smi",
+    "image": "bert:v1",
+    "inference_image": "42.228.13.241:5000/jenkins/model_test_env/vllm:0.28.1rc1-ubuntu22.04-dtk2610-py3.12-20261102-0302",
+    "card": "5",
+    "card2": "6",
+    "full_card": "7",
+    "physical_cards": "8",
+    "work": "/root/tz",
+    "vllm_model": "/workspace/openbmb--MiniCPM5-1B-SFT",
+    "cluster_tests": "1",
+    "resource_prefix": "",
+    "card_offset": "1",
+    "cluster_mutating_tests": "1",
+    "render_offset": "0",
+    "cluster_namespace": "vdcu-test",
+    "k8s_image": "bert:v1",
+    "k8s_node": "m09r3n14"
+  },
+  "summary": {
+    "PASS": 69,
+    "FAIL": 7,
+    "XFAIL": 5,
+    "XPASS": 0,
+    "SKIP": 9
+  },
+  "results": [
+    {
+      "id": "VDCU-CTR-001",
+      "name": "单容器挂载 1 个 vDCU 基础可用性",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 33.71,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CTR-002",
+      "name": "单容器挂载同卡 2 个 vDCU 的可见性",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "FAIL",
+      "duration_s": 33.8,
+      "message": "torch 设备数应为 2",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CTR-003",
+      "name": "单容器挂载跨卡 2 个 vDCU 的可见性",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 34.76,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CTR-004",
+      "name": "两容器分挂同卡 vDCU（并发独立）",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 35.09,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CTR-005",
+      "name": "两容器分挂跨卡 vDCU（并发独立）",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 36.5,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CTR-007",
+      "name": "CU 共享多 vDCU 同容器自动合并",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 34.0,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CTR-008",
+      "name": "容器销毁后 vDCU 释放与再绑定",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 2.25,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CTR-010",
+      "name": "容器内设备信息与配额校验",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 67.11,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CTR-012",
+      "name": "同一 vDCU 绑定到第二个容器（互斥）",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "XFAIL",
+      "duration_s": 36.07,
+      "message": "第二个容器仍可使用已被占用的 vDCU（互斥未实现）",
+      "steps": [],
+      "issue": "ISSUE-012"
+    },
+    {
+      "id": "VDCU-MX-002",
+      "name": "同一 vDCU 多容器叠加压力（2/3/4 容器）",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 102.44,
+      "message": "ok",
+      "steps": [
+        "1 个容器占用：\nVirtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "第 2 个容器绑定后：usable=True\nVirtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tUsage memory: 4441853952 bytes (12.93%)\n\tContainer id: 0xdad69b5e2d543458\n\n",
+        "第 3 个容器绑定后：usable=True\nVirtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tUsage memory: 4441853952 bytes (12.93%)\n\tContainer id: 0xdad69b5e2d543458\n\n",
+        "第 4 个容器绑定后：usable=True\nVirtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tUsage memory: 4441853952 bytes (12.93%)\n\tContainer id: 0xdad69b5e2d543458\n\n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-MX-003",
+      "name": "container id 关联字段核查矩阵",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 38.0,
+      "message": "ok",
+      "steps": [
+        "空闲态：\nVirtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "空闲态 container id 字段存在=False（期望：无或空）",
+        "docker 实际容器 ID：6a3b7556b057479cfb1a483f",
+        "单容器占用态：\nVirtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "宿主机上报 container_id=None 与真实 ID 一致=字段不存在",
+        "第二容器绑定后：\nVirtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tUsage memory: 4441853952 bytes (12.93%)\n\tContainer id: 0x6a3b7556b057479c\n\n",
+        "容器退出后：\nVirtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\tContainer id: 0x6a3b7556b057479c\n\n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CTR-009",
+      "name": "非特权容器与最小设备节点挂载（母用例）",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 2.7,
+      "message": "ok",
+      "steps": [
+        "设备节点映射校准：\n\ncrw-rw-rw- 1 root render 226, 133 Nov  6 01:21 renderD133\ncrw-rw-rw- 1 root render 226, 134 Nov  6 01:21 renderD134\ncrw-rw-rw- 1 root render 226, 135 Nov  6 01:21 renderD135\n\n/dev/dri/by-path/:\ntotal 0\nlrwxrwxrwx 1 root root  8 Nov  6 01:21 pci-0000:09:00.0-card -> ../card1\nlrwxrwxrwx 1 root root 13 Nov  6 01:21 pci-0000:09:00.0-render -> ../renderD128\nlrwxrwxrwx 1 root root  8 Nov  6 01:21 pci-0000:0b:00.0-card -> ../card0\nlrwxrwxrwx 1 root root  8 Nov  6 01:21 pci-0000:36:00.0-card -> ../card3\nlrwxrwxrwx 1 root root 13 Nov  6 01:21 pci-0000:36:00.0-render -> ../renderD129\nlrwxrwxrwx 1 root root  8 Nov  6 01:21 pci-0000:55:00.0-card -> ../card4\nlrwxrwxrwx 1 root root 13 Nov  6 01:21 pci-0000:55:00.0-render -> ../renderD130\nlrwxrwxrwx 1 root root  8 Nov  6 01:21 pci-0000:77:00.0-card -> ../card5\nlrwxrwxrwx 1 root root 13 Nov  6 01:21 pci-0000:77:00.0-render -> ../renderD131\nlrwxrwxrwx 1 root root  8 Nov  6 01:21 pci-0000:85:00.0-card -> ../card6\nlrwxrwxrwx 1 root root 13 Nov  6 01:21 pci-0000:85:00.0-render -> ../renderD132\nlrwxrwxrwx 1 root root  8 Nov  6 01:21 pci-0000:b5:00.0-card -> ../card7\nlrwxrwxrwx 1 root root 13 Nov  6 01:21 pci-0000:b5:00.0-render -> ../renderD133\nlrwxrwxrwx 1 root root  8 Nov  6 01:21 pci-0000:d5:00.0-card -> ../card8\nlrwxrwxrwx 1 root root 13 Nov  6 01:21 pci-0000:d5:00.0-render -> ../renderD134\nlrwxrwxrwx 1 root root  8 Nov  6 01:21 pci-0000:f5:00.0-card -> ../card9\nlrwxrwxrwx 1 root root 13 Nov  6 01:21 pci-0000:f5:00.0-render -> ../renderD135\n",
+        "phys=5 → /dev/dri/card7(存在=True) / /dev/dri/renderD133(存在=True) 来源=vdev-conf:0000:b5:00.0",
+        "phys=5 → /dev/dri/card7(存在=True) / /dev/dri/renderD133(存在=True) 来源=vdev-conf:0000:b5:00.0"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CTR-009A",
+      "name": "009A 形态对照：特权整树 vs 非特权最小挂载",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 68.63,
+      "message": "ok",
+      "steps": [
+        "形态对照：整树  to https://developer.sourcefind.cn/ Device 0: \tPhysical Device: 5 \tCompute units: 40 \tGlobal memory: 34351349760 bytes  TORCH_COUNT 1 TORCH_MEM_0 31.99 MATMUL_OK True Could not open /var/log/hylog/.  vs 最小  to https://developer.sourcefind.cn/ Device 0: \tPhysical Device: 0 \tCompute units: 40 \tGlobal memory: 34351349760 bytes  TORCH_COUNT 1 TORCH_MEM_0 31.99 MATMUL_OK True Could not open /var/log/hylog/. "
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CTR-009B",
+      "name": "009B 非特权 + 单卡最小设备节点挂载",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 67.26,
+      "message": "ok",
+      "steps": [
+        "容器内 /dev/dri 视图：\ntotal 0\ncrw-rw---- 1 root video 226,   7 Nov  6 10:30 card7\ncrw-rw-rw- 1 root kvm   226, 133 Nov  6 10:30 renderD133"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CTR-009C",
+      "name": "009C 跨卡多 vDCU 最小挂载",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 69.57,
+      "message": "ok",
+      "steps": [
+        "容器内 /dev/dri 视图：\ntotal 0\ncrw-rw---- 1 root video 226,   7 Nov  6 10:31 card7\ncrw-rw---- 1 root video 226,   8 Nov  6 10:31 card8\ncrw-rw-rw- 1 root kvm   226, 133 Nov  6 10:31 renderD133\ncrw-rw-rw- 1 root kvm   226, 134 Nov  6 10:31 renderD134"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CTR-009D",
+      "name": "009D 仅挂关联 vDCU 配置（不挂整目录）",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 35.28,
+      "message": "ok",
+      "steps": [
+        "容器内 /etc/vdev/docker/ 内容：__                  __  \n    ____  __  __/ /_____  __________/ /_ \n   / __ \\/ / / / __/ __ \\/ ___/ ___/ __ \\\n  / /_/ / /_/ / /_/ /_/ / /  / /__/ / / /\n / .___/\\__, /\\__/\\____/_/   \\___/_/ /_/ \n/_/    /____/                            \ndtk    : dtk2610\nbuilt  : 20261030-1400\n1 vHCU were detected in the container.\nNOTE: Make sure the user is in the 39 group.\nFor more information, please go to https://developer.sourcefind.cn/\nvdev0.conf"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CTR-009E",
+      "name": "009E 必挂节点缺失负向",
+      "category": "CTR",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 41.59,
+      "message": "ok",
+      "steps": [
+        "缺 mkfd：rc=0\n : dtk2610\nbuilt  : 20261030-1400\n1 HCU were detected in the container.\nNOTE: Make sure the user is in the 39 group.\nFor more information, please go to https://developer.sourcefind.cn/\nTORCH_COUNT 1\nTORCH_MEM_0 31.99\nMATMUL_OK True\nError: [2026-11-06 10:33:40.334] Failed to set log level. The device management runtime does not initialize.\nCould not open /var/log/hylog/.\n",
+        "缺 kfd：rc=1\necent call last):\n  File \"<stdin>\", line 4, in <module>\n  File \"/usr/local/lib/python3.12/site-packages/torch/cuda/__init__.py\", line 803, in get_device_properties\n    _lazy_init()  # will define _get_device_properties\n    ^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/torch/cuda/__init__.py\", line 595, in _lazy_init\n    torch._C._cuda_init()\nRuntimeError: No CUDA GPUs are available\n",
+        "实测发现：缺 mkfd 基础运算可用=True；缺 kfd 基础运算可用=False"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CTR-009F",
+      "name": "009F 历史缺陷回归（6.3.8 之前 bug）",
+      "category": "CTR",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 32.84,
+      "message": "ok",
+      "steps": [
+        "驱动/工具版本：Version 1.27.0 (Sep 11 2026 08:50:50 b7fc42afc8590607e0fa9a1f9912cfe54150055a)",
+        "6.4.2 最小挂载回归：PASS，无 6.3.8 之前 bug 复发"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CN-001",
+      "name": "四等分 4 vDCU 同步并发启动 vLLM 实例（改造 CTR-016）",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 326.92,
+      "message": "ok",
+      "steps": [
+        "tz_cn001_1 就绪并推理成功（323.5s）：VLLM_RESULT {\"model\": \"/workspace/openbmb--MiniCPM5-1B-SFT\", \"text\": \"虚拟化\\n虚拟化技术是现代计算机系统中广泛应用的一种技术，它允许用户在物理机上运行多个操作系统实例，而无需修改硬件配置。GPU\", \"completion_tokens\": 32}\n",
+        "tz_cn001_2 就绪并推理成功（323.5s）：VLLM_RESULT {\"model\": \"/workspace/openbmb--MiniCPM5-1B-SFT\", \"text\": \"虚拟化\\n虚拟化技术是现代计算机系统中广泛应用的一种技术，它允许用户在物理机上运行多个操作系统实例，而无需修改硬件配置。GPU\", \"completion_tokens\": 32}\n",
+        "tz_cn001_3 就绪并推理成功（323.6s）：VLLM_RESULT {\"model\": \"/workspace/openbmb--MiniCPM5-1B-SFT\", \"text\": \"虚拟化\\n虚拟化技术是现代计算机系统中广泛应用的一种技术，它允许用户在物理机上运行多个操作系统实例，而无需修改硬件配置。GPU\", \"completion_tokens\": 32}\n",
+        "tz_cn001_4 就绪并推理成功（324.4s）：VLLM_RESULT {\"model\": \"/workspace/openbmb--MiniCPM5-1B-SFT\", \"text\": \"虚拟化\\n虚拟化技术是现代计算机系统中广泛应用的一种技术，它允许用户在物理机上运行多个操作系统实例，而无需修改硬件配置。GPU\", \"completion_tokens\": 32}\n"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CN-002",
+      "name": "二等分 2 vDCU 同步并发启动 vLLM 实例",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 308.96,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CN-003",
+      "name": "显存紧张场景回归（2625004 复现模板）",
+      "category": "CTR",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 308.45,
+      "message": "ok",
+      "steps": [
+        "vDCU0 占用就绪：\nVirtual Device 0:\n\tPhysical Device: 5\n\tCompute units: 40\n\tGlobal memory: 34351349760 bytes\n\n",
+        "vDCU1 启动日志：\n        ____        \n _   __/ / /___ ___ \n| | / / / / __ `__ \\\n| |/ / / / / / / / /\n|___/_/_/_/ /_/ /_/ \n                    \ndtk    : dtk2610\nbuilt  : 20261102-0302\n1 vHCU were detected in the container.\nNOTE: Make sure the user is in the 39 group.\nFor more information, please go to https://developer.sourcefind.cn/\nVLLM_RESULT {\"model\": \"/workspace/openbmb--MiniCPM5-1B-SFT\", \"text\": \"虚拟化\\n虚拟化技术是现代计算机系统中广泛应用的一种技术，它允许用户在物理机上运行多个操作系统实例，而无需修改硬件配置。GPU\", \"completion_tokens\": 32}\n",
+        "2625004 回归：DTK 26.10 上第二个实例正常启动推理（305.4s），无 heap memory 报错"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-K8S-001",
+      "name": "Kubernetes 节点资源注册",
+      "category": "K8S",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 0.09,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-K8S-002",
+      "name": "Kubernetes Pod 资源申请、设备可见与回收",
+      "category": "K8S",
+      "priority": "P0",
+      "status": "FAIL",
+      "duration_s": 185.01,
+      "message": "Pod 未进入 Running: Pending",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-K8S-003",
+      "name": "Kubernetes 资源不足时保持 Pending",
+      "category": "K8S",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 0.39,
+      "message": "ok",
+      "steps": [
+        "超额申请（9 > 8）Pod 状态：Failed"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-K8S-004",
+      "name": "Kubernetes 设备插件重启后资源恢复",
+      "category": "K8S",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 11.57,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-HAMI-001",
+      "name": "HAMi/HCU 动态资源与组件识别",
+      "category": "HAMI",
+      "priority": "P0",
+      "status": "SKIP",
+      "duration_s": 0.53,
+      "message": "HAMi/vHCU 动态切分未启用（dcunum=0）；按官方文档部署 HAMi 模式后执行",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-HAMI-002",
+      "name": "HAMi vHCU Pod 申请与设备可见",
+      "category": "HAMI",
+      "priority": "P0",
+      "status": "SKIP",
+      "duration_s": 0.5,
+      "message": "当前集群未启用 HAMi/vHCU 资源",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-HAMI-003",
+      "name": "HAMi Pod 删除后的 vHCU 资源回收",
+      "category": "HAMI",
+      "priority": "P1",
+      "status": "SKIP",
+      "duration_s": 0.5,
+      "message": "当前集群未启用 HAMi/vHCU 资源",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-VOL-001",
+      "name": "Volcano 组件状态与调度器可用",
+      "category": "VOL",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 0.24,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-VOL-002",
+      "name": "Volcano deviceshare 配置生效",
+      "category": "VOL",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 0.29,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-VOL-003",
+      "name": "Volcano 调度器镜像与版本信息",
+      "category": "VOL",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 0.22,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-VOL-004",
+      "name": "Volcano 调度器运行 vHCU Pod",
+      "category": "VOL",
+      "priority": "P0",
+      "status": "FAIL",
+      "duration_s": 181.45,
+      "message": "Volcano vHCU Pod 未进入 Running",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-VOL-005",
+      "name": "Volcano Gang 调度配置与 PodGroup",
+      "category": "VOL",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 0.3,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-VOL-006",
+      "name": "Volcano 队列与配额对象",
+      "category": "VOL",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 0.22,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-VOL-007",
+      "name": "Volcano 抢占与资源回收配置",
+      "category": "VOL",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 0.28,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-VOL-008",
+      "name": "Volcano binpack/spread 调度策略",
+      "category": "VOL",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 0.29,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-VOL-009",
+      "name": "Volcano vHCU 与整卡资源混合调度",
+      "category": "VOL",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 0.23,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-VOL-010",
+      "name": "Volcano Job 失败重试与资源回收",
+      "category": "VOL",
+      "priority": "P1",
+      "status": "SKIP",
+      "duration_s": 0.14,
+      "message": "Job 重试场景需按现场 Volcano Job 模板配置，脚本保留执行入口",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-VOL-011",
+      "name": "Volcano PodGroup 状态与事件可观测性",
+      "category": "VOL",
+      "priority": "P2",
+      "status": "PASS",
+      "duration_s": 1.25,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-VOL-012",
+      "name": "Volcano 训练与推理混合负载",
+      "category": "VOL",
+      "priority": "P1",
+      "status": "SKIP",
+      "duration_s": 0.15,
+      "message": "混合负载需现场提供训练与推理镜像/模型，脚本保留执行入口",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-VOL-013",
+      "name": "Volcano 并发 Job 提交与资源稳定性",
+      "category": "VOL",
+      "priority": "P2",
+      "status": "SKIP",
+      "duration_s": 0.14,
+      "message": "并发压测需现场设置并发数量，避免影响共享集群",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-PX-001",
+      "name": "资源名前缀现状确认",
+      "category": "K8S",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 0.16,
+      "message": "ok",
+      "steps": [
+        "节点注册的 hygon.com 资源名：hygon.com/dcu, hygon.com/dcu-share-0c-16g, hygon.com/dcu-share-20c-16g, hygon.com/dcu-share-40c-32g, hygon.com/dcucores, hygon.com/dcumem, hygon.com/dcunum",
+        "设备插件镜像：harbor.sourcefind.cn:5443/dcu/admin/base/dcu-device-plugin:v2.4.2\n插件环境变量：{'PULSE': '30', 'RESOURCE_REGISTER_STRATEGY': 'mixed', 'LOG_THRESHOLD': 'INFO', 'LOG_VERBOSE': '2', 'LOG_OUTPUT': 'true', 'POLICY': '0', 'NODE_NAME': None}",
+        "当前识别资源：hygon.com/dcu（dcu）"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-PX-002",
+      "name": "HCU 前缀全流程（当前版本基线）",
+      "category": "K8S",
+      "priority": "P0",
+      "status": "SKIP",
+      "duration_s": 0.09,
+      "message": "当前节点未注册 HCU 前缀（hygon.com/hcunum），以实际注册前缀执行：hygon.com/dcu",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-PX-003",
+      "name": "DCU 前缀全流程（同机线复测）",
+      "category": "K8S",
+      "priority": "P0",
+      "status": "FAIL",
+      "duration_s": 300.65,
+      "message": "timeout after 120s",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-PX-004",
+      "name": "自定义前缀压测（GPU 等任意配置）",
+      "category": "K8S",
+      "priority": "P2",
+      "status": "SKIP",
+      "duration_s": 0.08,
+      "message": "当前插件未注册自定义前缀（GPU 等）；配置化版本上线后执行（注册名：hygon.com/dcu, hygon.com/dcu-share-0c-16g, hygon.com/dcu-share-20c-16g, hygon.com/dcu-share-40c-32g, hygon.com/dcucores, hygon.com/dcumem, hygon.com/dcunum）",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-PX-005",
+      "name": "前缀非法值边界",
+      "category": "K8S",
+      "priority": "P2",
+      "status": "PASS",
+      "duration_s": 0.08,
+      "message": "ok",
+      "steps": [
+        "插件前缀相关环境变量：{'RESOURCE_REGISTER_STRATEGY': 'mixed'}",
+        "非法前缀输入（空值/大小写混用/特殊字符）的组件侧行为待配置化版本上线后验证（PX-004 同批）"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-PX-006",
+      "name": "前缀切换与共存",
+      "category": "K8S",
+      "priority": "P2",
+      "status": "PASS",
+      "duration_s": 0.08,
+      "message": "ok",
+      "steps": [
+        "当前并存的前缀资源：hygon.com/dcu, hygon.com/dcu-share-0c-16g, hygon.com/dcu-share-20c-16g, hygon.com/dcu-share-40c-32g, hygon.com/dcucores, hygon.com/dcumem, hygon.com/dcunum"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-K8S-002D",
+      "name": "Pod 内 /dev/dri 注入视图与单机最小挂载一致",
+      "category": "K8S",
+      "priority": "P1",
+      "status": "FAIL",
+      "duration_s": 209.6,
+      "message": "Pod 未进入 Running",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-K8S-002S",
+      "name": "预切分 vHCU（dcu-share）Pod 申请与设备可见",
+      "category": "K8S",
+      "priority": "P0",
+      "status": "FAIL",
+      "duration_s": 185.4,
+      "message": "预切分 vHCU Pod 未进入 Running: Pending",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-MON-101",
+      "name": "dcu-exporter 指标端点与 vDCU 指标存在性",
+      "category": "MON",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 0.29,
+      "message": "ok",
+      "steps": [
+        "指标名称清单：\n# HELP dcu_ce_count dcu metrics of gauge\n# HELP dcu_compute_unit_count dcu metrics of gauge\n# HELP dcu_compute_unit_remaining_count dcu metrics of gauge\n# HELP dcu_cu_sampled_usage Average CU sampled usage rate within sample window (percent)\n# HELP dcu_cu_usage DCU instantaneous CU usage rate (percent)\n# HELP dcu_df_bw_read dcu metrics of gauge\n# HELP dcu_df_bw_read_write dcu metrics of gauge\n# HELP dcu_df_bw_write dcu metrics of gauge\n# HELP dcu_hylink_recv dcu metrics of gauge\n# HELP dcu_hylink_send dcu metrics of gauge\n# HELP dcu_hylink_send_recv dcu metrics of gauge\n# HELP dcu_memory_remaining dcu metrics of gauge\n# HELP dcu_memorycap_bytes dcu metrics of gauge\n# HELP dcu_pcie_receive_mb dcu metrics of gauge\n# HELP dcu_pcie_sent_mb dcu metrics of gauge\n# HELP dcu_pciebw_mb dcu metrics of gauge\n# HELP dcu_power_usage dcu metrics of gauge\n# HELP dcu_powercap dcu metrics of gauge\n# HELP dcu_sampled_usage DCU sampled usage rate within sample window (percent)\n# HELP dcu_sclk dcu metrics of gauge\n# HELP dcu_se_usage Shader Engine instantaneous usage rate (percent)\n# HELP dcu_temp dcu metrics of gauge\n# HELP dcu_ue_count dcu metrics of gauge\n# HELP dcu_usedmemory_bytes dcu metrics of gauge\n# HELP dcu_utilizationrate dcu metrics of gauge\n# HELP dcu_wave_sampled_usage Average wave sampled usage rate within sample window (percent)\n# HELP promhttp_metric_handler_errors_total Total number of internal errors encountered by the promhttp metric handler.\n# HELP vdcu_count dcu metrics of gauge"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-MON-102",
+      "name": "vDCU 显存占用指标准确性（exporter vs hy-smi 交叉校验）",
+      "category": "MON",
+      "priority": "P0",
+      "status": "XFAIL",
+      "duration_s": 19.47,
+      "message": "测试卡 exporter 显存占用 82.7% 与 hy-smi 的约 23% 不符（监控指标失准，ISSUE-MON-001）",
+      "steps": [],
+      "issue": "ISSUE-MON-001"
+    },
+    {
+      "id": "VDCU-MON-103",
+      "name": "exporter 指标与 hy-smi 交叉校验",
+      "category": "MON",
+      "priority": "P1",
+      "status": "XFAIL",
+      "duration_s": 18.24,
+      "message": "exporter 上报的显存占用增量 0.00 GB 与负载 8 GB 不符",
+      "steps": [],
+      "issue": "ISSUE-MON-001"
+    },
+    {
+      "id": "VDCU-FUN-001",
+      "name": "物理设备与剩余资源查询基线",
+      "category": "FUN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 0.05,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-002",
+      "name": "创建 2 个 CU 与显存等分 vDCU",
+      "category": "FUN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 0.04,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-003",
+      "name": "创建 4 个等分 vDCU（实例上限）",
+      "category": "FUN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 1.07,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-004",
+      "name": "创建数量超限（5 个）应被拒绝",
+      "category": "FUN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 1.04,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-005",
+      "name": "自定义 CU 与显存组合创建",
+      "category": "FUN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 0.02,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-006",
+      "name": "CU 共享模式创建（CU=0）",
+      "category": "FUN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 1.05,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-007",
+      "name": "显存总和超物理显存应被拒绝",
+      "category": "FUN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 1.04,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-008",
+      "name": "CU 总和超物理 CU 应被拒绝",
+      "category": "FUN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 0.04,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-009",
+      "name": "更新 vDCU 的 CU 与显存",
+      "category": "FUN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 0.09,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-010",
+      "name": "更新后资源超限应被拒绝",
+      "category": "FUN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 1.08,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-016",
+      "name": "使用中 vDCU 销毁应被拒绝",
+      "category": "FUN",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 28.11,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-017",
+      "name": "使用中 vDCU 更新应被拒绝且保持原配置",
+      "category": "FUN",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 27.08,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-011",
+      "name": "销毁指定 vDCU",
+      "category": "FUN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 0.05,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-012",
+      "name": "销毁指定物理卡的全部 vDCU",
+      "category": "FUN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 3.13,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-013",
+      "name": "销毁全部 vDCU",
+      "category": "FUN",
+      "priority": "P2",
+      "status": "SKIP",
+      "duration_s": 0.0,
+      "message": "全局销毁会清除生产卡上的既有 vDCU，需 --allow-destructive 后执行",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-015",
+      "name": "非 root 用户执行管理命令应被拒绝",
+      "category": "FUN",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 0.03,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-018",
+      "name": "加密虚拟机状态查询",
+      "category": "FUN",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 0.01,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-019",
+      "name": "加密虚拟机开关可切换并恢复",
+      "category": "FUN",
+      "priority": "P2",
+      "status": "PASS",
+      "duration_s": 0.05,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-020",
+      "name": "多物理卡并行切分与编号连续性",
+      "category": "FUN",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 2.11,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-FUN-022",
+      "name": "版本查询与帮助信息",
+      "category": "FUN",
+      "priority": "P2",
+      "status": "PASS",
+      "duration_s": 0.01,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-MON-001",
+      "name": "hy-smi 字段完整性与语义",
+      "category": "MON",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 0.04,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-CMP-001",
+      "name": "基础镜像兼容（DTK/PyTorch/HIP 可用）",
+      "category": "CMP",
+      "priority": "P0",
+      "status": "FAIL",
+      "duration_s": 6.12,
+      "message": "镜像内执行失败:  group.\nFor more information, please go to https://developer.sourcefind.cn/\nTORCH 2.14.1\nHIP_VERSION 7.2.26365\nHIP_AVAILABLE False\nCould not open /var/log/hylog/.\nTraceback (most recent call last):\n  File \"<stdin>\", line 5, in <module>\n  File \"/usr/local/lib/python3.12/site-packages/torch/cuda/__init__.py\", line 595, in _lazy_init\n    torch._C._cuda_init()\nRuntimeError: No CUDA GPUs are available\n",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-PERF-009",
+      "name": "vDCU 创建/销毁操作开销",
+      "category": "PERF",
+      "priority": "P2",
+      "status": "PASS",
+      "duration_s": 1.58,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-TRN-001",
+      "name": "Bert 整卡单实例训练基线（冒烟）",
+      "category": "TRN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 56.81,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-TRN-206",
+      "name": "Bert 短跑冒烟（vDCU 32GB）",
+      "category": "TRN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 55.4,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-TRN-003",
+      "name": "Bert 四等分 vDCU 单实例训练",
+      "category": "TRN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 58.97,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-TRN-004",
+      "name": "Bert CU 共享 vDCU 单实例训练",
+      "category": "TRN",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 59.38,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-TRN-005",
+      "name": "同卡二等分 vDCU 双容器并发训练",
+      "category": "TRN",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 58.91,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-INF-001",
+      "name": "单 vDCU 模型加载与生成（冒烟）",
+      "category": "INF",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 49.98,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-INF-002",
+      "name": "vLLM 单实例服务与 OpenAI 接口冒烟",
+      "category": "INF",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 306.43,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-COM-002",
+      "name": "单容器同卡双 vDCU 集合通信",
+      "category": "COM",
+      "priority": "P0",
+      "status": "XFAIL",
+      "duration_s": 58.11,
+      "message": "同卡双 vDCU 集合通信失败：Duplicate GPU detected : rank 1 and rank 0 both on CUDA device b5000",
+      "steps": [],
+      "issue": "ISSUE-013"
+    },
+    {
+      "id": "VDCU-COM-003",
+      "name": "单容器跨卡双 vDCU 集合通信",
+      "category": "COM",
+      "priority": "P0",
+      "status": "XFAIL",
+      "duration_s": 58.14,
+      "message": "跨卡双 vDCU 集合通信失败：Duplicate GPU detected : rank 0 and rank 1 both on CUDA device b5000",
+      "steps": [],
+      "issue": "ISSUE-013"
+    },
+    {
+      "id": "VDCU-ISO-001",
+      "name": "显存配额硬隔离（越界分配）",
+      "category": "ISO",
+      "priority": "P0",
+      "status": "PASS",
+      "duration_s": 28.45,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-ISO-002",
+      "name": "CU 配额硬隔离（算力不越界）",
+      "category": "ISO",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 67.65,
+      "message": "ok",
+      "steps": [],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-TRN-006U",
+      "name": "整卡多实例（stream 基线）4 实例并发",
+      "category": "TRN",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 146.32,
+      "message": "ok",
+      "steps": [
+        "tz_006u_1 throughput=42.39 acc=1.0000",
+        "tz_006u_2 throughput=42.25 acc=1.0000",
+        "tz_006u_3 throughput=42.49 acc=1.0000",
+        "tz_006u_4 throughput=42.41 acc=1.0000"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-TRN-008U",
+      "name": "四等分 4 实例并发（vDCU 硬隔离）",
+      "category": "TRN",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 173.32,
+      "message": "ok",
+      "steps": [
+        "tz_008u_1 throughput=34.53 acc=1.0000",
+        "tz_008u_2 throughput=34.00 acc=1.0000",
+        "tz_008u_3 throughput=34.30 acc=1.0000",
+        "tz_008u_4 throughput=33.79 acc=1.0000"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-TRN-010U",
+      "name": "CU 共享四等分 4 实例并发",
+      "category": "TRN",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 146.85,
+      "message": "ok",
+      "steps": [
+        "tz_010u_1 throughput=42.53 acc=1.0000",
+        "tz_010u_2 throughput=42.63 acc=1.0000",
+        "tz_010u_3 throughput=42.58 acc=1.0000",
+        "tz_010u_4 throughput=42.60 acc=1.0000"
+      ],
+      "issue": ""
+    },
+    {
+      "id": "VDCU-TRN-CMP",
+      "name": "stream vs vDCU 隔离并发性能对比结论",
+      "category": "TRN",
+      "priority": "P1",
+      "status": "PASS",
+      "duration_s": 295.43,
+      "message": "ok",
+      "steps": [
+        "tz_cmp_s1 throughput=42.13 acc=1.0000",
+        "tz_cmp_s2 throughput=42.08 acc=1.0000",
+        "tz_cmp_s3 throughput=42.00 acc=1.0000",
+        "tz_cmp_s4 throughput=42.13 acc=1.0000",
+        "tz_cmp_c1 throughput=42.76 acc=1.0000",
+        "tz_cmp_c2 throughput=42.36 acc=1.0000",
+        "tz_cmp_c3 throughput=42.76 acc=1.0000",
+        "tz_cmp_c4 throughput=42.46 acc=1.0000",
+        "stream 均值 42.09 vs CU 共享均值 42.59，差异 1.2%"
+      ],
+      "issue": ""
+    }
+  ]
+}
