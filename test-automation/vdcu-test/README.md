@@ -200,7 +200,7 @@ VDCU_CARD=3 VDCU_CARD2=4 ./run_fun.sh      # 临时改用 3、4 号卡
 | `work` | `/root/tz` | 模型/数据放在别的目录（不存在会自动创建） |
 | `image` | `bert:v1` | 通用测试镜像名不同（构建方法见附录） |
 | `k8s_image` | `bert:v1` | K8s Pod 用镜像不同（需已导入集群节点 containerd） |
-| `inference_image` | 现场 vLLM 镜像 | vLLM 镜像仓库地址/版本不同（**必须已导入本机**，否则用例会启动超时） |
+| `inference_image` | 空（需按现场填写） | 本机已导入的 vLLM 镜像；默认空=未配置（不写死内部仓库地址入库），填 config.json 或用 `VDCU_INFERENCE_IMAGE` 环境变量 |
 | `vllm_model` | `/workspace/openbmb--MiniCPM5-1B-SFT` | vLLM 模型路径不同（空 = 跳过该用例） |
 | `emb_model` | `/workspace/AI-ModelScope--bge-large-zh-v1.5/...` | bge 模型路径不同（空 = 跳过 INF-206） |
 | `cluster_tests` | `1` | 没有集群环境时改为 `0` |
@@ -283,8 +283,8 @@ vdcu-test/
 测试通用镜像按以下方法构建（Dockerfile 内容）：
 
 ```dockerfile
-# 基础镜像来自内部镜像源 harbor
-FROM harbor.sourcefind.cn:5443/hcu/admin/base/pytorch:2.12.0-ubuntu22.04-dtk26.04-py3.10-minimal
+# 基础镜像来自内部镜像源 harbor（地址按现场替换）
+FROM <内部镜像源地址>/hcu/admin/base/pytorch:2.12.0-ubuntu22.04-dtk26.04-py3.10-minimal
 
 WORKDIR /workspace
 

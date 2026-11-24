@@ -8,7 +8,9 @@ set -euo pipefail
 
 # 从 config.json 读取默认值；解析失败（无 python3/文件缺失）时回退内置值
 _cfg() {
-  python3 -c 'import json,sys;print(json.load(open("config.json",encoding="utf-8")).get(sys.argv[1],""))' "$1" 2>/dev/null
+  # 解析失败（无 python3/config.json）时返回空值，交由下方内置回退处理；
+  # 不加 || true 会在 set -e 下直接退出，导致回退值不可达
+  python3 -c 'import json,sys;print(json.load(open("config.json",encoding="utf-8")).get(sys.argv[1],""))' "$1" 2>/dev/null || true
 }
 IMAGE="${IMAGE:-$(_cfg image)}";      IMAGE="${IMAGE:-bert:v1}"
 HS="${HS:-$(_cfg hy_smi)}";           HS="${HS:-/opt/hyhal/bin/hy-smi}"
@@ -19,7 +21,7 @@ LOG=/tmp/all13.log
 
 # K8s 方向前置：镜像导入 containerd（节点 /data 高占用会 GC，执行前导入）。
 # 保护：SKIP_IMPORT=1 强制跳过；/data 剩余不足 50G 时自动跳过，避免写爆数据盘
-FREE_GB=$(df -BG --output=avail /data 2>/dev/null | tail -1 | tr -dc '0-9')
+FREE_GB=$(df -BG --output=avail /data 2>/dev/null | tail -1 | tr -dc '0-9' || true)
 if [ "${SKIP_IMPORT:-0}" = "1" ]; then
   echo "提示：SKIP_IMPORT=1，跳过 containerd 镜像导入" | tee -a "$LOG"
 elif [ -n "$FREE_GB" ] && [ "$FREE_GB" -lt 50 ]; then
