@@ -36,7 +36,6 @@ findings.md
 *.log
 tmp_*
 pdf_output.txt
-*.py
 extract_pdf.js
 
 # 本地脚本（暂不纳入版本管理）
